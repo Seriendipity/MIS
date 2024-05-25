@@ -4,7 +4,7 @@ public class Evaluation {
     private String studentNo;
     private String courseNo;
     private String teacherNo;
-    private int evaluationGrade;
+    private String evaluationGrade;
     private String evaluationComment;
 
     public String getStudentNo() {
@@ -31,11 +31,11 @@ public class Evaluation {
         this.teacherNo = teacherNo;
     }
 
-    public int getEvaluationGrade() {
+    public String getEvaluationGrade() {
         return evaluationGrade;
     }
 
-    public void setEvaluationGrade(int evaluationGrade) {
+    public void setEvaluationGrade(String evaluationGrade) {
         this.evaluationGrade = evaluationGrade;
     }
 
