@@ -1,12 +1,13 @@
 package com.example.mis.dao;
 
 import com.example.mis.bean.Course;
+import com.example.mis.service.CourseService;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class CourseDataAccessObjects {
+public class CourseDataAccessObjects implements CourseService {
     private Connection conn = null;
     private void initConnection() throws Exception{
         java.lang.Class.forName("com.mysql.jdbc.Driver");
@@ -30,9 +31,10 @@ public class CourseDataAccessObjects {
 
     public boolean deleteCourse(String courseNo) throws Exception{
         initConnection();
-        String sql = "delete from course where courseNo = '"+courseNo+"'";
-        Statement stat = conn.createStatement();
-        int SQLCA = stat.executeUpdate(sql);
+        String sql = "delete from course where courseNo = ?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setString(1,courseNo);
+        int SQLCA = ps.executeUpdate();
         closeConnection();
         return SQLCA == 1;
     }
@@ -62,9 +64,10 @@ public class CourseDataAccessObjects {
     public ArrayList<Course> selectFromCourseByCourseName(String courseName) throws Exception{
         initConnection();
         ArrayList<Course> courses = new ArrayList<>();
-        String sql = "select * from course where courseName = '"+ courseName+"'";
-        Statement stat = conn.createStatement();
-        ResultSet rs = stat.executeQuery(sql);
+        String sql = "select * from course where courseName = ?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setString(1,courseName);
+        ResultSet rs = ps.executeQuery();
         getMoreCourses(courses,rs);
         closeConnection();
         return courses;
@@ -72,9 +75,10 @@ public class CourseDataAccessObjects {
 
     public Course selectFromCourseByCno(String courseNo) throws Exception{
         initConnection();
-        String sql = "select * from course where courseNo = '"+ courseNo+"'";
-        Statement stat = conn.createStatement();
-        ResultSet rs = stat.executeQuery(sql);
+        String sql = "select * from course where courseNo = ?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setString(1,courseNo);
+        ResultSet rs = ps.executeQuery();
         Course c = getCourse(rs);
         closeConnection();
         return c;
@@ -108,9 +112,9 @@ public class CourseDataAccessObjects {
 
         // new CourseDataAccessObjects().updateCourse("00000001","数据库","5");
 
-      //  ArrayList<Course> courses = new ArrayList<>();
+ //       ArrayList<Course> courses = new ArrayList<>();
         //courses = new CourseDataAccessObjects().selectFromCourse();
-        //courses = new CourseDataAccessObjects().selectFromCourseByCourseName("数据库");
+//        courses = new CourseDataAccessObjects().selectFromCourseByCourseName("数据库");
 //        for(Course c: courses){
 //            System.out.print(c.getCourseNo());
 //            System.out.print(c.getCourseName());

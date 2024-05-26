@@ -1,9 +1,10 @@
 package com.example.mis.dao;
 import com.example.mis.bean.sc;
+import com.example.mis.service.scService;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class scDataAccessObjects {
+public class scDataAccessObjects implements scService{
     private Connection conn = null;
     private void initConnection() throws Exception{
         java.lang.Class.forName("com.mysql.jdbc.Driver");
@@ -27,9 +28,11 @@ public class scDataAccessObjects {
 
     public boolean deleteSC(String studentNo,String courseNo) throws Exception{
         initConnection();
-        String sql = "delete from sc where StudentNo = '"+ studentNo+"'" + " and courseNo = '" + courseNo + "'";
-        Statement stat = conn.createStatement();
-        int SQLSA = stat.executeUpdate(sql);
+        String sql = "delete from sc where StudentNo = ? and courseNo = ?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setString(1,studentNo);
+        ps.setString(2,courseNo);
+        int SQLSA = ps.executeUpdate();
         closeConnection();
         return SQLSA == 1;
     }
@@ -56,9 +59,10 @@ public class scDataAccessObjects {
     public ArrayList<sc> selectFromSCBySno(String studentNo) throws Exception{
         initConnection();
         ArrayList<sc> scs = new ArrayList<>();
-        String sql = "select * from sc where studentNo = '"+studentNo+"'";
-        Statement stat = conn.createStatement();
-        ResultSet rs = stat.executeQuery(sql);
+        String sql = "select * from sc where studentNo = ?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setString(1,studentNo);
+        ResultSet rs = ps.executeQuery();
         getMoreSc(scs,rs);
         closeConnection();
         return scs;
@@ -66,9 +70,10 @@ public class scDataAccessObjects {
     public ArrayList<sc> selectFromSCByCno(String courseNo) throws Exception{
         initConnection();
         ArrayList<sc> scs = new ArrayList<>();
-        String sql = "select * from sc where CourseNo = '"+courseNo+"'";
-        Statement stat = conn.createStatement();
-        ResultSet rs = stat.executeQuery(sql);
+        String sql = "select * from sc where CourseNo = ?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setString(1,courseNo);
+        ResultSet rs = ps.executeQuery();
         getMoreSc(scs,rs);
         closeConnection();
         return scs;

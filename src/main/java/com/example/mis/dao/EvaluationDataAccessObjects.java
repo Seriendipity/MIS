@@ -1,11 +1,12 @@
 package com.example.mis.dao;
 
 import com.example.mis.bean.Evaluation;
+import com.example.mis.service.EvaluationService;
 
 import java.sql.*;
 import java.util.ArrayList;
 
-public class EvaluationDataAccessObjects {
+public class EvaluationDataAccessObjects implements EvaluationService {
     private Connection conn = null;
     //初始化Connection
     private void initConnection() throws Exception{
@@ -73,18 +74,20 @@ public class EvaluationDataAccessObjects {
     public ArrayList<Evaluation> selectFromEvaluationByTno(String teacherNo) throws Exception{
         initConnection();
         ArrayList<Evaluation> e = new ArrayList<>();
-        String sql = "select * from evaluation where teacherNo = '" + teacherNo +"'";
-        Statement stat = conn.createStatement();
-        ResultSet rs = stat.executeQuery(sql);
+        String sql = "select * from evaluation where teacherNo = ?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setString(1,teacherNo);
+        ResultSet rs = ps.executeQuery();
         getMoreEvaluation(e,rs);
         closeConnection();
         return e;
     }
     public float selectAvgEvaluationByTno(String teacherNo) throws Exception{
         initConnection();
-        String sql = "select avg(evaluationGrade) from evaluation where teacherNO = '" + teacherNo + "'";
-        Statement stat = conn.createStatement();
-        ResultSet rs = stat.executeQuery(sql);
+        String sql = "select avg(evaluationGrade) from evaluation where teacherNO = ?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setString(1,teacherNo);
+        ResultSet rs = ps.executeQuery();
         rs.next();
         float avgGrade = rs.getInt(1);
         closeConnection();

@@ -1,11 +1,12 @@
 package com.example.mis.dao;
 import com.example.mis.bean.Class;
 import com.example.mis.bean.Student;
+import com.example.mis.service.StudentService;
 
 import java.sql.*;
 import java.util.ArrayList;
 
-public class StudentDataAccessObjects {
+public class StudentDataAccessObjects implements StudentService {
     private Connection conn = null;
     private void initConnection() throws Exception{
         java.lang.Class.forName("com.mysql.jdbc.Driver");
@@ -36,9 +37,10 @@ public class StudentDataAccessObjects {
     //删除某个学号的学生
     public boolean deleteStudent(String studentNo) throws Exception{
         initConnection();
-        String sql = "delete from student where StudentNo = '"+ studentNo + "'";
-        Statement stat = conn.createStatement();
-        int SQLCA = stat.executeUpdate(sql);
+        String sql = "delete from student where StudentNo = ?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setString(1,studentNo);
+        int SQLCA = ps.executeUpdate();
         closeConnection();
         return SQLCA == 1;
     }
@@ -74,9 +76,10 @@ public class StudentDataAccessObjects {
 
     public Student selectFromStudentBySno(String studentNo) throws Exception{
         initConnection();
-        String sql = "select * from student where studentNo = '" + studentNo + "'";
-        Statement stat = conn.createStatement();
-        ResultSet rs = stat.executeQuery(sql);
+        String sql = "select * from student where studentNo = ?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setString(1,studentNo);
+        ResultSet rs = ps.executeQuery();
         Student s = getStudent(rs);
         closeConnection();
         return s;
@@ -85,9 +88,10 @@ public class StudentDataAccessObjects {
     public ArrayList<Student> selectStudentByClassNoFromStudent(String classNo) throws Exception{
         initConnection();
         ArrayList<Student> students = new ArrayList<>();
-        String sql = "select * from student where classNo = '"+ classNo+"'";
-        Statement stat = conn.createStatement();
-        ResultSet rs = stat.executeQuery(sql);
+        String sql = "select * from student where classNo = ?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setString(1,classNo);
+        ResultSet rs = ps.executeQuery();
         getMoreStudents(students,rs);
         closeConnection();
         return students;
@@ -105,9 +109,10 @@ public class StudentDataAccessObjects {
 
     public int selectStudentNumberByClassNoFromStudent(String classNo) throws Exception{
         initConnection();
-        String sql = "select count(*) from student where ClassNo = '"+classNo+"'";
-        Statement stat = conn.createStatement();
-        ResultSet rs = stat.executeQuery(sql);
+        String sql = "select count(*) from student where ClassNo = ?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setString(1,classNo);
+        ResultSet rs = ps.executeQuery();
         rs.next();
         int count = rs.getInt(1);
         closeConnection();
@@ -157,7 +162,7 @@ public class StudentDataAccessObjects {
 //        System.out.println(new StudentDataAccessObjects().insertStudent("22900000","RJ2206","诸葛亮","2003-02-12","男","11","1257463513","8372341@1376.com"));
 
    // ArrayList<Student> s =  new StudentDataAccessObjects().selectFromStudent();
-   //     ArrayList<Student> s =  new StudentDataAccessObjects().selectStudentByClassNoFromStudent("RJ2201");
+//        ArrayList<Student> s =  new StudentDataAccessObjects().selectStudentByClassNoFromStudent("RJ2201");
 //    for(Student student : s){
 //        System.out.print(student.getStudentNO()+" ");
 //        System.out.print(student.getStudentName()+" ");

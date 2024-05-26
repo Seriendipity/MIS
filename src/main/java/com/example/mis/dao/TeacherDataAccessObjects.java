@@ -1,11 +1,12 @@
 package com.example.mis.dao;
 
 import com.example.mis.bean.Teacher;
+import com.example.mis.service.TeacherService;
 
 import java.sql.*;
 import java.util.ArrayList;
 
-public class TeacherDataAccessObjects {
+public class TeacherDataAccessObjects implements TeacherService {
     private Connection conn = null;
     private void initConnection() throws Exception{
         java.lang.Class.forName("com.mysql.jdbc.Driver");
@@ -32,9 +33,10 @@ public class TeacherDataAccessObjects {
     }
     public boolean deleteTeacher(String teacherNo) throws Exception{
         initConnection();
-        String sql = "delete from teacher where teacherNo ='"+teacherNo + "'";
-        Statement stat = conn.createStatement();
-        int SQLSA = stat.executeUpdate(sql);
+        String sql = "delete from teacher where teacherNo = ?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setString(1,teacherNo);
+        int SQLSA = ps.executeUpdate();
         return SQLSA == 1;
     }
     public void updateTeacher(String teacherNo,String teacherName,String teacherSex,
@@ -65,9 +67,10 @@ public class TeacherDataAccessObjects {
 
     public Teacher selectFromTeacherByTno(String teacherNo) throws Exception{
         initConnection();
-        String sql = "select * from teacher where teacherNo = '" + teacherNo + "'";
-        Statement stat = conn.createStatement();
-        ResultSet rs = stat.executeQuery(sql);
+        String sql = "select * from teacher where teacherNo = ?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setString(1,teacherNo);
+        ResultSet rs = ps.executeQuery();
         Teacher t = getTeacher(rs);
         closeConnection();
         return t;
@@ -75,18 +78,20 @@ public class TeacherDataAccessObjects {
     public ArrayList<Teacher> selectFromTeacherByTitle(String teacherTitle) throws Exception{
         initConnection();
         ArrayList<Teacher> teachers = new ArrayList<>();
-        String sql = "select * from teacher where teacherTitle = '" + teacherTitle + "'";
-        Statement stat = conn.createStatement();
-        ResultSet rs = stat.executeQuery(sql);
+        String sql = "select * from teacher where teacherTitle = ?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setString(1,teacherTitle);
+        ResultSet rs = ps.executeQuery();
         getMoreTeacher(teachers,rs);
         closeConnection();
         return teachers;
     }
     public Teacher selectFromTeacherByEmail(String teacherEmail) throws Exception{
         initConnection();
-        String sql = "select * from teacher where teacherEmail = '" + teacherEmail + "'";
-        Statement stat = conn.createStatement();
-        ResultSet rs = stat.executeQuery(sql);
+        String sql = "select * from teacher where teacherEmail = ?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setString(1,teacherEmail);
+        ResultSet rs = ps.executeQuery();
         Teacher t = getTeacher(rs);
         closeConnection();
         return t;

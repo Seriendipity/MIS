@@ -1,10 +1,10 @@
 package com.example.mis.dao;
 import com.example.mis.bean.teaching;
-
+import com.example.mis.service.teachingService;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class teachingDataAccessObjects {
+public class teachingDataAccessObjects implements teachingService{
     private Connection conn = null;
     //初始化Connection
     private void initConnection() throws Exception{
@@ -62,9 +62,10 @@ public class teachingDataAccessObjects {
     public ArrayList<teaching> selectFromTeachingByTno(String teacherNo) throws Exception{
         initConnection();
         ArrayList<teaching> t = new ArrayList<>();
-        String sql = "select * from teaching where teacherNo = '" + teacherNo + "'";
-        Statement stat = conn.createStatement();
-        ResultSet rs = stat.executeQuery(sql);
+        String sql = "select * from teaching where teacherNo = ?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setString(1,teacherNo);
+        ResultSet rs = ps.executeQuery();
         getMoreTeaching(t,rs);
         closeConnection();
         return t;
@@ -73,9 +74,10 @@ public class teachingDataAccessObjects {
     public ArrayList<teaching> selectFromTeachingByLanguage(String language) throws Exception{
         initConnection();
         ArrayList<teaching> t = new ArrayList<>();
-        String sql = "select * from teaching where language = '" + language + "'";
-        Statement stat = conn.createStatement();
-        ResultSet rs = stat.executeQuery(sql);
+        String sql = "select * from teaching where language = ?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setString(1,language);
+        ResultSet rs = ps.executeQuery();
         getMoreTeaching(t,rs);
         closeConnection();
         return t;
