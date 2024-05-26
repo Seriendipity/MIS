@@ -28,7 +28,7 @@ public class ClassDataAccessObjects {
         return SQLCA == 1;
     }
 
-//    public static void main(String[] args) throws Exception {
-//        System.out.println(new ClassDataAccessObjects().insertClass("RJ2201","软件2201","软件工程","软件开发","20"));
-//    }
+   public static void main(String[] args) throws Exception {
+       System.out.println(new ClassDataAccessObjects().insertClass("RJ2201","软件2201","软件工程","软件开发","20"));
+   }
 }
