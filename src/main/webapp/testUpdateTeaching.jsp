@@ -26,6 +26,10 @@
     <input type="text" id="language" name="language" required>
   </div>
   <div>
+    <label for="cid">CID：</label>
+    <input type="text" id="cid" name="cid" required>
+  </div>
+  <div>
     <button type="submit">提交</button>
   </div>
 </form>

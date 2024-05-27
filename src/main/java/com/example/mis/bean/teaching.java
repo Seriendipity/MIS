@@ -4,6 +4,14 @@ public class teaching {
     private String courseNo;
     private String teacherNo;
     private String language;
+    private String cid;
+    public String getCid() {
+        return cid;
+    }
+
+    public void setCid(String cid) {
+        this.cid = cid;
+    }
 
     public String getCourseNo() {
         return courseNo;

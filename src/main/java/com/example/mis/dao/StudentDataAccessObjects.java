@@ -18,9 +18,9 @@ public class StudentDataAccessObjects implements StudentService {
     //插入数据
     public boolean insertStudent(String studentNo,String classNO,String studentName
                                 , String studentBirthday, String studentSex, String totalCredit
-                                , String phoneNumber,String studentEmail) throws Exception {
+                                , String phoneNumber,String studentEmail , String password) throws Exception {
         initConnection();
-        String sql = "insert into student(StudentNo,ClassNo,StudentName,StudentBirthday,StudentSex,TotalCredit,PhoneNumber,StudentEmail) values (?,?,?,?,?,?,?,?)";
+        String sql = "insert into student(StudentNo,ClassNo,StudentName,StudentBirthday,StudentSex,TotalCredit,PhoneNumber,StudentEmail,password) values (?,?,?,?,?,?,?,?,?)";
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.setString(1,studentNo);
         ps.setString(2,classNO);
@@ -30,6 +30,7 @@ public class StudentDataAccessObjects implements StudentService {
         ps.setString(6,totalCredit);
         ps.setString(7,phoneNumber);
         ps.setString(8,studentEmail);
+        ps.setString(9,password);
         int SQLCA = ps.executeUpdate();
         closeConnection();
         return SQLCA == 1;
@@ -47,9 +48,9 @@ public class StudentDataAccessObjects implements StudentService {
     //更新某个学好的学生信息
     public void updateStudentInfo(String studentNo,String classNO,String studentName,
                                   String studentBirthday, String studentSex, String totalCredit,
-                                  String phoneNumber,String studentEmail) throws Exception{
+                                  String phoneNumber,String studentEmail, String password) throws Exception{
         initConnection();
-        String sql = "UPDATE student SET ClassNo = ?, StudentName = ?, studentBirthday = ?, studentSex = ?, totalCredit = ?, phoneNumber = ?, studentEmail = ? WHERE studentNo = ?";
+        String sql = "UPDATE student SET ClassNo = ?, StudentName = ?, studentBirthday = ?, studentSex = ?, totalCredit = ?, phoneNumber = ?, studentEmail = ? ,password = ? WHERE studentNo = ?";
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.setString(1,classNO);
         ps.setString(2,studentName);
@@ -58,7 +59,8 @@ public class StudentDataAccessObjects implements StudentService {
         ps.setString(5,totalCredit);
         ps.setString(6,phoneNumber);
         ps.setString(7,studentEmail);
-        ps.setString(8,studentNo);
+        ps.setString(8,password);
+        ps.setString(9,studentNo);
         ps.executeUpdate();
         closeConnection();
     }
@@ -130,6 +132,7 @@ public class StudentDataAccessObjects implements StudentService {
             s.setPhoneNumber(rs.getString("PhoneNumber"));
             s.setTotalCredit(rs.getString("TotalCredit"));
             s.setStudentEmail(rs.getString("StudentEmail"));
+            s.setPassword(rs.getString("password"));
         }
         return s;
     }
@@ -144,6 +147,7 @@ public class StudentDataAccessObjects implements StudentService {
             s.setPhoneNumber(rs.getString("PhoneNumber"));
             s.setTotalCredit(rs.getString("TotalCredit"));
             s.setStudentEmail(rs.getString("StudentEmail"));
+            s.setPassword(rs.getString("password"));
             students.add(s);
         }
     }
@@ -161,11 +165,12 @@ public class StudentDataAccessObjects implements StudentService {
 //        System.out.println(new StudentDataAccessObjects().insertStudent("22909999","RJ2206","周瑜","2003-08-24","男","18","1834352736","14752634@4837.com"));
 //        System.out.println(new StudentDataAccessObjects().insertStudent("22900000","RJ2206","诸葛亮","2003-02-12","男","11","1257463513","8372341@1376.com"));
 
-   // ArrayList<Student> s =  new StudentDataAccessObjects().selectFromStudent();
+ //   ArrayList<Student> s =  new StudentDataAccessObjects().selectFromStudent();
 //        ArrayList<Student> s =  new StudentDataAccessObjects().selectStudentByClassNoFromStudent("RJ2201");
 //    for(Student student : s){
 //        System.out.print(student.getStudentNO()+" ");
 //        System.out.print(student.getStudentName()+" ");
+//        System.out.print(student.getPassword());
 //        System.out.println();
 //    }
 
@@ -173,6 +178,7 @@ public class StudentDataAccessObjects implements StudentService {
 //        s = new StudentDataAccessObjects().selectFromStudentBySno("11111");
 //        System.out.print(s.getStudentNO()+" ");
 //        System.out.print(s.getStudentName()+" ");
+//        System.out.print(s.getPassword());
 
         //System.out.println( new StudentDataAccessObjects().selectStudentNumberByClassNoFromStudent("RJ2203"));
         //System.out.println(new StudentDataAccessObjects().selectStudentNumberFromStudent());

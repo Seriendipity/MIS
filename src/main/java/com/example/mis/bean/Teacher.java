@@ -10,6 +10,15 @@ public class Teacher {
     private String  teacherTitle;
     private String teacherEmail;
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    private String password;
     public String getTeacherNo() {
         return teacherNo;
     }

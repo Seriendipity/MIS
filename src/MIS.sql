@@ -131,3 +131,21 @@ alter table teaching add constraint FK_teaching foreign key (CourseNo)
 alter table teaching add constraint FK_teaching2 foreign key (TeacherNo)
       references Teacher (TeacherNo) on delete restrict on update restrict;
 
+
+alter table student add column password varchar(20) default 'Bjtu@123456';
+alter table teacher add column password varchar(20) default 'Bjtu@teacher';
+
+/*==============================================================*/
+/* Table: exam                                             */
+/*==============================================================*/
+create table exam
+(
+    cid varchar(3),
+    ExamDate DATE,
+    primary key (cid),
+    FOREIGN KEY (cid) references teaching(cid)
+);
+
+
+alter table teaching add column cid varchar(3) ;
+alter table teaching add constraint unique (cid);

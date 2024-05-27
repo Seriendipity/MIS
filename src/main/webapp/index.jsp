@@ -28,6 +28,11 @@
 <a href="testUpdateTeaching.jsp">Update Teaching</a><br>
 <a href="testAddEvaluation.jsp">Add Evaluation</a>
 <a href="testDeleteEvaluation.jsp">Delete Evaluation</a>
-<a href="testUpdateEvaluation.jsp">Update Evaluation</a>
+<a href="testUpdateEvaluation.jsp">Update Evaluation</a><br>
+<a href="testAddExam.jsp">Add Exam</a>
+<a href="testDeleteExam.jsp">Delete Exam</a>
+<a href="testUpdateExam.jsp">Update Exam</a><br>
+
+<a href="showCourses.jsp">查看选课列表</a>
 </body>
 </html>

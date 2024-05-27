@@ -22,6 +22,10 @@
     <input type="text" id="teacher_no" name="teacher_no" required>
   </div>
   <div>
+    <label for="cid">CID：</label>
+    <input type="text" id="cid" name="cid" required>
+  </div>
+  <div>
     <button type="submit">提交</button>
   </div>
 </form>

@@ -1,6 +1,7 @@
 package com.example.mis.servlet;
 
 import com.example.mis.bean.Class;
+import com.example.mis.bean.Student;
 import com.example.mis.dao.ClassDataAccessObjects;
 import com.example.mis.dao.StudentDataAccessObjects;
 import jakarta.servlet.ServletException;
@@ -30,22 +31,25 @@ public class addStudent extends HttpServlet {
         StudentDataAccessObjects studentDao = new StudentDataAccessObjects();
 
         String studentNo = request.getParameter("student_no");
-        String studentName = request.getParameter("student_Name");
+        String studentName = request.getParameter("student_name");
         String classNo = request.getParameter("class_no");
         String studentBirthday = request.getParameter("student_birthday");
         String studentSex = request.getParameter("student_sex");
         String totalCredit = request.getParameter("total_credit");
         String phoneNumber = request.getParameter("phone_number");
         String studentEmail = request.getParameter("student_email");
+        String password = request.getParameter("password");
 
+        System.out.println(studentName);
+        System.out.println(classNo);
         ClassDataAccessObjects classDao = new ClassDataAccessObjects();
 
         try {
             if(classDao.selectFromClassByCno(classNo) == null){
                 //TODO:
             }else{
-                studentDao.insertStudent(studentNo,studentName,classNo,studentBirthday,
-                        studentSex,totalCredit,phoneNumber,studentEmail);
+                studentDao.insertStudent(studentNo,classNo,studentName,studentBirthday,
+                        studentSex,totalCredit,phoneNumber,studentEmail,password);
                 //给他加入的班级的人数加一
                 Class c = classDao.selectFromClassByCno(classNo);
                 String className = c.getClassName();

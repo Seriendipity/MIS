@@ -32,10 +32,12 @@ public class updateTeacher extends HttpServlet {
         String teacherBirthday = request.getParameter("teacher_birthday");
         String teacherTitle = request.getParameter("teacher_title");
         String teacherEmail = request.getParameter("teacher_email");
+        String password = request.getParameter("password");
 
         try {
             teacherDao.updateTeacher(teacherNo,teacherName,teacherSex,
-                    teacherBirthday, teacherTitle,teacherEmail);
+                                     teacherBirthday, teacherTitle,
+                                    teacherEmail,password);
         } catch (Exception e) {
             out.println(e);
         }

@@ -35,10 +35,10 @@ public class deleteStudent extends HttpServlet {
             if(studentDao.selectFromStudentBySno(studentNo) == null){
                 //TODO:
             }else{
+                String classNo = studentDao.selectFromStudentBySno(studentNo).getClassNo();
                 studentDao.deleteStudent(studentNo);
 
                 ClassDataAccessObjects classDao = new ClassDataAccessObjects();
-                String classNo = studentDao.selectFromStudentBySno(studentNo).getClassNo();
                 Class c = classDao.selectFromClassByCno(classNo);
                 String className = c.getClassName();
                 String classMajor = c.getClassMajor();

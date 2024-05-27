@@ -17,9 +17,10 @@ public class TeacherDataAccessObjects implements TeacherService {
     }
 
     public boolean insertTeacher(String teacherNo,String teacherName,String teacherSex,
-                                 String teacherBirthday,String teacherTitle,String teacherEmail) throws Exception{
+                                 String teacherBirthday,String teacherTitle,
+                                 String teacherEmail, String password) throws Exception{
         initConnection();
-        String sql = "insert into teacher(teacherNo,teacherName,teacherSex,teacherBirthday,teacherTitle,teacherEmail) values(?,?,?,?,?,?)";
+        String sql = "insert into teacher(teacherNo,teacherName,teacherSex,teacherBirthday,teacherTitle,teacherEmail,password) values(?,?,?,?,?,?,?)";
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.setString(1,teacherNo);
         ps.setString(2,teacherName);
@@ -27,6 +28,7 @@ public class TeacherDataAccessObjects implements TeacherService {
         ps.setString(4,teacherBirthday);
         ps.setString(5,teacherTitle);
         ps.setString(6,teacherEmail);
+        ps.setString(7,password);
         int SQLSA = ps.executeUpdate();
         closeConnection();
         return SQLSA == 1;
@@ -40,16 +42,18 @@ public class TeacherDataAccessObjects implements TeacherService {
         return SQLSA == 1;
     }
     public void updateTeacher(String teacherNo,String teacherName,String teacherSex,
-                              String teacherBirthday,String teacherTitle,String teacherEmail) throws Exception{
+                              String teacherBirthday,String teacherTitle,
+                              String teacherEmail,String password) throws Exception{
         initConnection();
-        String sql = "update teacher set teacherName = ? , teacherSex = ? , teacherBirthday = ? ,teacherTitle = ? , teacherEmail = ? where teacherNo = ?";
+        String sql = "update teacher set teacherName = ? , teacherSex = ? , teacherBirthday = ? ,teacherTitle = ? , teacherEmail = ? , password = ? where teacherNo = ?";
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.setString(1,teacherName);
         ps.setString(2,teacherSex);
         ps.setString(3,teacherBirthday);
         ps.setString(4,teacherTitle);
         ps.setString(5,teacherEmail);
-        ps.setString(6,teacherNo);
+        ps.setString(6,password);
+        ps.setString(7,teacherNo);
         ps.executeUpdate();
         closeConnection();
     }
@@ -105,6 +109,7 @@ public class TeacherDataAccessObjects implements TeacherService {
             t.setTeacherBirthday(rs.getString("TeacherBirthday"));
             t.setTeacherEmail(rs.getString("TeacherEmail"));
             t.setTeacherTitle(rs.getString("TeacherTitle"));
+            t.setPassword(rs.getString("password"));
         }
         return t;
     }
@@ -117,6 +122,7 @@ public class TeacherDataAccessObjects implements TeacherService {
             t.setTeacherBirthday(rs.getString("TeacherBirthday"));
             t.setTeacherEmail(rs.getString("TeacherEmail"));
             t.setTeacherTitle(rs.getString("TeacherTitle"));
+            t.setPassword(rs.getString("password"));
             teachers.add(t);
         }
     }
@@ -131,12 +137,13 @@ public class TeacherDataAccessObjects implements TeacherService {
 
      //   new TeacherDataAccessObjects().updateTeacher("1001","张军","男","1977-08-04","教授","a@265.cn");
 
-       // ArrayList<Teacher> teachers = new ArrayList<>();
-        //teachers = new TeacherDataAccessObjects().selectFromTeacher();
-        //teachers = new TeacherDataAccessObjects().selectFromTeacherByTitle("教授");
+//        ArrayList<Teacher> teachers = new ArrayList<>();
+//        //teachers = new TeacherDataAccessObjects().selectFromTeacher();
+//        teachers = new TeacherDataAccessObjects().selectFromTeacherByTitle("教授");
 //        for(Teacher t : teachers){
 //            System.out.print(t.getTeacherName());
 //            System.out.print(t.getTeacherEmail());
+//            System.out.print(t.getPassword());
 //            System.out.println();
 //        }
 

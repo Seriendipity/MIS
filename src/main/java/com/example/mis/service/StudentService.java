@@ -10,7 +10,7 @@ public interface StudentService {
      */
     public boolean insertStudent(String studentNo,String classNO,String studentName
             , String studentBirthday, String studentSex, String totalCredit
-            , String phoneNumber,String studentEmail) throws Exception;
+            , String phoneNumber,String studentEmail, String password) throws Exception;
 
     /**
      *  从学生表中删除数据
@@ -23,7 +23,7 @@ public interface StudentService {
      */
     public void updateStudentInfo(String studentNo,String classNO,String studentName,
                                   String studentBirthday, String studentSex, String totalCredit,
-                                  String phoneNumber,String studentEmail) throws Exception;
+                                  String phoneNumber,String studentEmail , String password) throws Exception;
 
     /**
      *  查询学生表中的所有数据

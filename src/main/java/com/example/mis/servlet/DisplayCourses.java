@@ -1,6 +1,7 @@
 package com.example.mis.servlet;
 
-import com.example.mis.dao.teachingDataAccessObjects;
+import com.example.mis.bean.Course;
+import com.example.mis.dao.CourseDataAccessObjects;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -9,9 +10,10 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 
-@WebServlet(name = "deleteTeaching",value = "/delete_teaching")
-public class deleteTeaching extends HttpServlet {
+@WebServlet(name = "DisplayCourses",value = "/display_courses")
+public class DisplayCourses extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         this.doGet(request, response);
@@ -25,15 +27,21 @@ public class deleteTeaching extends HttpServlet {
 
         PrintWriter out = response.getWriter();
 
-        teachingDataAccessObjects teachingDao = new teachingDataAccessObjects();
+        CourseDataAccessObjects courseDao = new CourseDataAccessObjects();
 
-        String teacherNo = request.getParameter("teacher_no");
-        String courseNo = request.getParameter("course_no");
-        String cid = request.getParameter("cid");
         try {
-            teachingDao.deleteTeaching(courseNo,teacherNo,cid);
+            ArrayList<Course> courses = courseDao.selectFromCourse();
+            System.out.println(1);
+            for(Course c : courses){
+                System.out.print(c.getCourseNo());
+                System.out.print(c.getCourseName());
+                System.out.println(c.getCourseCredit());
+                System.out.println();
+            }
+            request.setAttribute("courses",courses);
+            request.getRequestDispatcher("/display_courses.jsp").forward(request,response);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            out.println(e);
         }
     }
 }

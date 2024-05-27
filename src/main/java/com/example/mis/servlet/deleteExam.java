@@ -1,6 +1,6 @@
 package com.example.mis.servlet;
 
-import com.example.mis.dao.teachingDataAccessObjects;
+import com.example.mis.dao.examDataAccessObjects;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -10,8 +10,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-@WebServlet(name = "deleteTeaching",value = "/delete_teaching")
-public class deleteTeaching extends HttpServlet {
+@WebServlet(name = "deleteExam",value = "/delete_exam")
+public class deleteExam extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         this.doGet(request, response);
@@ -25,15 +25,14 @@ public class deleteTeaching extends HttpServlet {
 
         PrintWriter out = response.getWriter();
 
-        teachingDataAccessObjects teachingDao = new teachingDataAccessObjects();
+        examDataAccessObjects examDao = new examDataAccessObjects();
 
-        String teacherNo = request.getParameter("teacher_no");
-        String courseNo = request.getParameter("course_no");
         String cid = request.getParameter("cid");
+
         try {
-            teachingDao.deleteTeaching(courseNo,teacherNo,cid);
+            examDao.deleteExam(cid);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            out.println(e);
         }
     }
 }

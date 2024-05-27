@@ -30,9 +30,13 @@ public class updateTeaching extends HttpServlet {
         String teacherNo = request.getParameter("teacher_no");
         String courseNo = request.getParameter("course_no");
         String language = request.getParameter("language");
-
+        String cid = request.getParameter("cid");
+        System.out.println(teacherNo);
+        System.out.println(courseNo);
+        System.out.println(language);
+        System.out.println(cid);
         try {
-            teachingDao.updateTeaching(courseNo,teacherNo,language);
+            teachingDao.updateTeaching(courseNo,teacherNo,language,cid);
         } catch (Exception e) {
             out.println(e);
         }

@@ -28,17 +28,18 @@ public class updateStudent extends HttpServlet {
         StudentDataAccessObjects studentDao = new StudentDataAccessObjects();
 
         String studentNo = request.getParameter("student_no");
-        String studentName = request.getParameter("student_Name");
+        String studentName = request.getParameter("student_name");
         String classNo = request.getParameter("class_no");
         String studentBirthday = request.getParameter("student_birthday");
         String studentSex = request.getParameter("student_sex");
         String totalCredit = request.getParameter("total_credit");
         String phoneNumber = request.getParameter("phone_number");
         String studentEmail = request.getParameter("student_email");
+        String password = request.getParameter("password");
 
         try {
-            studentDao.updateStudentInfo(studentNo,studentName,classNo,studentBirthday,
-                                        studentSex,totalCredit,phoneNumber,studentEmail);
+            studentDao.updateStudentInfo(studentNo,classNo,studentName,studentBirthday,
+                                        studentSex,totalCredit,phoneNumber,studentEmail , password);
         } catch (Exception e) {
             out.println(e);
         }

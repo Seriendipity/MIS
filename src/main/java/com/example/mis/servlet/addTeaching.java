@@ -30,9 +30,9 @@ public class addTeaching extends HttpServlet {
        String teacherNo = request.getParameter("teacher_no");
        String courseNo = request.getParameter("course_no");
        String language = request.getParameter("language");
-
+       String cid = request.getParameter("cid");
         try {
-            teachingDao.insertTeaching(courseNo,teacherNo,language);
+            teachingDao.insertTeaching(courseNo,teacherNo,language,cid);
         } catch (Exception e) {
             out.println(e);
         }

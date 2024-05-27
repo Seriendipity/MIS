@@ -26,7 +26,7 @@
     <input type="text" id="teacher_sex" name="teacher_sex" required>
   </div>
   <div>
-    <label for="teacher_birthday">系名：</label>
+    <label for="teacher_birthday">教师生日：</label>
     <input type="text" id="teacher_birthday" name="teacher_birthday" required>
   </div>
   <div>
@@ -36,6 +36,10 @@
   <div>
     <label for="teacher_email">教师邮箱：</label>
     <input type="text" id="teacher_email" name="teacher_email" required>
+  </div>
+  <div>
+    <label for="password">教师邮箱：</label>
+    <input type="text" id="password" name="password" required>
   </div>
   <div>
     <button type="submit">提交</button>

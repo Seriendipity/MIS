@@ -12,6 +12,15 @@ public class Student {
     private String phoneNumber;
     private String studentEmail;
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    private String password;
     public String getStudentNO() {
         return studentNO;
     }

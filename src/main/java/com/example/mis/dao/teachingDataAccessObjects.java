@@ -16,35 +16,38 @@ public class teachingDataAccessObjects implements teachingService{
         conn.close();
     }
 
-    public boolean insertTeaching(String courseNo,String teacherNo,String language) throws Exception{
+    public boolean insertTeaching(String courseNo,String teacherNo,String language,String cid) throws Exception{
         initConnection();
-        String sql = "insert into teaching(courseNo,teacherNo,language) values(?,?,?)";
+        String sql = "insert into teaching(courseNo,teacherNo,language,cid) values(?,?,?,?)";
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.setString(1,courseNo);
         ps.setString(2,teacherNo);
         ps.setString(3,language);
+        ps.setString(4,cid);
         int SQLCA = ps.executeUpdate();
         closeConnection();
         return SQLCA == 1;
     }
-    public boolean deleteTeaching(String courseNo,String teacherNo) throws Exception{
+    public boolean deleteTeaching(String courseNo,String teacherNo,String cid) throws Exception{
         initConnection();
-        String sql = "delete from teaching where courseNo = ? and teacherNo = ?";
+        String sql = "delete from teaching where courseNo = ? and teacherNo = ? and cid = ?";
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.setString(1,courseNo);
         ps.setString(2,teacherNo);
+        ps.setString(3,cid);
         int SQLCA = ps.executeUpdate();
         closeConnection();
         return SQLCA == 1;
     }
 
-    public void updateTeaching(String courseNo,String teacherNo,String language) throws Exception{
+    public void updateTeaching(String courseNo,String teacherNo,String language,String cid) throws Exception{
         initConnection();
-        String sql = "update teaching set language = ? where courseNo = ? and teacherNo = ?";
+        String sql = "update teaching set language = ?, courseNo = ? , teacherNo = ? where cid = ?";
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.setString(1,language);
         ps.setString(2,courseNo);
         ps.setString(3,teacherNo);
+        ps.setString(4,cid);
         ps.executeUpdate();
         closeConnection();
     }
@@ -82,12 +85,36 @@ public class teachingDataAccessObjects implements teachingService{
         closeConnection();
         return t;
     }
+
+    @Override
+    public teaching selectFromTeachingByCid(String cid) throws Exception {
+        initConnection();
+        String sql = "select * from teaching where cid = ? ";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setString(1,cid);
+        ResultSet rs = ps.executeQuery();
+        teaching tg = getTeaching(rs);
+        closeConnection();
+        return tg;
+    }
+
+    private teaching getTeaching(ResultSet rs) throws Exception{
+        teaching t = new teaching();
+        if(rs.next()){
+            t.setCid(rs.getString("cid"));
+            t.setLanguage(rs.getString("language"));
+            t.setTeacherNo(rs.getString("teacherNo"));
+            t.setCourseNo(rs.getString("courseNo"));
+        }
+        return t;
+    }
     private void getMoreTeaching(ArrayList<teaching> t, ResultSet rs) throws Exception{
         while(rs.next()){
             teaching tg = new teaching();
             tg.setCourseNo(rs.getString("CourseNo"));
             tg.setTeacherNo(rs.getString("TeacherNo"));
             tg.setLanguage(rs.getString("Language"));
+            tg.setCid(rs.getString("cid"));
             t.add(tg);
         }
     }
@@ -115,5 +142,8 @@ public class teachingDataAccessObjects implements teachingService{
 
        // System.out.println(new teachingDataAccessObjects().insertTeaching("00000001","1005","中文"));
        // System.out.println(new teachingDataAccessObjects().deleteTeaching("00000001","1005"));
+        //new teachingDataAccessObjects().updateTeaching("00000001","1003","aa","9");
+//        System.out.println(new teachingDataAccessObjects().selectFromTeachingByCid("2").getTeacherNo());
+//        System.out.println(new teachingDataAccessObjects().selectFromTeachingByCid("2").getCourseNo());
     }
 }

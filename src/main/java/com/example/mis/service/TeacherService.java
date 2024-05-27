@@ -9,7 +9,8 @@ public interface TeacherService {
      *  向Teacher表中插入一行元组
      */
     public boolean insertTeacher(String teacherNo,String teacherName,String teacherSex,
-                                 String teacherBirthday,String teacherTitle,String teacherEmail) throws Exception;
+                                 String teacherBirthday,String teacherTitle,
+                                 String teacherEmail , String password) throws Exception;
 
     /**
      *  根据教师号从Teacher表中删除一行元组
@@ -20,7 +21,8 @@ public interface TeacherService {
      *  根据教师号，更改Teacher表中的某个教师信息
      */
     public void updateTeacher(String teacherNo,String teacherName,String teacherSex,
-                              String teacherBirthday,String teacherTitle,String teacherEmail) throws Exception;
+                              String teacherBirthday,String teacherTitle,
+                              String teacherEmail, String password) throws Exception;
 
     /**
      *  返回所有的教师信息

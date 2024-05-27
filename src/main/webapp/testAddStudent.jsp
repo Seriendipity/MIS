@@ -46,6 +46,10 @@
     <input type="text" id="student_email" name="student_email" required>
   </div>
   <div>
+    <label for="password">密码：</label>
+    <input type="text" id="password" name="password" required>
+  </div>
+  <div>
     <button type="submit">提交</button>
   </div>
 </form>
