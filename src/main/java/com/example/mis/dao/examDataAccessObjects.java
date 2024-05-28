@@ -76,6 +76,7 @@ public class examDataAccessObjects  implements ExamService{
         return e;
     }
 
+    //辅助方法
     private Exam getExam(ResultSet rs) throws Exception{
         Exam e = new Exam();
         if(rs.next()){
@@ -84,6 +85,8 @@ public class examDataAccessObjects  implements ExamService{
         }
         return e;
     }
+
+    //辅助方法
     private void getMoreExam(ArrayList<Exam> exams , ResultSet rs) throws Exception{
         while(rs.next()){
             Exam e = new Exam();

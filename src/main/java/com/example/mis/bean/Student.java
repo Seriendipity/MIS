@@ -1,7 +1,8 @@
 package com.example.mis.bean;
 
-import java.util.Date;
-
+/**
+ *  学生表。存放学生学号、班级号、学生姓名、学生生日、学生性别、总学分、电话号、邮箱号、学生密码
+ */
 public class Student {
     private String studentNO;
     private String classNo;

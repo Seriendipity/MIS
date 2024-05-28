@@ -11,6 +11,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+/**
+ * 向评教表中插入一个评教信息
+ */
 @WebServlet(name = "addEvaluation" , value = "/add_evaluation")
 public class addEvaluation extends HttpServlet {
     @Override

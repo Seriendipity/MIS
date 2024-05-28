@@ -17,6 +17,7 @@ public class CourseDataAccessObjects implements CourseService {
         conn.close();
     }
 
+    @Override
     public boolean insertCourse(String courseNo,String courseName,String courseCredit) throws Exception{
         initConnection();
         String sql = "insert into Course(courseNo,courseName,courseCredit) values (?,?,?)";
@@ -29,6 +30,7 @@ public class CourseDataAccessObjects implements CourseService {
         return SQLCA == 1;
     }
 
+    @Override
     public boolean deleteCourse(String courseNo) throws Exception{
         initConnection();
         String sql = "delete from course where courseNo = ?";
@@ -39,6 +41,7 @@ public class CourseDataAccessObjects implements CourseService {
         return SQLCA == 1;
     }
 
+    @Override
     public void updateCourse(String courseNo,String courseName,String courseCredit) throws Exception{
         initConnection();
         String sql = "update course set courseName= ? , courseCredit = ? where courseNo =?";
@@ -50,6 +53,7 @@ public class CourseDataAccessObjects implements CourseService {
         closeConnection();
     }
 
+    @Override
     public ArrayList<Course> selectFromCourse() throws Exception{
         initConnection();
         ArrayList<Course> courses = new ArrayList<>();
@@ -61,6 +65,7 @@ public class CourseDataAccessObjects implements CourseService {
         return courses;
     }
 
+    @Override
     public ArrayList<Course> selectFromCourseByCourseName(String courseName) throws Exception{
         initConnection();
         ArrayList<Course> courses = new ArrayList<>();
@@ -73,6 +78,7 @@ public class CourseDataAccessObjects implements CourseService {
         return courses;
     }
 
+    @Override
     public Course selectFromCourseByCno(String courseNo) throws Exception{
         initConnection();
         String sql = "select * from course where courseNo = ?";
@@ -83,6 +89,8 @@ public class CourseDataAccessObjects implements CourseService {
         closeConnection();
         return c;
     }
+
+    //辅助方法
     private Course getCourse(ResultSet rs) throws Exception{
         Course c = new Course();
         if(rs.next()){
@@ -92,6 +100,7 @@ public class CourseDataAccessObjects implements CourseService {
         }
         return c;
     }
+    //辅助方法
     private void getMoreCourses(ArrayList<Course> courses , ResultSet rs) throws Exception{
         while(rs.next()){
             Course c = new Course();

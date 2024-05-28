@@ -1,5 +1,8 @@
 package com.example.mis.bean;
 
+/**
+ *  表Class，其中存放班级号、班级名称、班级专业、班级系名、班级人数
+ */
 public class Class {
     private String classNo;
     private String className;

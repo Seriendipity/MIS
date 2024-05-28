@@ -1,7 +1,9 @@
 package com.example.mis.servlet;
 
 import com.example.mis.bean.Course;
+import com.example.mis.bean.T_C_Info;
 import com.example.mis.dao.CourseDataAccessObjects;
+import com.example.mis.util.util;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -27,18 +29,10 @@ public class DisplayCourses extends HttpServlet {
 
         PrintWriter out = response.getWriter();
 
-        CourseDataAccessObjects courseDao = new CourseDataAccessObjects();
-
         try {
-            ArrayList<Course> courses = courseDao.selectFromCourse();
-            System.out.println(1);
-            for(Course c : courses){
-                System.out.print(c.getCourseNo());
-                System.out.print(c.getCourseName());
-                System.out.println(c.getCourseCredit());
-                System.out.println();
-            }
-            request.setAttribute("courses",courses);
+            com.example.mis.util.util u = new util();
+            ArrayList<T_C_Info> tCInfos = u.getT_C_Infos();
+            request.setAttribute("tCInfos",tCInfos);
             request.getRequestDispatcher("/display_courses.jsp").forward(request,response);
         } catch (Exception e) {
             out.println(e);

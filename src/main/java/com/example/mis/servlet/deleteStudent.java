@@ -12,6 +12,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+/**
+ * 从学生表中删除一个指定学号的学生
+ */
 @WebServlet(name = "deleteStudent",value = "/delete_student")
 public class deleteStudent extends HttpServlet {
     @Override
@@ -35,6 +38,7 @@ public class deleteStudent extends HttpServlet {
             if(studentDao.selectFromStudentBySno(studentNo) == null){
                 //TODO:
             }else{
+                //删除该同学的同时，在该学生原班级的人数减一
                 String classNo = studentDao.selectFromStudentBySno(studentNo).getClassNo();
                 studentDao.deleteStudent(studentNo);
 

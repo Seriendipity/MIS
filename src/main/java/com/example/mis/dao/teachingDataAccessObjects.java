@@ -16,6 +16,7 @@ public class teachingDataAccessObjects implements teachingService{
         conn.close();
     }
 
+    @Override
     public boolean insertTeaching(String courseNo,String teacherNo,String language,String cid) throws Exception{
         initConnection();
         String sql = "insert into teaching(courseNo,teacherNo,language,cid) values(?,?,?,?)";
@@ -28,6 +29,8 @@ public class teachingDataAccessObjects implements teachingService{
         closeConnection();
         return SQLCA == 1;
     }
+
+    @Override
     public boolean deleteTeaching(String courseNo,String teacherNo,String cid) throws Exception{
         initConnection();
         String sql = "delete from teaching where courseNo = ? and teacherNo = ? and cid = ?";
@@ -40,6 +43,7 @@ public class teachingDataAccessObjects implements teachingService{
         return SQLCA == 1;
     }
 
+    @Override
     public void updateTeaching(String courseNo,String teacherNo,String language,String cid) throws Exception{
         initConnection();
         String sql = "update teaching set language = ?, courseNo = ? , teacherNo = ? where cid = ?";
@@ -52,6 +56,7 @@ public class teachingDataAccessObjects implements teachingService{
         closeConnection();
     }
 
+    @Override
     public ArrayList<teaching> selectFromTeaching() throws Exception{
         initConnection();
         ArrayList<teaching> t = new ArrayList<>();
@@ -62,6 +67,8 @@ public class teachingDataAccessObjects implements teachingService{
         closeConnection();
         return t;
     }
+
+    @Override
     public ArrayList<teaching> selectFromTeachingByTno(String teacherNo) throws Exception{
         initConnection();
         ArrayList<teaching> t = new ArrayList<>();
@@ -74,6 +81,7 @@ public class teachingDataAccessObjects implements teachingService{
         return t;
     }
 
+    @Override
     public ArrayList<teaching> selectFromTeachingByLanguage(String language) throws Exception{
         initConnection();
         ArrayList<teaching> t = new ArrayList<>();
@@ -98,6 +106,7 @@ public class teachingDataAccessObjects implements teachingService{
         return tg;
     }
 
+    //辅助方法
     private teaching getTeaching(ResultSet rs) throws Exception{
         teaching t = new teaching();
         if(rs.next()){
@@ -108,6 +117,7 @@ public class teachingDataAccessObjects implements teachingService{
         }
         return t;
     }
+    //辅助方法
     private void getMoreTeaching(ArrayList<teaching> t, ResultSet rs) throws Exception{
         while(rs.next()){
             teaching tg = new teaching();

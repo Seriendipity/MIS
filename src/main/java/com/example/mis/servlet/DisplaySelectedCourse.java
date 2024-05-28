@@ -1,6 +1,8 @@
 package com.example.mis.servlet;
 
-import com.example.mis.dao.EvaluationDataAccessObjects;
+import com.example.mis.bean.S_C_Info;
+import com.example.mis.bean.S_C_T_Info;
+import com.example.mis.util.util;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -9,11 +11,13 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+
 /**
- * 修改指定评教信息
+ * 显示某学号同学的选课列表
  */
-@WebServlet(name = "updateEvaluation",value = "/update_evaluation")
-public class updateEvaluation extends HttpServlet {
+@WebServlet(name = "displaySelectedCourse" , value = "/display_selectedCourse")
+public class DisplaySelectedCourse extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         this.doGet(request, response);
@@ -27,17 +31,14 @@ public class updateEvaluation extends HttpServlet {
 
         PrintWriter out = response.getWriter();
 
-        EvaluationDataAccessObjects evaluationDao = new EvaluationDataAccessObjects();
-
-        String studentNo = request.getParameter("student_no");
-        String courseNo = request.getParameter("course_no");
-        String teacherNo = request.getParameter("teacher_no");
-        String evaluationGrade = request.getParameter("evaluation_grade");
-        String evaluationComment = request.getParameter("evaluation_comment");
+        String student_no = request.getParameter("student_no");
 
         try {
-            evaluationDao.updateEvaluation(studentNo,courseNo,teacherNo,
-                    evaluationGrade,evaluationComment);
+            ArrayList<S_C_T_Info> sCTInfos = new ArrayList<>();
+            com.example.mis.util.util u = new util();
+            sCTInfos = u.getS_C_T_Infos(student_no);
+            request.setAttribute("sCTInfos", sCTInfos);
+            request.getRequestDispatcher("/display_selectedCourse.jsp").forward(request, response);
         } catch (Exception e) {
             out.println(e);
         }

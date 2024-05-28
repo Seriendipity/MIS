@@ -33,6 +33,10 @@
 <a href="testDeleteExam.jsp">Delete Exam</a>
 <a href="testUpdateExam.jsp">Update Exam</a><br>
 
-<a href="showCourses.jsp">查看选课列表</a>
+<a href="showCourses.jsp">查看选课列表</a><br>
+<a href="showStudents.jsp">查看学生选课情况</a><br>
+<a href="showExam.jsp">查看考试时间信息</a><br>
+<a href="showGrade.jsp">查看成绩信息</a><br>
+<a href="showSelectedCourse.jsp">查看自己的选课信息</a>
 </body>
 </html>

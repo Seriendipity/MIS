@@ -10,6 +10,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+/**
+ * 从teaching表中删除指定教师号、课程号、cid的授课信息
+ */
 @WebServlet(name = "deleteTeaching",value = "/delete_teaching")
 public class deleteTeaching extends HttpServlet {
     @Override

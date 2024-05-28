@@ -10,6 +10,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+/**
+ * 向Course表中插入一个课程
+ */
 @WebServlet(name = "addCourse" , value = "/add_course")
 public class addCourse extends HttpServlet {
     @Override

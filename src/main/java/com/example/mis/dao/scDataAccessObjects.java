@@ -14,38 +14,51 @@ public class scDataAccessObjects implements scService{
         conn.close();
     }
 
-    public boolean insertSC(String studentNo,String courseNo,String grade) throws Exception{
+    @Override
+    public boolean insertSC(String studentNo,String courseNo,String grade,String cid) throws Exception{
         initConnection();
-        String sql = "insert into sc(studentNO,courseNo,grade) values (?,?,?)";
+        String sql = "insert into sc(studentNO,courseNo,grade,cid) values (?,?,?,?)";
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.setString(1,studentNo);
         ps.setString(2,courseNo);
-        ps.setString(3,grade);
+        if(grade.equals("null")){
+            ps.setNull(3,Types.VARCHAR);
+        }else{
+            ps.setString(3,grade);
+        }
+        ps.setString(4,cid);
         int SQLSA = ps.executeUpdate();
         closeConnection();
         return SQLSA == 1;
     }
 
-    public boolean deleteSC(String studentNo,String courseNo) throws Exception{
+    @Override
+    public boolean deleteSC(String studentNo,String courseNo,String cid) throws Exception{
         initConnection();
-        String sql = "delete from sc where StudentNo = ? and courseNo = ?";
+        String sql = "delete from sc where StudentNo = ? and courseNo = ? and cid = ?";
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.setString(1,studentNo);
         ps.setString(2,courseNo);
+        ps.setString(3,cid);
         int SQLSA = ps.executeUpdate();
         closeConnection();
         return SQLSA == 1;
     }
-    public void updateSc(String studentNo,String courseNo,String grade) throws Exception{
+
+    @Override
+    public void updateSc(String studentNo,String courseNo,String grade,String cid) throws Exception{
         initConnection();
-        String sql = "update sc set grade = ? where StudentNo = ? and courseNo = ? ";
+        String sql = "update sc set grade = ? where StudentNo = ? and courseNo = ? and cid = ?";
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.setString(1,grade);
         ps.setString(2,studentNo);
         ps.setString(3,courseNo);
+        ps.setString(4,cid);
         ps.executeUpdate();
         closeConnection();
     }
+
+    @Override
     public ArrayList<sc> selectFromSC() throws Exception{
         initConnection();
         ArrayList<sc> scs = new ArrayList<>();
@@ -56,6 +69,8 @@ public class scDataAccessObjects implements scService{
         closeConnection();
         return scs;
     }
+
+    @Override
     public ArrayList<sc> selectFromSCBySno(String studentNo) throws Exception{
         initConnection();
         ArrayList<sc> scs = new ArrayList<>();
@@ -67,6 +82,8 @@ public class scDataAccessObjects implements scService{
         closeConnection();
         return scs;
     }
+
+    @Override
     public ArrayList<sc> selectFromSCByCno(String courseNo) throws Exception{
         initConnection();
         ArrayList<sc> scs = new ArrayList<>();
@@ -78,12 +95,28 @@ public class scDataAccessObjects implements scService{
         closeConnection();
         return scs;
     }
-    private void getMoreSc(ArrayList<sc> scs , ResultSet rs) throws Exception{
+
+    @Override
+    public ArrayList<com.example.mis.bean.sc> selectFromSCByCid(String cid) throws Exception {
+        initConnection();
+        String sql = "select * from sc where cid = ?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setString(1,cid);
+        ResultSet rs = ps.executeQuery();
+        ArrayList<com.example.mis.bean.sc> scs = new ArrayList<>();
+        getMoreSc(scs,rs);
+        closeConnection();
+        return scs;
+    }
+
+    //辅助方法
+    private void getMoreSc(ArrayList<com.example.mis.bean.sc> scs , ResultSet rs) throws Exception{
         while(rs.next()){
             sc s = new sc();
             s.setStudentNo(rs.getString("StudentNo"));
             s.setCourseNo(rs.getString("CourseNo"));
             s.setGrade(rs.getString("Grade"));
+            s.setCid(rs.getString("cid"));
             scs.add(s);
         }
     }
@@ -98,19 +131,21 @@ public class scDataAccessObjects implements scService{
 //        System.out.println(new scDataAccessObjects().insertSC("22903333","00000003","49"));
 //        System.out.println(new scDataAccessObjects().insertSC("22903333","00000002","77"));
 //        System.out.println(new scDataAccessObjects().insertSC("22905555","00000004","97"));
-//        System.out.println(new scDataAccessObjects().insertSC("22906666","00000003","66"));
-
+      // System.out.println(new scDataAccessObjects().insertSC("22906666","00000004","null"));
+      //  System.out.println(new scDataAccessObjects().deleteSC("22906666","00000004"));
     //    new scDataAccessObjects().updateSc("11111","00000001","90");
 
-//        ArrayList<sc> scs = new ArrayList<>();
+       ArrayList<sc> scs = new ArrayList<>();
         //scs = new scDataAccessObjects().selectFromSC();
         //scs = new scDataAccessObjects().selectFromSCByCno("00000002");
         //scs = new scDataAccessObjects().selectFromSCBySno("22901111");
-//        for(sc c : scs){
-//            System.out.print(c.getStudentNo());
-//            System.out.print(c.getCourseNo());
-//            System.out.println();
-//        }
+        scs = new scDataAccessObjects().selectFromSCByCid("5");
+        for(sc c : scs){
+            System.out.print(c.getStudentNo()+" ");
+            System.out.print(c.getCourseNo()+" ");
+            System.out.print(c.getCid()+" ");
+            System.out.println();
+        }
 
 
        // System.out.println(new scDataAccessObjects().insertSC("11111","00000005","88"));

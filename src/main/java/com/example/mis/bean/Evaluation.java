@@ -1,5 +1,8 @@
 package com.example.mis.bean;
 
+/**
+ * 评教表。存放学生学号、课程号、教师号、评教分数、评教内容
+ */
 public class Evaluation {
     private String studentNo;
     private String courseNo;

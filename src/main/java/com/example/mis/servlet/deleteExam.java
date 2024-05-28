@@ -10,6 +10,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+/**
+ * 从考试时间表中删除指定cid的考试安排
+ */
 @WebServlet(name = "deleteExam",value = "/delete_exam")
 public class deleteExam extends HttpServlet {
     @Override

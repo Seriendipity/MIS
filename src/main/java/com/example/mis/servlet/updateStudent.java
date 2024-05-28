@@ -9,7 +9,9 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-
+/**
+ * 修改指定学生信息
+ */
 @WebServlet(name = "updateStudent" ,value = "/update_student")
 public class updateStudent extends HttpServlet {
     @Override

@@ -18,6 +18,7 @@ public class EvaluationDataAccessObjects implements EvaluationService {
         conn.close();
     }
 
+    @Override
     public boolean insertEvaluation(String studentNo,String courseNo,String teacherNo,
                                     String evaluationGrade,String evaluationComment) throws Exception{
         initConnection();
@@ -34,6 +35,7 @@ public class EvaluationDataAccessObjects implements EvaluationService {
 
     }
 
+    @Override
     public boolean deleteEvaluation(String studentNo,String courseNo,String teacherNo) throws Exception{
         initConnection();
         String sql = "delete from evaluation where studentNo = ? and courseNo = ? and teacherNo = ? ";
@@ -46,6 +48,7 @@ public class EvaluationDataAccessObjects implements EvaluationService {
         return SQLCA == 1;
     }
 
+    @Override
     public void updateEvaluation(String studentNo,String courseNo,String teacherNo,
                                  String evaluationGrade,String evaluationComment) throws Exception{
         initConnection();
@@ -60,6 +63,7 @@ public class EvaluationDataAccessObjects implements EvaluationService {
         closeConnection();
     }
 
+    @Override
     public ArrayList<Evaluation> selectFromEvaluation()throws Exception{
         initConnection();
         ArrayList<Evaluation> e = new ArrayList<>();
@@ -71,6 +75,7 @@ public class EvaluationDataAccessObjects implements EvaluationService {
         return e;
     }
 
+    @Override
     public ArrayList<Evaluation> selectFromEvaluationByTno(String teacherNo) throws Exception{
         initConnection();
         ArrayList<Evaluation> e = new ArrayList<>();
@@ -82,6 +87,8 @@ public class EvaluationDataAccessObjects implements EvaluationService {
         closeConnection();
         return e;
     }
+
+    @Override
     public float selectAvgEvaluationByTno(String teacherNo) throws Exception{
         initConnection();
         String sql = "select avg(evaluationGrade) from evaluation where teacherNO = ?";
@@ -93,6 +100,8 @@ public class EvaluationDataAccessObjects implements EvaluationService {
         closeConnection();
         return avgGrade;
     }
+
+    //辅助方法
     private void getMoreEvaluation(ArrayList<Evaluation> e,ResultSet rs)throws Exception{
         while(rs.next()){
             Evaluation evaluation = new Evaluation();

@@ -16,7 +16,8 @@ public class ClassDataAccessObjects implements ClassService {
     private void closeConnection() throws Exception{
         conn.close();
     }
-    //向Class中插入数据。其中，ClassNo不能为空
+
+    @Override
     public boolean insertClass(String classNo, String className, String classMajor,
                                String classDept, String studentNumber ) throws Exception{
         initConnection();
@@ -30,7 +31,8 @@ public class ClassDataAccessObjects implements ClassService {
         int SQLCA = ps.executeUpdate();
         return SQLCA == 1;
     }
-    //根据ClassNo从表中删除数据
+
+    @Override
     public boolean deleteClass(String classNo) throws Exception{
         initConnection();
         String sql = "delete from class where classNo= ? ";
@@ -40,7 +42,8 @@ public class ClassDataAccessObjects implements ClassService {
         closeConnection();
         return SQLCA==1;
     }
-    //根据CLassNo对原表数据进行更改。
+
+    @Override
     public void updateClassInfo(String classNo,String className,String classMajor,
                                 String classDept,String studentNumber) throws Exception{
         initConnection();
@@ -54,7 +57,8 @@ public class ClassDataAccessObjects implements ClassService {
         ps.executeUpdate();
         closeConnection();
     }
-    //根据班级所属专业对班级进行查找
+
+    @Override
     public ArrayList<Class> selectFromClassWithClassMajor(String classMajor) throws Exception{
         initConnection();
         ArrayList<Class> classes = new ArrayList<>();
@@ -67,7 +71,7 @@ public class ClassDataAccessObjects implements ClassService {
         return classes;
     }
 
-    //根据班级所属系别对班级进行查找
+    @Override
     public ArrayList<Class> selectFromClassWithClassDept(String classDept) throws Exception{
         initConnection();
         ArrayList<Class> classes = new ArrayList<>();
@@ -80,7 +84,7 @@ public class ClassDataAccessObjects implements ClassService {
         return classes;
     }
 
-    //对所有班级进行查找
+    @Override
     public ArrayList<Class> selectFromClass() throws Exception{
         initConnection();
         ArrayList<Class> classes = new ArrayList<>();
@@ -92,6 +96,7 @@ public class ClassDataAccessObjects implements ClassService {
         return classes;
     }
 
+    @Override
     public Class selectFromClassByCno(String classNo) throws Exception{
         initConnection();
         String sql = "select * from class where classNo = ?";
@@ -103,6 +108,7 @@ public class ClassDataAccessObjects implements ClassService {
         return c;
     }
 
+    //辅助方法
     private void getMoreClasses(ArrayList<Class> classes,ResultSet rs) throws SQLException {
         while(rs.next()){
             Class c = new Class();
@@ -116,6 +122,7 @@ public class ClassDataAccessObjects implements ClassService {
 
     }
 
+    //辅助方法
    private Class getClass(ResultSet rs) throws Exception{
         Class c = new Class();
         if(rs.next()){

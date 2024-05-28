@@ -1,7 +1,8 @@
 package com.example.mis.bean;
 
-import java.util.Date;
-
+/**
+ * 教师表。存放教师号、教师姓名、教师性别、教师生日、教师职称、教师邮箱、教师密码
+ */
 public class Teacher {
     private String teacherNo;
     private String teacherName;

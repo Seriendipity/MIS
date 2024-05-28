@@ -28,9 +28,10 @@ public class deleteSc extends HttpServlet {
 
         String studentNo = request.getParameter("student_no");
         String courseNo = request.getParameter("course_no");
+        String cid = request.getParameter("cid");
 
         try {
-            scDao.deleteSC(studentNo,courseNo);
+            scDao.deleteSC(studentNo,courseNo,cid);
         } catch (Exception e) {
             //TODO
             out.println(e);

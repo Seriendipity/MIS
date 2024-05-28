@@ -13,6 +13,9 @@ import java.io.PrintWriter;
 import java.util.BitSet;
 import java.util.Timer;
 
+/**
+ * 向教师表中插入一个教师信息
+ */
 @WebServlet(name = "addTeacher" , value = "/add_teacher")
 public class addTeacher extends HttpServlet {
     @Override

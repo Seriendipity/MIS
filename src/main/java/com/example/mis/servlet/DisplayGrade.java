@@ -1,6 +1,9 @@
 package com.example.mis.servlet;
 
-import com.example.mis.dao.EvaluationDataAccessObjects;
+import com.example.mis.bean.S_C_Info;
+import com.example.mis.dao.scDataAccessObjects;
+import com.example.mis.bean.sc;
+import com.example.mis.util.util;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -9,11 +12,13 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+
 /**
- * 修改指定评教信息
+ * 显示某学号同学的选课成绩
  */
-@WebServlet(name = "updateEvaluation",value = "/update_evaluation")
-public class updateEvaluation extends HttpServlet {
+@WebServlet(name = "displayGrade",value = "/display_grade")
+public class DisplayGrade extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         this.doGet(request, response);
@@ -27,19 +32,17 @@ public class updateEvaluation extends HttpServlet {
 
         PrintWriter out = response.getWriter();
 
-        EvaluationDataAccessObjects evaluationDao = new EvaluationDataAccessObjects();
-
-        String studentNo = request.getParameter("student_no");
-        String courseNo = request.getParameter("course_no");
-        String teacherNo = request.getParameter("teacher_no");
-        String evaluationGrade = request.getParameter("evaluation_grade");
-        String evaluationComment = request.getParameter("evaluation_comment");
+        String student_no = request.getParameter("student_no");
 
         try {
-            evaluationDao.updateEvaluation(studentNo,courseNo,teacherNo,
-                    evaluationGrade,evaluationComment);
+            ArrayList<S_C_Info> sCInfos = new ArrayList<>();
+            com.example.mis.util.util u = new util();
+            sCInfos = u.getS_C_Infos(student_no);
+            request.setAttribute("sCInfos",sCInfos);
+            request.getRequestDispatcher("/display_grade.jsp").forward(request,response);
         } catch (Exception e) {
             out.println(e);
         }
+
     }
 }

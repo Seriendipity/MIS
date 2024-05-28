@@ -1,5 +1,8 @@
 package com.example.mis.bean;
 
+/**
+ *  表Course。存放课程号、课程名、课程学分
+ */
 public class Course {
     private String courseNo;
     private String courseName;

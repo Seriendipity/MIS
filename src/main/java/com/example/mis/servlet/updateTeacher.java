@@ -9,7 +9,9 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-
+/**
+ * 修改指定教师信息
+ */
 @WebServlet(name = "updateTeacher" , value = "/update_teacher")
 public class updateTeacher extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

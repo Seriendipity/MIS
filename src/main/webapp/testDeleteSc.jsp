@@ -22,6 +22,10 @@
         <input type="text" id="course_no" name="course_no" required>
     </div>
     <div>
+        <label for="cid">课程ID：</label>
+        <input type="text" id="cid" name="cid" required>
+    </div>
+    <div>
         <button type="submit">提交</button>
     </div>
 </form>

@@ -16,6 +16,7 @@ public class TeacherDataAccessObjects implements TeacherService {
         conn.close();
     }
 
+    @Override
     public boolean insertTeacher(String teacherNo,String teacherName,String teacherSex,
                                  String teacherBirthday,String teacherTitle,
                                  String teacherEmail, String password) throws Exception{
@@ -33,6 +34,8 @@ public class TeacherDataAccessObjects implements TeacherService {
         closeConnection();
         return SQLSA == 1;
     }
+
+    @Override
     public boolean deleteTeacher(String teacherNo) throws Exception{
         initConnection();
         String sql = "delete from teacher where teacherNo = ?";
@@ -41,6 +44,8 @@ public class TeacherDataAccessObjects implements TeacherService {
         int SQLSA = ps.executeUpdate();
         return SQLSA == 1;
     }
+
+    @Override
     public void updateTeacher(String teacherNo,String teacherName,String teacherSex,
                               String teacherBirthday,String teacherTitle,
                               String teacherEmail,String password) throws Exception{
@@ -58,6 +63,7 @@ public class TeacherDataAccessObjects implements TeacherService {
         closeConnection();
     }
 
+    @Override
     public ArrayList<Teacher> selectFromTeacher() throws Exception{
         initConnection();
         ArrayList<Teacher> teachers = new ArrayList<>();
@@ -69,6 +75,7 @@ public class TeacherDataAccessObjects implements TeacherService {
         return teachers;
     }
 
+    @Override
     public Teacher selectFromTeacherByTno(String teacherNo) throws Exception{
         initConnection();
         String sql = "select * from teacher where teacherNo = ?";
@@ -79,6 +86,8 @@ public class TeacherDataAccessObjects implements TeacherService {
         closeConnection();
         return t;
     }
+
+    @Override
     public ArrayList<Teacher> selectFromTeacherByTitle(String teacherTitle) throws Exception{
         initConnection();
         ArrayList<Teacher> teachers = new ArrayList<>();
@@ -90,6 +99,8 @@ public class TeacherDataAccessObjects implements TeacherService {
         closeConnection();
         return teachers;
     }
+
+    @Override
     public Teacher selectFromTeacherByEmail(String teacherEmail) throws Exception{
         initConnection();
         String sql = "select * from teacher where teacherEmail = ?";
@@ -100,6 +111,8 @@ public class TeacherDataAccessObjects implements TeacherService {
         closeConnection();
         return t;
     }
+
+    //辅助方法
     private Teacher getTeacher(ResultSet rs) throws Exception{
         Teacher t = new Teacher();
         if(rs.next()){
@@ -113,6 +126,7 @@ public class TeacherDataAccessObjects implements TeacherService {
         }
         return t;
     }
+    //辅助方法
     private void getMoreTeacher(ArrayList<Teacher> teachers , ResultSet rs) throws Exception{
         while(rs.next()){
             Teacher t = new Teacher();

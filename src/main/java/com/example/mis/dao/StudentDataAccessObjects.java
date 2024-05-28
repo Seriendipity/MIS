@@ -15,7 +15,8 @@ public class StudentDataAccessObjects implements StudentService {
     private void closeConnection() throws Exception{
         conn.close();
     }
-    //插入数据
+
+    @Override
     public boolean insertStudent(String studentNo,String classNO,String studentName
                                 , String studentBirthday, String studentSex, String totalCredit
                                 , String phoneNumber,String studentEmail , String password) throws Exception {
@@ -35,7 +36,8 @@ public class StudentDataAccessObjects implements StudentService {
         closeConnection();
         return SQLCA == 1;
     }
-    //删除某个学号的学生
+
+    @Override
     public boolean deleteStudent(String studentNo) throws Exception{
         initConnection();
         String sql = "delete from student where StudentNo = ?";
@@ -45,7 +47,8 @@ public class StudentDataAccessObjects implements StudentService {
         closeConnection();
         return SQLCA == 1;
     }
-    //更新某个学好的学生信息
+
+    @Override
     public void updateStudentInfo(String studentNo,String classNO,String studentName,
                                   String studentBirthday, String studentSex, String totalCredit,
                                   String phoneNumber,String studentEmail, String password) throws Exception{
@@ -65,6 +68,7 @@ public class StudentDataAccessObjects implements StudentService {
         closeConnection();
     }
 
+    @Override
     public ArrayList<Student> selectFromStudent() throws Exception{
         initConnection();
         ArrayList<Student> students = new ArrayList<>() ;
@@ -76,6 +80,7 @@ public class StudentDataAccessObjects implements StudentService {
         return students;
     }
 
+    @Override
     public Student selectFromStudentBySno(String studentNo) throws Exception{
         initConnection();
         String sql = "select * from student where studentNo = ?";
@@ -87,6 +92,7 @@ public class StudentDataAccessObjects implements StudentService {
         return s;
     }
 
+    @Override
     public ArrayList<Student> selectStudentByClassNoFromStudent(String classNo) throws Exception{
         initConnection();
         ArrayList<Student> students = new ArrayList<>();
@@ -98,6 +104,8 @@ public class StudentDataAccessObjects implements StudentService {
         closeConnection();
         return students;
     }
+
+    @Override
     public int selectStudentNumberFromStudent() throws Exception{
         initConnection();
         String sql = "select count(*) from student";
@@ -109,6 +117,7 @@ public class StudentDataAccessObjects implements StudentService {
         return count;
     }
 
+    @Override
     public int selectStudentNumberByClassNoFromStudent(String classNo) throws Exception{
         initConnection();
         String sql = "select count(*) from student where ClassNo = ?";
@@ -121,6 +130,7 @@ public class StudentDataAccessObjects implements StudentService {
         return count;
     }
 
+    //辅助方法
     private Student getStudent(ResultSet rs) throws Exception{
         Student s = new Student();
         if(rs.next()){

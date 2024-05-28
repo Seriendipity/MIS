@@ -29,9 +29,10 @@ public class addSc extends HttpServlet {
         String studentNo = request.getParameter("student_no");
         String courseNo = request.getParameter("course_no");
         String grade = request.getParameter("grade");
+        String cid = request.getParameter("cid");
 
         try {
-            scDao.insertSC(studentNo,courseNo,grade);
+            scDao.insertSC(studentNo,courseNo,grade,cid);
         } catch (Exception e) {
             out.println(e);
         }

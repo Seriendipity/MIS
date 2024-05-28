@@ -13,6 +13,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+/**
+ * 向学生表中插入一个学生信息
+ */
 @WebServlet(name = "addStudent",value = "/add_student")
 public class addStudent extends HttpServlet {
     @Override

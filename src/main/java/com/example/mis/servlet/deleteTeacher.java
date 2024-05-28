@@ -10,6 +10,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+/**
+ * 删除指定教师号的教师
+ */
 @WebServlet(name = "deleteTeacher" , value = "/delete_teacher")
 public class deleteTeacher extends HttpServlet {
     @Override

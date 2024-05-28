@@ -11,6 +11,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+/**
+ * 从班级表中删除指定班级号的班级
+ */
 @WebServlet(name = "deleteClass" ,value = "/delete_class")
 public class deleteClass extends HttpServlet {
     @Override

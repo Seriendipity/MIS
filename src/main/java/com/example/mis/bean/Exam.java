@@ -1,5 +1,8 @@
 package com.example.mis.bean;
 
+/**
+ * 考试表。存放课程CID，考试时间
+ */
 public class Exam {
     private String cid;
     private String examDate;

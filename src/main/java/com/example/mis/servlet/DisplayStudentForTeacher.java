@@ -1,6 +1,8 @@
 package com.example.mis.servlet;
 
+import com.example.mis.bean.sc;
 import com.example.mis.dao.scDataAccessObjects;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -9,13 +11,16 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+
 /**
- * 修改指定学生选课信息（学生成绩）
+ * 为教师显示选修某门课的学生列表
  */
-@WebServlet(name = "updateSc" , value = "/update_sc")
-public class updateSc extends HttpServlet {
+@WebServlet(name = "displayStudentForTeacher" , value = "/display_student_for_teacher")
+public class DisplayStudentForTeacher extends HttpServlet {
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        this.doGet(request,response);
+        this.doGet(request, response);
     }
 
     @Override
@@ -26,15 +31,20 @@ public class updateSc extends HttpServlet {
 
         PrintWriter out = response.getWriter();
 
-        scDataAccessObjects scDao = new scDataAccessObjects();
-
-        String studentNo = request.getParameter("student_no");
-        String courseNo = request.getParameter("course_no");
-        String grade = request.getParameter("grade");
         String cid = request.getParameter("cid");
-
+        ArrayList<com.example.mis.bean.sc> scs = new ArrayList<>();
+        scDataAccessObjects scDao = new scDataAccessObjects();
         try {
-            scDao.updateSc(studentNo,courseNo,grade,cid);
+            scs = scDao.selectFromSCByCid(cid);
+            for(sc s : scs){
+                System.out.print(s.getStudentNo()+" ");
+                System.out.print(s.getCourseNo()+" ");
+                System.out.print(s.getCid()+" ");
+                System.out.print(s.getGrade()+" ");
+                System.out.println();
+            }
+            request.setAttribute("sc",scs);
+            request.getRequestDispatcher("/display_student_for_teacher.jsp").forward(request,response);
         } catch (Exception e) {
             out.println(e);
         }

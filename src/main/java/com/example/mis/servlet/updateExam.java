@@ -9,7 +9,9 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-
+/**
+ * 修改指定考试时间信息
+ */
 @WebServlet(name = "updateExam",value = "/update_exam")
 public class updateExam extends HttpServlet {
     @Override

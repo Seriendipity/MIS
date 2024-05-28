@@ -1,5 +1,8 @@
 package com.example.mis.bean;
 
+/**
+ * 教师授课表。存放课程号、教师号、授课语言、课程CID
+ */
 public class teaching {
     private String courseNo;
     private String teacherNo;

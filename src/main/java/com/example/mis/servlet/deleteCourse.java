@@ -13,6 +13,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+/**
+ * 从课程表中删除指定课程号的课程
+ */
 @WebServlet(name = "deleteCourse" , value = "/delete_course")
 public class deleteCourse extends HttpServlet {
     @Override
