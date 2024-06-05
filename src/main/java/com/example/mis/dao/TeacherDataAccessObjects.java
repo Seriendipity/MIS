@@ -2,6 +2,7 @@ package com.example.mis.dao;
 
 import com.example.mis.bean.Teacher;
 import com.example.mis.service.TeacherService;
+import com.example.mis.util.util;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -23,13 +24,14 @@ public class TeacherDataAccessObjects implements TeacherService {
         initConnection();
         String sql = "insert into teacher(teacherNo,teacherName,teacherSex,teacherBirthday,teacherTitle,teacherEmail,password) values(?,?,?,?,?,?,?)";
         PreparedStatement ps = conn.prepareStatement(sql);
-        ps.setString(1,teacherNo);
-        ps.setString(2,teacherName);
-        ps.setString(3,teacherSex);
-        ps.setString(4,teacherBirthday);
-        ps.setString(5,teacherTitle);
-        ps.setString(6,teacherEmail);
-        ps.setString(7,password);
+        com.example.mis.util.util u = new util();
+        u.setValue(ps,1,teacherNo);
+        u.setValue(ps,2,teacherName);
+        u.setValue(ps,3,teacherSex);
+        u.setValue(ps,4,teacherBirthday);
+        u.setValue(ps,5,teacherTitle);
+        u.setValue(ps,6,teacherEmail);
+        u.setValue(ps,7,password);
         int SQLSA = ps.executeUpdate();
         closeConnection();
         return SQLSA == 1;
@@ -142,7 +144,7 @@ public class TeacherDataAccessObjects implements TeacherService {
     }
 
     public static void main(String[] args) throws Exception {
-//        System.out.println(new TeacherDataAccessObjects().insertTeacher("1001","张军","男","1977-08-04","教授","631541@265.cn"));
+//        System.out.println(new TeacherDataAccessObjects().insertTeacher("1555","null","null","null","null","null","35412"));
 //        System.out.println(new TeacherDataAccessObjects().insertTeacher("1002","徐勇","男","1987-11-24","讲师","2765312@265.cn"));
 //        System.out.println(new TeacherDataAccessObjects().insertTeacher("1003","李甜","女","1986-04-04","讲师","12876345@265.cn"));
 //        System.out.println(new TeacherDataAccessObjects().insertTeacher("1004","张光","男","1973-02-13","教授","485736@265.cn"));

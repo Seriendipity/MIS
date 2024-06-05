@@ -2,9 +2,11 @@ package com.example.mis.dao;
 import com.example.mis.bean.Class;
 import com.example.mis.bean.Student;
 import com.example.mis.service.StudentService;
+import com.example.mis.util.util;
 
 import java.sql.*;
 import java.util.ArrayList;
+
 
 public class StudentDataAccessObjects implements StudentService {
     private Connection conn = null;
@@ -23,15 +25,16 @@ public class StudentDataAccessObjects implements StudentService {
         initConnection();
         String sql = "insert into student(StudentNo,ClassNo,StudentName,StudentBirthday,StudentSex,TotalCredit,PhoneNumber,StudentEmail,password) values (?,?,?,?,?,?,?,?,?)";
         PreparedStatement ps = conn.prepareStatement(sql);
-        ps.setString(1,studentNo);
-        ps.setString(2,classNO);
-        ps.setString(3,studentName);
-        ps.setString(4,studentBirthday);
-        ps.setString(5,studentSex);
-        ps.setString(6,totalCredit);
-        ps.setString(7,phoneNumber);
-        ps.setString(8,studentEmail);
-        ps.setString(9,password);
+        com.example.mis.util.util u = new util();
+        u.setValue(ps,2,classNO);
+        u.setValue(ps,3,studentName);
+        u.setValue(ps,4,studentBirthday);
+        u.setValue(ps,5,studentSex);
+        u.setValue(ps,6,totalCredit);
+        u.setValue(ps,7,phoneNumber);
+        u.setValue(ps,8,studentEmail);
+        u.setValue(ps,9,password);
+        u.setValue(ps,1,studentNo);
         int SQLCA = ps.executeUpdate();
         closeConnection();
         return SQLCA == 1;
@@ -55,15 +58,16 @@ public class StudentDataAccessObjects implements StudentService {
         initConnection();
         String sql = "UPDATE student SET ClassNo = ?, StudentName = ?, studentBirthday = ?, studentSex = ?, totalCredit = ?, phoneNumber = ?, studentEmail = ? ,password = ? WHERE studentNo = ?";
         PreparedStatement ps = conn.prepareStatement(sql);
-        ps.setString(1,classNO);
-        ps.setString(2,studentName);
-        ps.setString(3,studentBirthday);
-        ps.setString(4,studentSex);
-        ps.setString(5,totalCredit);
-        ps.setString(6,phoneNumber);
-        ps.setString(7,studentEmail);
-        ps.setString(8,password);
-        ps.setString(9,studentNo);
+        com.example.mis.util.util u = new util();
+        u.setValue(ps,1,classNO);
+        u.setValue(ps,2,studentName);
+        u.setValue(ps,3,studentBirthday);
+        u.setValue(ps,4,studentSex);
+        u.setValue(ps,5,totalCredit);
+        u.setValue(ps,6,phoneNumber);
+        u.setValue(ps,7,studentEmail);
+        u.setValue(ps,8,password);
+        u.setValue(ps,9,studentNo);
         ps.executeUpdate();
         closeConnection();
     }
@@ -163,8 +167,10 @@ public class StudentDataAccessObjects implements StudentService {
     }
 
 
+
+
     public static void main(String[] args) throws Exception {
-//        System.out.println(new StudentDataAccessObjects().insertStudent("22901111","RJ2204","王五","2004-09-09","女","25","14988882222","154312315@124.com"));
+      //  System.out.println(new StudentDataAccessObjects().insertStudent("22992222","null","null","null","null","null","null","null","aaaa"));
 //        System.out.println(new StudentDataAccessObjects().insertStudent("22902222","RJ2205","正义","2003-01-02","男","33.5","1343476275","115162@1165.com"));
 //        System.out.println(new StudentDataAccessObjects().insertStudent("22903333","RJ2206","李阳","2004-09-05","男","21","16532354352","358762@3476.com"));
 //        System.out.println(new StudentDataAccessObjects().insertStudent("22904444","RJ2201","孙伟","2004-08-09","女","31","12226436758","168757@19483.com"));
@@ -185,7 +191,7 @@ public class StudentDataAccessObjects implements StudentService {
 //    }
 
 //        Student s = new Student();
-//        s = new StudentDataAccessObjects().selectFromStudentBySno("11111");
+//        s = new StudentDataAccessObjects().selectFromStudentBySno("1111");
 //        System.out.print(s.getStudentNO()+" ");
 //        System.out.print(s.getStudentName()+" ");
 //        System.out.print(s.getPassword());
@@ -198,5 +204,6 @@ public class StudentDataAccessObjects implements StudentService {
 
         //System.out.println(new StudentDataAccessObjects().insertStudent("22991111","RJ2204","王五","2004-09-09","女","25","14988882222","154312315@124.com"));
        // System.out.println(new StudentDataAccessObjects().deleteStudent("22991111"));
+
     }
 }

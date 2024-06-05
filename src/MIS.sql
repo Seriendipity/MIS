@@ -62,12 +62,12 @@ create table Student
 (
    StudentNo            varchar(8) not null,
    ClassNo              char(6),
-   StudentName          varchar(20) not null,
+   StudentName          varchar(20) ,
    StudentBirthday      date,
    StudentSex           varchar(2),
    TotalCredit          int,
-   PhoneNumber          varchar(11) not null,
-   StudentEmail         varchar(20) not null,
+   PhoneNumber          varchar(11) ,
+   StudentEmail         varchar(20) ,
    primary key (StudentNo)
 );
 
@@ -77,11 +77,11 @@ create table Student
 create table Teacher
 (
    TeacherNo            varchar(4) not null,
-   TeacherName          varchar(20) not null,
+   TeacherName          varchar(20) ,
    TeacherSex           varchar(2),
    TeacherBirthday      date,
    TeacherTitle         varchar(5),
-   TeacherEmail         varchar(20) not null,
+   TeacherEmail         varchar(20) ,
    primary key (TeacherNo)
 );
 
@@ -136,7 +136,7 @@ alter table student add column password varchar(20) default 'Bjtu@123456';
 alter table teacher add column password varchar(20) default 'Bjtu@teacher';
 
 /*==============================================================*/
-/* Table: exam                                             */
+/* Table: exam                                                  */
 /*==============================================================*/
 create table exam
 (
@@ -147,5 +147,14 @@ create table exam
 );
 
 
+alter table sc add column  cid varchar(3);
 alter table teaching add column cid varchar(3) ;
 alter table teaching add constraint unique (cid);
+
+/*==============================================================*/
+/* Table: Admin                                                 */
+/*==============================================================*/
+create table Admin(
+  name varchar(10) primary key default 'admin@root',
+  password varchar(20) default 'admin@password'
+)
