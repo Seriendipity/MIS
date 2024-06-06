@@ -198,7 +198,7 @@ function insert(object) {
         var sno = sc[0].value.toString();
         var cno = sc[1].value.toString();
         var grade = sc[2].value;
-        url = "/StudentManagement/AdminDao?action=insert_sc&sno=" + sno + "&cno=" + cno + "&grade=" + grade;
+        url = "/mis/insert?action=insert_sc&sno=" + sno + "&cno=" + cno + "&grade=" + grade;
     }
     else {
         url = "/StudentManagement/message.jsp";

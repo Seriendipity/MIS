@@ -114,7 +114,6 @@
             <p class="welcome">欢迎使用学生信息管理系统！</p>
         </div>
     </div>
-    </div>
 </main>
 
 <footer>
