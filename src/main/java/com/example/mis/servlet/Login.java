@@ -1,7 +1,11 @@
 package com.example.mis.servlet;
 
 import com.example.mis.bean.Admin;
+import com.example.mis.bean.Student;
+import com.example.mis.bean.Teacher;
 import com.example.mis.dao.ClassDataAccessObjects;
+import com.example.mis.dao.StudentDataAccessObjects;
+import com.example.mis.dao.TeacherDataAccessObjects;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -39,7 +43,32 @@ public class Login extends HttpServlet {
                     request.getRequestDispatcher("/admin.jsp").forward(request,response);
                 }
             }
-        }else if(name.length() == 4){
+        } else if (name.length() == 4) {
+            Teacher t = new Teacher();
+            TeacherDataAccessObjects teacherDao = new TeacherDataAccessObjects();
+            try {
+                t = teacherDao.selectFromTeacherByTno(name);
+                if(t.getPassword().equals(password)){
+                    HttpSession session = request.getSession();
+                    session.setAttribute("teacher",t);
+                    request.getRequestDispatcher("/teacher.jsp").forward(request,response);
+                }
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }else if (name.length() == 8){
+            Student s = new Student();
+            StudentDataAccessObjects studentDao = new StudentDataAccessObjects();
+            try {
+                s = studentDao.selectFromStudentBySno(name);
+                if(s.getPassword().equals(password)){
+                    HttpSession session = request.getSession();
+                    session.setAttribute("student",s);
+                    request.getRequestDispatcher("/student.jsp").forward(request,response);
+                }
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
 
         }
     }

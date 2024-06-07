@@ -109,6 +109,20 @@ public class scDataAccessObjects implements scService{
         return scs;
     }
 
+    @Override
+    public sc selectFromScBySnoCnoCid(String Sno, String Cno, String cid) throws Exception {
+        initConnection();
+        String sql = "select * from sc where StudentNo = ? and CourseNo = ? and cid = ?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setString(1,Sno);
+        ps.setString(2,Cno);
+        ps.setString(3,cid);
+        ResultSet rs = ps.executeQuery();
+        sc s =getSc(rs) ;
+        closeConnection();
+        return s;
+    }
+
     //辅助方法
     private void getMoreSc(ArrayList<com.example.mis.bean.sc> scs , ResultSet rs) throws Exception{
         while(rs.next()){
@@ -119,6 +133,18 @@ public class scDataAccessObjects implements scService{
             s.setCid(rs.getString("cid"));
             scs.add(s);
         }
+    }
+
+    private sc getSc(ResultSet rs) throws SQLException {
+        sc s = new sc();
+        if(rs.next()){
+            s.setStudentNo(rs.getString("studentNo"));
+            s.setCourseNo(rs.getString("CourseNo"));
+            s.setCid(rs.getString("cid"));
+            s.setGrade(rs.getString("grade"));
+            return s;
+        }
+        return null;
     }
 
     public static void main(String[] args) throws Exception{
@@ -135,18 +161,21 @@ public class scDataAccessObjects implements scService{
       //  System.out.println(new scDataAccessObjects().deleteSC("22906666","00000004"));
     //    new scDataAccessObjects().updateSc("11111","00000001","90");
 
-       ArrayList<sc> scs = new ArrayList<>();
-        //scs = new scDataAccessObjects().selectFromSC();
-        //scs = new scDataAccessObjects().selectFromSCByCno("00000002");
-        //scs = new scDataAccessObjects().selectFromSCBySno("22901111");
-        scs = new scDataAccessObjects().selectFromSCByCid("5");
-        for(sc c : scs){
-            System.out.print(c.getStudentNo()+" ");
-            System.out.print(c.getCourseNo()+" ");
-            System.out.print(c.getCid()+" ");
-            System.out.println();
-        }
+//       ArrayList<sc> scs = new ArrayList<>();
+//        //scs = new scDataAccessObjects().selectFromSC();
+//        //scs = new scDataAccessObjects().selectFromSCByCno("00000002");
+//        //scs = new scDataAccessObjects().selectFromSCBySno("22901111");
+//        scs = new scDataAccessObjects().selectFromSCByCid("5");
+//        for(sc c : scs){
+//            System.out.print(c.getStudentNo()+" ");
+//            System.out.print(c.getCourseNo()+" ");
+//            System.out.print(c.getCid()+" ");
+//            System.out.println();
+//        }
 
+        sc s = new scDataAccessObjects().selectFromScBySnoCnoCid("22901111","00000002","3");
+        System.out.println(s.getStudentNo());
+        System.out.println(s.getGrade());
 
        // System.out.println(new scDataAccessObjects().insertSC("11111","00000005","88"));
        // System.out.println(new scDataAccessObjects().deleteSC("11111","00000005") );

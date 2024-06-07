@@ -11,8 +11,8 @@ $(function(){
 
     Accordion.prototype.dropdown = function(e){
         var $el = e.data.el;
-        $this = $(this),
-            $next = $this.nest();
+        var $this = $(this);
+        var $next = $this.next();
 
         $next.slideToggle();
         $this.parent().toggleClass('open');
@@ -22,7 +22,7 @@ $(function(){
         }
         ;
     }
-    var accordion = new Accordion($('#accordion'),flase);
+    var accordion = new Accordion($('#accordion'),false);
 });
 
 /*----------老师信息----------*/
@@ -191,7 +191,7 @@ function show_insert_grade(){
         +"<input type='number' name='grade' value placeholder='成绩'>"
         +"<input id='submit' onclick=insert('sc') type='button' name='submit' value='插入'>"
         +"</div>";
-    result.innerHTML = showl;
+    result.innerHTML = show;
 }
 
 function show_alter(object){

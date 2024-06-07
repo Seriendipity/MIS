@@ -1,10 +1,7 @@
 package com.example.mis.servlet;
 
 import com.example.mis.bean.Student;
-import com.example.mis.dao.CourseDataAccessObjects;
-import com.example.mis.dao.StudentDataAccessObjects;
-import com.example.mis.dao.TeacherDataAccessObjects;
-import com.example.mis.dao.UserDataAccessObjects;
+import com.example.mis.dao.*;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -17,6 +14,9 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+/**
+ * 增加信息模块
+ */
 @WebServlet(value = "/insert")
 public class insert extends HttpServlet {
     @Override
@@ -34,7 +34,11 @@ public class insert extends HttpServlet {
 
         String action = request.getParameter("action");
 
+        System.out.println(action);
         if(action.equals("insert_user")){
+            /**
+             * 管理员插入用户信息模块
+             */
             String userName = request.getParameter("username");
             String password = request.getParameter("password");
             String level = request.getParameter("level");
@@ -74,16 +78,14 @@ public class insert extends HttpServlet {
                 }
             }
         }else if(action.equals("insert_student")){
-            System.out.println(1);
+            /**
+             * 管理员插入学生信息模块
+             */
             String studentNo = request.getParameter("sno");
             String classNo = request.getParameter("clno");
             String studentName = request.getParameter("sname");
             String studentAge = request.getParameter("sage");
             String studentSex = request.getParameter("ssex");
-            System.out.println(studentNo);
-            System.out.println(classNo);
-            System.out.println(studentName);
-            System.out.println(studentSex);
             StudentDataAccessObjects studentDao = new StudentDataAccessObjects();
 
             Calendar calendar = Calendar.getInstance();
@@ -97,6 +99,9 @@ public class insert extends HttpServlet {
             String password;
             try {
                 password = "Bjtu@123456";
+                if(studentDao.selectFromStudentBySno(studentNo) != null){
+                    studentDao.deleteStudent(studentNo);
+                }
                 studentDao.insertStudent(studentNo,classNo,studentName,studentBirthday,studentSex,"null","null","null",password);
             } catch (Exception e) {
                 throw new RuntimeException(e);
@@ -109,6 +114,9 @@ public class insert extends HttpServlet {
             html.append("</div>");
             response.getWriter().write(html.toString());
         }else if(action.equals("insert_course")){
+            /**
+             * 管理员插入课程信息模块
+             */
             String courseNo = request.getParameter("cno");
             String courseName = request.getParameter("cname");
             String courseCredit = request.getParameter("ccredit");
@@ -120,6 +128,32 @@ public class insert extends HttpServlet {
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
+            StringBuilder html = new StringBuilder();
+            html.append("<div style='display: flex; justify-content: center; align-items: center; height: 100%;'>");
+            html.append("<div>");
+            html.append("<label>信息已保存</label>");
+            html.append("</div>");
+            html.append("</div>");
+            response.getWriter().write(html.toString());
+        } else if (action.equals("insert_scInfo")) {
+            /**
+             * 学生选课模块
+             */
+            System.out.println(3);
+            String courseNo = request.getParameter("courseNo");
+            String cid = request.getParameter("cid");
+            String studentNo = request.getParameter("sno");
+
+            System.out.println(courseNo);
+            System.out.println(cid);
+            System.out.println(studentNo);
+            com.example.mis.dao.scDataAccessObjects scDao = new scDataAccessObjects();
+            try {
+                scDao.insertSC(studentNo,courseNo,"null",cid);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+
             StringBuilder html = new StringBuilder();
             html.append("<div style='display: flex; justify-content: center; align-items: center; height: 100%;'>");
             html.append("<div>");

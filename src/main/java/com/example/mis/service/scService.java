@@ -40,4 +40,9 @@ public interface scService {
      */
     public ArrayList<sc> selectFromSCByCid(String cid) throws Exception;
 
+    /**
+     * 返回指定学号、课程号、cid的学生选课信息
+     */
+    public sc selectFromScBySnoCnoCid(String Sno,String Cno,String cid) throws Exception;
+
 }

@@ -43,18 +43,17 @@
             response.sendRedirect("login.html");
 }%>
     <div class="container">
-        <div class="selcet">
+        <div class="select">
             <h3>请选择操作</h3>
             <ul id="accordion" class="accordion">
-                <li><div id="teacher-info" class="link"></i>教师信息</div>
+                <li><div id="teacher-info" class="link">教师信息</div>
                     <ul class="submenu">
                         <li><a onclick="query_teacher({Teacher : teacher})">查看信息</a></li>
                         <li><a onclick="show_alter('teacher')">修改信息</a></li>
                     </ul>
                 </li>
-                <li><div class="link"></i>课程信息</div>
+                <li><div class="link">课程信息</div>
                     <ul class="submenu">
-                        <TODO:这两个还没写></TODO:这两个还没写>
                         <li><a onclick="query_all(teacher)">查看教授的课程</a></li>
                         <li><a onclick="show_student('sc')">查看选课的学生名单</a></li>
                     </ul>

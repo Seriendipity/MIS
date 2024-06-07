@@ -1,5 +1,8 @@
 package com.example.mis.bean;
 
+/**
+ * 用户表，存放所有的用户名和密码。用于登录验证
+ */
 public class User {
     private String userName;
     private String password;

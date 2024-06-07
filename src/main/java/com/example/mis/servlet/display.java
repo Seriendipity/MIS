@@ -17,6 +17,9 @@ import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+/**
+ * 展示查询结果模块
+ */
 @WebServlet(value = "/query_all_user")
 public class display extends HttpServlet {
     @Override
@@ -35,6 +38,9 @@ public class display extends HttpServlet {
         String action = request.getParameter("action");
 
         if(action.equals("user")){
+            /**
+             * 管理员查看所有用户模块
+             */
             UserDataAccessObjects userDao = new UserDataAccessObjects();
             ArrayList<User> users = new ArrayList<>();
             try {
@@ -64,6 +70,9 @@ public class display extends HttpServlet {
             html.append("</div>");
             response.getWriter().write(html.toString());
         }else if(action.equals("student")){
+            /**
+             * 管理员查看所有学生信息模块
+             */
             StudentDataAccessObjects studentDao = new StudentDataAccessObjects();
             ArrayList<Student> students = new ArrayList<>();
             try {
@@ -105,6 +114,9 @@ public class display extends HttpServlet {
             html.append("</div>");
             response.getWriter().write(html.toString());
         } else if (action.equals("course")) {
+            /**
+             * 管理员查看所有选课信息模块
+             */
             com.example.mis.util.util u = new util();
             ArrayList<T_C_Info> tCInfos;
             try {
@@ -127,6 +139,7 @@ public class display extends HttpServlet {
             html.append("<th>学分</th>");
             html.append("<th>课程CID</th>");
             html.append("<th>教师姓名</th>");
+            html.append("<th>授课语言</th>");
             html.append("</tr>");
 
             for (T_C_Info tc : tCInfos) {
@@ -136,6 +149,7 @@ public class display extends HttpServlet {
                 html.append("<td>").append(tc.getCourseCredit()).append("</td>");
                 html.append("<td>").append(tc.getCid()).append("</td>");
                 html.append("<td>").append(tc.getTeacherName()).append("</td>");
+                html.append("<td>").append(tc.getLanguage()).append("</td>");
                 html.append("</tr>");
             }
             html.append("</table>");
@@ -143,8 +157,11 @@ public class display extends HttpServlet {
             html.append("</div>");
             response.getWriter().write(html.toString());
         } else if (action.equals("course_avg")) {
+            /**
+             * 管理员查看课程平均分模块
+             */
             ArrayList<CourseGrade> cgs = new ArrayList<>();
-            System.out.println(1);
+           // System.out.println(1);
             try {
                 cgs = new com.example.mis.util.util().getCG();
             } catch (ClassNotFoundException e) {
@@ -174,6 +191,9 @@ public class display extends HttpServlet {
             html.append("</div>");
             response.getWriter().write(html.toString());
         } else if (action.equals("fail_rate")) {
+            /**
+             * 管理员查看课程不及格率模块
+             */
             ArrayList<CourseFail> cfs = new ArrayList<>();
 
             try {
@@ -205,6 +225,9 @@ public class display extends HttpServlet {
             html.append("</div>");
             response.getWriter().write(html.toString());
         } else if (action.equals("course_ranking")) {
+            /**
+             * 管理员查看某一个门课程的排名情况
+             */
             String courseNo = request.getParameter("cno");
             scDataAccessObjects scDao = new scDataAccessObjects();
             ArrayList<sc> scs;
@@ -236,6 +259,141 @@ public class display extends HttpServlet {
             html.append("</div>");
             html.append("</div>");
             response.getWriter().write(html.toString());
+        } else if (action.equals("S_select_course")) {
+            /**
+             * 学生查看自己选课信息模块
+             */
+            System.out.println(1);
+            String studentNo = request.getParameter("studentNo");
+            System.out.println(studentNo);
+            ArrayList<S_C_T_Info> sCTInfos = new ArrayList<>();
+            com.example.mis.util.util u = new util();
+            try {
+                sCTInfos = u.getS_C_T_Infos(studentNo);
+
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
+
+            StringBuilder html = new StringBuilder();
+            html.append("<div style='display: flex; justify-content: center; align-items: center; height: 100%;'>");
+            html.append("<div>");
+            html.append("<h1 style='text-align: center;'>选课信息</h1>");
+            html.append("<table border='1' style='margin: 0 auto;'>");
+            html.append("<tr>");
+            html.append("<th>课程名</th>");
+            html.append("<th>CID</th>");
+            html.append("<th>老师姓名</th>");
+            html.append("<th>授课语言</th>");
+            html.append("</tr>");
+
+            for(S_C_T_Info sct : sCTInfos){
+                html.append("<tr>");
+                html.append("<td>").append(sct.getCourseName()).append("</td>");
+                html.append("<td>").append(sct.getCid()).append("</td>");
+                html.append("<td>").append(sct.getTeacherName()).append("</td>");
+                html.append("<td>").append(sct.getLanguage()).append("</td>");
+                html.append("</tr>");
+            }
+            html.append("</table>");
+            html.append("</div>");
+            html.append("</div>");
+            response.getWriter().write(html.toString());
+        } else if (action.equals("query_self_grade")) {
+            /**
+             * 学生查询自己选修所有课程的成绩模块
+             */
+            String sno = request.getParameter("sno");
+            ArrayList<sc> scs = new ArrayList<>();
+            com.example.mis.dao.scDataAccessObjects scDao = new scDataAccessObjects();
+            try {
+                scs = scDao.selectFromSCBySno(sno);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+
+            StringBuilder html = new StringBuilder();
+            html.append("<div style='display: flex; justify-content: center; align-items: center; height: 100%;'>");
+            html.append("<div>");
+            html.append("<h1 style='text-align: center;'>课程成绩</h1>");
+            html.append("<table border='1' style='margin: 0 auto;'>");
+            html.append("<tr>");
+            html.append("<th>课程名</th>");
+            html.append("<th>成绩</th>");
+            html.append("</tr>");
+            CourseDataAccessObjects courseDao = new CourseDataAccessObjects();
+            Course c = new Course();
+            for(sc s : scs){
+                html.append("<tr>");
+                try {
+                    c = courseDao.selectFromCourseByCno(s.getCourseNo());
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+                html.append("<td>").append(c.getCourseName()).append("</td>");
+                html.append("<td>").append(s.getGrade()).append("</td>");
+                html.append("</tr>");
+            }
+            html.append("</table>");
+            html.append("</div>");
+            html.append("</div>");
+            response.getWriter().write(html.toString());
+        } else if (action.equals("query_One_grade")) {
+            /**
+             * 学生查询自己选修的某一门课程的成绩
+             */
+            String sno = request.getParameter("sno");
+            String cno = request.getParameter("courseNo");
+            String cid = request.getParameter("cid");
+
+            com.example.mis.dao.scDataAccessObjects scDao = new scDataAccessObjects();
+
+            sc s = new sc();
+            try {
+                s = scDao.selectFromScBySnoCnoCid(sno,cno,cid);
+                if(s == null){
+                    StringBuilder html = new StringBuilder();
+                    html.append("<div style='display: flex; justify-content: center; align-items: center; height: 100%;'>");
+                    html.append("<div>");
+                    html.append("<label>您并没有选修该门课</label>");
+                    html.append("</div>");
+                    html.append("</div>");
+                    response.getWriter().write(html.toString());
+                }else{
+                    StringBuilder html = new StringBuilder();
+                    html.append("<div style='display: flex; justify-content: center; align-items: center; height: 100%;'>");
+                    html.append("<div>");
+                    html.append("<h1 style='text-align: center;'>课程成绩</h1>");
+                    html.append("<table border='1' style='margin: 0 auto;'>");
+                    html.append("<tr>");
+                    html.append("<th>课程名</th>");
+                    html.append("<th>成绩</th>");
+                    html.append("</tr>");
+                    CourseDataAccessObjects courseDao = new CourseDataAccessObjects();
+                    Course c = new Course();
+                    html.append("<tr>");
+                    try {
+                        c = courseDao.selectFromCourseByCno(cno);
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                    html.append("<td>").append(c.getCourseName()).append("</td>");
+                    html.append("<td>").append(s.getGrade()).append("</td>");
+                    html.append("</tr>");
+
+                    html.append("</table>");
+                    html.append("</div>");
+                    html.append("</div>");
+                    response.getWriter().write(html.toString());
+                }
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+
+
         }
     }
 

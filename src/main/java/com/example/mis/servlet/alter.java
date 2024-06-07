@@ -17,6 +17,9 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+/**
+ * 修改信息的方法
+ */
 @WebServlet(value = "/alter")
 public class alter extends HttpServlet {
     @Override
@@ -34,15 +37,16 @@ public class alter extends HttpServlet {
 
         String action = request.getParameter("action");
 
-        if(action.equals("alter_user")){
+        if(action.equals("alter_user")){//管理员界面修改用户信息
+            //获取四个url携带的参数
             String userName = request.getParameter("username");
             String afterUserName = request.getParameter("after_username");
             String afterPassword = request.getParameter("after_password");
             String afterLevel = request.getParameter("after_level");
-            if(afterLevel.equals("用户")){
+            if(afterLevel.equals("用户")){//判断用户类型，如果是用户，那么进行用户身份判断
                 UserDataAccessObjects userDao = new UserDataAccessObjects();
 
-               if(userName.length() == 8){
+               if(userName.length() == 8){//如果是学生，那么删除一个User的同时，在Student表中删除该学生
                    StudentDataAccessObjects studentDao = new StudentDataAccessObjects();
                    try {
                        studentDao.deleteStudent(userName);
@@ -56,7 +60,7 @@ public class alter extends HttpServlet {
                        html.append("</div>");
                        response.getWriter().write(html.toString());
                    }
-               }else if(userName.length() == 4){
+               }else if(userName.length() == 4){//如果是教师，在User表中删除一个用户，在Teacher表中删除该教师
                    TeacherDataAccessObjects teacherDao = new TeacherDataAccessObjects();
                    try {
                        teacherDao.deleteTeacher(userName);
@@ -72,7 +76,7 @@ public class alter extends HttpServlet {
                    }
                }
 
-               if(afterUserName.length() == 8){
+               if(afterUserName.length() == 8){//判断修改之后的用户名，如果是学生，那么新插入一个User，并在Student中插入一个元组
                    StudentDataAccessObjects studentDao = new StudentDataAccessObjects();
                    try {
                        userDao.insertUser(afterUserName,afterPassword);
@@ -80,7 +84,7 @@ public class alter extends HttpServlet {
                    } catch (Exception e) {
                        throw new RuntimeException(e);
                    }
-               }else if(afterUserName.length() == 4){
+               }else if(afterUserName.length() == 4){//如果是教师，那么插入一个User，并在Teacher表中插入一行元组
                    TeacherDataAccessObjects teacherDao = new TeacherDataAccessObjects();
                    try {
                        userDao.insertUser(afterUserName,afterPassword);
@@ -97,21 +101,21 @@ public class alter extends HttpServlet {
                 html.append("</div>");
                 response.getWriter().write(html.toString());
             }
-        } else if (action.equals("alter_student")) {
-            String studentNo = request.getParameter("sno");
-            String afterStudentNo = request.getParameter("after_sno");
-            String afterStudentName = request.getParameter("after_sname");
-            String afterStudentSex = request.getParameter("after_ssex");
-            String afterAge = request.getParameter("after_sage");
-            String afterClno = request.getParameter("after_clno");
-
+        } else if (action.equals("alter_student")) {//管理员界面修改学生信息
+            String studentNo = request.getParameter("sno");//修改前的学号
+            String afterStudentNo = request.getParameter("after_sno");//修改后的学号我认为不变，这里没进行修改
+            String afterStudentName = request.getParameter("after_sname");//修改之后的学生姓名
+            String afterStudentSex = request.getParameter("after_ssex");//修改之后的学生性别
+            String afterAge = request.getParameter("after_sage");//修改之后的学生年龄
+            String afterClno = request.getParameter("after_clno");//修改之后的班级信息
+            //由于表中存放的是学生的生日是Date类型，这里进行一个转换
             Calendar calendar = Calendar.getInstance();
             int age = Integer.parseInt(afterAge);
             calendar.add(Calendar.YEAR,-age);
             Date birthDate = calendar.getTime();
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             String studentBirthday = dateFormat.format(birthDate);
-
+            //修改学生信息
             StudentDataAccessObjects studentDao = new StudentDataAccessObjects();
             try {
                 if(studentDao.selectFromStudentBySno(studentNo) == null){
@@ -137,6 +141,7 @@ public class alter extends HttpServlet {
                 throw new RuntimeException(e);
             }
         } else if (action.equals("alter_course")) {
+            //用于管理员修改课程信息
             String courseNo = request.getParameter("cno");
             String afterCourseNo = request.getParameter("after_cno");
             String afterCname = request.getParameter("after_cname");

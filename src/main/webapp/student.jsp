@@ -19,6 +19,7 @@
 <%
   //获取登录成功的学生信息
   Student student = (Student) session.getAttribute("student");
+  String studentNo = student.getStudentNO();
   //判断用户是否登录
   if(student != null){
 %>
@@ -43,23 +44,24 @@
     response.sendRedirect("login.html");
   }
   %>
-  < class="container">
+  <div class="container">
     <div class="select">
       <h3>请选择操作</h3>
       <ul id="accordion"  class="accordion">
       <li>
         <div id="apply_course" class="link"></i>选课信息</div>
         <ul class="submenu">
-          <li><a onclick="query_all()">查看已选课程</a></li>
-          <li><a onclick="show_apply_course()">申请选课</a></li>
-          <li><a onclick="delete_course()">删除课程</a></li>
+          <li><a onclick="query_all(<%= studentNo %>)">查看已选课程</a></li>
+          <li><a onclick="query_all_course()">查看可选修课程</a></li>
+          <li><a onclick="show_apply_course(<%= studentNo%>)">申请选课</a></li>
+          <li><a onclick="delete_course(<%= studentNo%>)">删除课程</a></li>
         </ul>
       </li>
       <li>
         <div class="link">课程成绩</div>
         <ul class="submenu">
-          <li><a onclick="query_all_grade()">查看所有课程成绩</a></li>
-          <li><a onclick="show_course_grade">查看某门课程成绩</a></li>
+          <li><a onclick="query_all_grade(<%= studentNo%>)">查看所有课程成绩</a></li>
+          <li><a onclick="show_course_grade(<%= studentNo %>)">查看某门课程成绩</a></li>
         </ul>
       </li>
       </ul>
