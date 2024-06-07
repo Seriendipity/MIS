@@ -55,7 +55,6 @@
                 </li>
                 <li><div class="link">课程信息</div>
                     <ul class="submenu">
-                        <TODO:这两个还没写></TODO:这两个还没写>
                         <li><a onclick="query_all(teacher)">查看教授的课程</a></li>
                         <li><a onclick="show_student('sc')">查看选课的学生名单</a></li>
                     </ul>
