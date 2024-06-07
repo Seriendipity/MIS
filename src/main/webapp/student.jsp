@@ -43,9 +43,10 @@
     response.sendRedirect("login.html");
   }
   %>
-  <div class="container">
+  < class="container">
     <div class="select">
       <h3>请选择操作</h3>
+      <ul id="accordion"  class="accordion">
       <li>
         <div id="apply_course" class="link"></i>选课信息</div>
         <ul class="submenu">
@@ -61,6 +62,7 @@
           <li><a onclick="show_course_grade">查看某门课程成绩</a></li>
         </ul>
       </li>
+      </ul>
     </div>
     <div id="result" class="result">
       <p class="welcome">欢迎使用学生信息管理系统！</p>

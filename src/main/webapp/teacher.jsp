@@ -45,7 +45,7 @@
     <div class="container">
         <div class="selcet">
             <h3>请选择操作</h3>
-            <ul id="according" class="accordion">
+            <ul id="accordion" class="accordion">
                 <li><div id="teacher-info" class="link"></i>教师信息</div>
                     <ul class="submenu">
                         <li><a onclick="query_teacher({Teacher : teacher})">查看信息</a></li>
