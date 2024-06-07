@@ -24,6 +24,7 @@ $(function(){
     }
     var accordion = new Accordion($('#accordion'),flase);
 });
+
 /*----------老师信息----------*/
 //TODO：把老师的信息显示出来（或者算了）
 function query_teacher(){

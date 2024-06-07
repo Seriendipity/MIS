@@ -8,6 +8,7 @@
 <%@page import="com.example.mis.bean.Teacher"%>
 <%@ page language="java" contentType="text/html;charset=UTF-8"
         pageEncoding="UTF-8"%>
+<!DOCTYPE HTML>
 <html lang="zh">
 <head>
     <meta charset="UTF-8">

@@ -39,6 +39,8 @@ public class Login extends HttpServlet {
                     request.getRequestDispatcher("/admin.jsp").forward(request,response);
                 }
             }
+        }else if(name.length() == 4){
+
         }
     }
 }
