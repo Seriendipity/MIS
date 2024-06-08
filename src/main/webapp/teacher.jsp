@@ -20,6 +20,7 @@
 <%
         //获取教师的信息
         Teacher teacher = (Teacher) session.getAttribute("teacher");
+        String teacherNo = teacher.getTeacherNo();
         //判断用户是否登录
         if(teacher != null){
 %>
@@ -48,13 +49,13 @@
             <ul id="accordion" class="accordion">
                 <li><div id="teacher-info" class="link">教师信息</div>
                     <ul class="submenu">
-                        <li><a onclick="query_teacher({Teacher : teacher})">查看信息</a></li>
+                        <li><a onclick="query_teacher(<%= teacherNo %>)">查看信息</a></li>
                         <li><a onclick="show_alter('teacher')">修改信息</a></li>
                     </ul>
                 </li>
                 <li><div class="link">课程信息</div>
                     <ul class="submenu">
-                        <li><a onclick="query_all(teacher)">查看教授的课程</a></li>
+                        <li><a onclick="query_all(<%= teacherNo %>)">查看教授的课程</a></li>
                         <li><a onclick="show_student('sc')">查看选课的学生名单</a></li>
                     </ul>
                 </li>
@@ -64,9 +65,9 @@
                         <li><a onclick="query_course_all()">查看指定课程所有学生成绩</a></li>
                         <li><a onclick="show_insert_grade()">添加成绩</a></li>
                         <li><a onclick="show_alter('sc')">修改成绩</a></li>
-                        <li><a onclick="course_avg()">查看课程平均分</a></li>
-                        <li><a onclick="fail_rate()">查询课程不及格率</a></li>
-                        <li><a onclick="show_course_ranking()">查询课程排名情况</a></li>
+                        <li><a onclick="show_course_avg(<%= teacherNo %>)">查看课程平均分</a></li>
+                        <li><a onclick="fail_rate(<%= teacherNo %>)">查询课程不及格率</a></li>
+                        <li><a onclick="show_course_ranking(<%= teacherNo %>)">查询课程排名情况</a></li>
                     </ul>
                 </li>
             </ul>

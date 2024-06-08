@@ -1,6 +1,7 @@
 package com.example.mis.servlet;
 
 import com.example.mis.bean.Student;
+import com.example.mis.bean.teaching;
 import com.example.mis.dao.*;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -154,6 +155,29 @@ public class insert extends HttpServlet {
                 throw new RuntimeException(e);
             }
 
+            StringBuilder html = new StringBuilder();
+            html.append("<div style='display: flex; justify-content: center; align-items: center; height: 100%;'>");
+            html.append("<div>");
+            html.append("<label>信息已保存</label>");
+            html.append("</div>");
+            html.append("</div>");
+            response.getWriter().write(html.toString());
+        } else if (action.equals("insert_sc")) {
+            String sno = request.getParameter("sno");
+            String cid = request.getParameter("cno");
+            String grade = request.getParameter("grade");
+            String courseNo;
+            scDataAccessObjects scDao = new scDataAccessObjects();
+            teachingDataAccessObjects teachingDao = new teachingDataAccessObjects();
+            com.example.mis.bean.teaching teaching = new teaching();
+
+            try {
+                teaching = teachingDao.selectFromTeachingByCid(cid);
+                courseNo = teaching.getCourseNo();
+                scDao.insertSC(sno,courseNo,grade,cid);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
             StringBuilder html = new StringBuilder();
             html.append("<div style='display: flex; justify-content: center; align-items: center; height: 100%;'>");
             html.append("<div>");

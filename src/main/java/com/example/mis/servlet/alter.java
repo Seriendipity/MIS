@@ -1,10 +1,8 @@
 package com.example.mis.servlet;
 
 import com.example.mis.bean.Student;
-import com.example.mis.dao.CourseDataAccessObjects;
-import com.example.mis.dao.StudentDataAccessObjects;
-import com.example.mis.dao.TeacherDataAccessObjects;
-import com.example.mis.dao.UserDataAccessObjects;
+import com.example.mis.bean.teaching;
+import com.example.mis.dao.*;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -151,6 +149,59 @@ public class alter extends HttpServlet {
 
             try {
                 courseDao.updateCourse(courseNo,afterCname,afterCcredit);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+            StringBuilder html = new StringBuilder();
+            html.append("<div style='display: flex; justify-content: center; align-items: center; height: 100%;'>");
+            html.append("<div>");
+            html.append("<label>更改信息成功</label>");
+            html.append("</div>");
+            html.append("</div>");
+            response.getWriter().write(html.toString());
+        }else if (action.equals("alter_teacher")) {
+            String tno = request.getParameter("tno");
+            String after_tname = request.getParameter("after_tname");
+            String after_age = request.getParameter("after_age");
+
+            //由于表中存放的是教师的生日是Date类型，这里进行一个转换
+            Calendar calendar = Calendar.getInstance();
+            int age = Integer.parseInt(after_age);
+            calendar.add(Calendar.YEAR,-age);
+            Date birthDate = calendar.getTime();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            String teacherBirthday = dateFormat.format(birthDate);
+
+            TeacherDataAccessObjects teacherDao = new TeacherDataAccessObjects();
+
+            try {
+                teacherDao.updateTeacher(tno,after_tname,"男",teacherBirthday,"教授","Bjtu@1234.com","Bjtu@teacher");
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+
+            StringBuilder html = new StringBuilder();
+            html.append("<div style='display: flex; justify-content: center; align-items: center; height: 100%;'>");
+            html.append("<div>");
+            html.append("<label>更改信息成功</label>");
+            html.append("</div>");
+            html.append("</div>");
+            response.getWriter().write(html.toString());
+
+        } else if (action.equals("alter_sc")) {
+            String sno = request.getParameter("sno");
+            String cid = request.getParameter("cno");
+            String courseNo;
+            String newGrade = request.getParameter("after_grade");
+
+            com.example.mis.dao.scDataAccessObjects scDao = new scDataAccessObjects();
+           teachingDataAccessObjects teachingDao = new teachingDataAccessObjects();
+            com.example.mis.bean.teaching t = new teaching();
+
+            try {
+                t = teachingDao.selectFromTeachingByCid(cid);
+                courseNo = t.getCourseNo();
+                scDao.updateSc(sno,courseNo,newGrade,cid);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }

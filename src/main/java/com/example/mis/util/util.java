@@ -138,6 +138,30 @@ public class util {
         return cgs;
     }
 
+    public ArrayList<CourseGrade> getCGWithTeacherNo(String teacherNo) throws ClassNotFoundException, SQLException {
+        Connection conn = null;
+        java.lang.Class.forName("com.mysql.cj.jdbc.Driver");
+        conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/mis","root","123456");
+        String sql = "select CourseName,avg(Grade) as avgGrade "+
+                "from teaching "+
+                "join sc s on teaching.cid = s.cid "+
+                "join course c on s.CourseNo = c.CourseNo "+
+                "where teacherNo = ?"+
+                "group by CourseName";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setString(1,teacherNo);
+        ResultSet rs = ps.executeQuery();
+        ArrayList<CourseGrade> cgs = new ArrayList<>();
+        while(rs.next()){
+            CourseGrade cg = new CourseGrade();
+            cg.setCourseName(rs.getString("courseName"));
+            cg.setAvgGrade(rs.getString("avgGrade"));
+            cgs.add(cg);
+        }
+        conn.close();
+        return cgs;
+    }
+
     public ArrayList<CourseFail> getCF() throws ClassNotFoundException, SQLException {
         Connection conn = null;
         java.lang.Class.forName("com.mysql.cj.jdbc.Driver");
@@ -164,7 +188,33 @@ public class util {
         return cfs;
     }
 
-
+    public ArrayList<CourseFail> getCFWithTno(String teacherNo) throws ClassNotFoundException, SQLException {
+        Connection conn = null;
+        java.lang.Class.forName("com.mysql.cj.jdbc.Driver");
+        conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/mis","root","123456");
+        String sql = "SELECT " +
+                "    c.CourseName as CourseName, " +
+                "    ROUND(SUM(CASE WHEN s.Grade < 60 THEN 1 ELSE 0 END) * 1.0 / COUNT(*) * 100, 2) AS FailingRate " +
+                "FROM " +
+                "    teaching " +
+                "    JOIN sc s ON teaching.cid = s.cid " +
+                "    JOIN course c ON s.CourseNo = c.CourseNo " +
+                "Where teacherNo = ? "+
+                "GROUP BY " +
+                "    c.CourseName;";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setString(1,teacherNo);
+        ResultSet rs = ps.executeQuery();
+        ArrayList<CourseFail> cfs = new ArrayList<>();
+        while(rs.next()){
+            CourseFail cf = new CourseFail();
+            cf.setCourseName(rs.getString("courseName"));
+            cf.setFailRate(rs.getString("FailingRate"));
+            cfs.add(cf);
+        }
+        conn.close();
+        return cfs;
+    }
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
 //       ArrayList<T_C_Info> tCInfos= new com.example.mis.util.util().getT_C_Infos();
 //       for(T_C_Info t : tCInfos){
@@ -207,5 +257,19 @@ public class util {
 //            System.out.print(cf.getFailRate());
 //            System.out.println();
 //        }
+
+//        ArrayList<CourseGrade> cgs = new util().getCGWithTeacherNo("1001");
+//        for(CourseGrade cg:cgs){
+//            System.out.print(cg.getCourseName()+" ");
+//            System.out.print(cg.getAvgGrade());
+//            System.out.println();
+//        }
+
+                ArrayList<CourseFail> cfs = new util().getCF();
+        for(CourseFail cf : cfs){
+            System.out.print(cf.getCourseName()+" ");
+            System.out.print(cf.getFailRate());
+            System.out.println();
+        }
     }
 }
