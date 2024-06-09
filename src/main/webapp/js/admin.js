@@ -166,8 +166,7 @@ function insert(object) {
         var clname = classes[1].value.toString();
         var cmajor = classes[2].value.toString();
         var dno = classes[3].value.toString();
-        var snumber = classes[4].value;
-        url = "/mis/insert?action=insert_class&clno=" + clno + "&clname=" + clname +"&cmajor"+cmajor+ "&dno=" + dno + "&snumber" + snumber;
+        url = "/mis/insert?action=insert_class&clno=" + clno + "&clname=" + clname +"&cmajor"+cmajor+ "&dno=" + dno;
     }
     else if (object == "student") {
         var student = document.getElementById("show_insert_student").getElementsByTagName("input");
@@ -348,7 +347,6 @@ function show_insert_class() {
         + "<input type='text' name='clname' value placeholder='班级名称'>"
         +"<input type='text' name='cmajor' value placeholder='班级专业'>"
         + "<input type='text' name='dno' value placeholder='所属院系编号'>"
-        + "<input type='number' name='snumber' value placeholder='学生数量'>"
         + "<input id='submit' onclick=insert('class') type='button' name='submit' value='插入'>"
         + "</div>";
     result.innerHTML = show;
