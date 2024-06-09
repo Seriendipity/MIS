@@ -164,8 +164,11 @@ function insert(object) {
         var classes = document.getElementById("show_insert_class").getElementsByTagName("input");
         var clno = classes[0].value.toString();
         var clname = classes[1].value.toString();
-        var dno = classes[2].value.toString();
-        url = "/mis/insert?action=insert_class&clno=" + clno + "&clname=" + clname + "&dno=" + dno;
+        var cmajor = classes[2].value.toString();
+        var dno = classes[3].value.toString();
+        console.log(cmajor);
+        console.log("在js中")
+        url = "/mis/insert?action=insert_class&clno=" + clno + "&clname=" + clname +"&cmajor="+cmajor+ "&dno=" + dno;
     }
     else if (object == "student") {
         var student = document.getElementById("show_insert_student").getElementsByTagName("input");
@@ -184,9 +187,9 @@ function insert(object) {
         var course = document.getElementById("show_insert_course").getElementsByTagName("input");
         var cno = course[0].value.toString();
         var cname = course[1].value.toString();
-        var cteacher = course[2].value.toString();
-        var ccredit = course[3].value;
-        url = "/mis/insert?action=insert_course&cno=" + cno + "&cname=" + cname + "&cteacher=" + cteacher + "&ccredit=" + ccredit;
+        // var cteacher = course[2].value.toString();
+        var ccredit = course[2].value;
+        url = "/mis/insert?action=insert_course&cno=" + cno + "&cname=" + cname  + "&ccredit=" + ccredit;
     }
     else if (object == "sc") {
         var sc = document.getElementById("show_insert_sc").getElementsByTagName("input");
@@ -194,6 +197,25 @@ function insert(object) {
         var cno = sc[1].value.toString();
         var grade = sc[2].value;
         url = "/mis/insert?action=insert_sc&sno=" + sno + "&cno=" + cno + "&grade=" + grade;
+    }else if(object == "teaching"){
+        var teaching = document.getElementById("show_insert_teaching").getElementsByTagName("input");
+        var courseNo = teaching[0].value.toString();
+        var teacherNo= teaching[1].value.toString();
+        var language = teaching[2].value.toString();
+        var cid = teaching[3].value.toString();
+        url = "/mis/insert?action=insert_teaching&courseNo=" + courseNo + "&teacherNo=" + teacherNo + "&language=" + language + "&cid=" + cid;
+    }else if(object == "teacher"){
+        var teacher = document.getElementById("show_insert_teacher").getElementsByTagName("input");
+        var tno = teacher[0].value.toString();
+        var tname = teacher[1].value.toString();
+        var tsex = null;
+        if (teacher[2].checked == true)
+            tsex = teacher[2].value.toString();
+        else
+            tsex = teacher[3].value.toString();
+        var tage = teacher[4].value;
+        var title = teacher[5].value.toString();
+        url = "/mis/insert?action=insert_teacher&tno=" + tno + "&tname=" + tname + "&tsex=" + tsex + "&tage=" + tage + "&title=" + title;
     }
     //TODO:跳转一个404页面
     else {
@@ -240,6 +262,18 @@ function show_delete(object) {
             + "<input type='text' autofocus='autofocus' name='sno' value placeholder='学号' required>"
             + "<input type='text' name='cno' value placeholder='课程号' required>"
             + "<input id='submit' onclick='delete_sc()' type='button' name='submit' value='删除'>"
+            + "</div>";
+    }else if(object == "teaching"){
+        show = "<div id='delete_" + object + "'  class='d_form'>"
+            + "<h3>请输入需删除的任课信息</h3>"
+            + "<input type='text' autofocus='autofocus' name='cid' value placeholder='课程cid' required>"
+            + "<input id='submit' onclick='delete_teaching()' type='button' name='submit' value='删除'>"
+            + "</div>";
+    }else if(object == "teacher"){
+        show = "<div id='delete_" + object + "'  class='d_form'>"
+            + "<h3>请输入需删除的任课信息</h3>"
+            + "<input type='text' autofocus='autofocus' name='tno' value placeholder='教师号' required>"
+            + "<input id='submit' onclick='delete_teacher()' type='button' name='submit' value='删除'>"
             + "</div>";
     }
     result.innerHTML = show;
@@ -317,9 +351,38 @@ function show_alter(object) {
             + "<input type='number' name='after_grade' value placeholder='成绩'>"
             + "<input id='submit' onclick='alter_sc()' type='button' name='submit' value='修改'>"
             + "</div>";
+    }else if(object == "teaching"){
+        show = "<div id='alter_teaching'  class='d_form'>"
+            + "<h3>请输入需要修改的任课信息</h3>"
+            + "<p>修改前</p>"
+            + "<input type='text' autofocus='autofocus' name='cid' value placeholder='课程cid' required>"
+            + "<p>修改后</p>"
+            + "<input type='text' name='after_courseNo' value placeholder='课程号'>"
+            + "<input type='text' name='after_teacherNo' value placeholder='教师号'>"
+            + "<input type='text' name='after_language' value placeholder='授课语言'>"
+            + "<input id='submit' onclick='alter_teaching()' type='button' name='submit' value='修改'>"
+            + "</div>";
+    }else if(object == "teacher"){
+        show = "<div id='alter_teacher'  class='d_form'>"
+            + "<h3>请输入需要修改的教师信息</h3>"
+            + "<p>修改前</p>"
+            + "<input type='text' autofocus='autofocus' name='tno' value placeholder='教师号' required>"
+            + "<p>修改后</p>"
+            + "<input type='text' name='after_tname' value placeholder='姓名'>"
+            + "<p>性别</p>"
+            + "<div id='radio' class='radio'>"
+            + "<input type='radio' name='after_tsex' value='男' checked='checked'><span>男</span>"
+            + "<input type='radio' name='after_tsex' value='女'><span>女</span>"
+            + "</div>"
+            + "<input type='number' name='after_tage' value placeholder='年龄'>"
+            + "<input type='text' name='after_ttitle' value placeholder='职称'>"
+            + "<input id='submit' onclick='alter_teacher()' type='button' name='submit' value='修改'>"
+            + "</div>";
     }
     result.innerHTML = show;
 }
+
+
 /*------------------------------------显示插入-------------------------------*/
 //显示插入用户
 function show_insert_user() {
@@ -344,6 +407,7 @@ function show_insert_class() {
         + "<h3>请输入新增班级信息</h3>"
         + "<input type='text' autofocus='autofocus' name='clno' value placeholder='班级编号' required>"
         + "<input type='text' name='clname' value placeholder='班级名称'>"
+        + "<input type='text' name='cmajor' value placeholder='班级专业'>"
         + "<input type='text' name='dno' value placeholder='所属院系编号'>"
         + "<input id='submit' onclick=insert('class') type='button' name='submit' value='插入'>"
         + "</div>";
@@ -367,6 +431,24 @@ function show_insert_student() {
         + "</div>";
     result.innerHTML = show;
 }
+//显示插入教师
+function show_insert_teacher(){
+    var result = document.getElementById("result");
+    var show = "<div id='show_insert_teacher'  class='d_form'>"
+        + "<h3>请输入新增教师信息</h3>"
+        + "<input type='text' autofocus='autofocus' name='tno' value placeholder='教师号' required>"
+        + "<input type='text' name='sname' value placeholder='姓名'>"
+        + "<p>性别</p>"
+        + "<div class='radio'>"
+        + "<input type='radio' name='ssex' value='男' checked='checked'><span>男</span>"
+        + "<input type='radio' name='ssex' value='女'><span>女</span>"
+        + "</div>"
+        + "<input type='number' name='sage' value placeholder='年龄'>"
+        + "<input type='text' name='ttitle' value placeholder='职称'>"
+        + "<input id='submit' onclick=insert('teacher') type='button' name='submit' value='插入'>"
+        + "</div>";
+    result.innerHTML = show;
+}
 //显示插入课程
 function show_insert_course() {
     var result = document.getElementById("result");
@@ -374,7 +456,7 @@ function show_insert_course() {
         + "<h3>请输入新增课程信息</h3>"
         + "<input type='text' autofocus='autofocus' name='cno' value placeholder='课程号' required>"
         + "<input type='text' name='cname' value placeholder='课程名称'>"
-        + "<input type='text' name='cteacher' value placeholder='执教老师'>"
+        // + "<input type='text' name='cteacher' value placeholder='执教老师'>"
         + "<input type='number' name='ccredit' value placeholder='学分'>"
         + "<input id='submit' onclick=insert('course') type='button' name='submit' value='插入'>"
         + "</div>";
@@ -389,6 +471,19 @@ function show_insert_sc() {
         + "<input type='text' name='cno' value placeholder='课程号' required>"
         + "<input type='number' name='grade' value placeholder='成绩'>"
         + "<input id='submit' onclick=insert('sc') type='button' name='submit' value='插入'>"
+        + "</div>";
+    result.innerHTML = show;
+}
+//显示插入任课信息
+function show_insert_teaching(){
+    var result = document.getElementById("result");
+    var show = "<div id='show_insert_teaching'  class='d_form'>"
+        + "<h3>请输入新增任课信息</h3>"
+        + "<input type='text' autofocus='autofocus' name='courseNo' value placeholder='课程号' required>"
+        + "<input type='text' name='teacherNo' value placeholder='教师号' required>"
+        + "<input type='text' name='language' value placeholder='授课语言'>"
+        + "<input type='number' name='cid' value placeholder='课程cid'>"
+        + "<input id='submit' onclick=insert('teaching') type='button' name='submit' value='插入'>"
         + "</div>";
     result.innerHTML = show;
 }
@@ -435,7 +530,7 @@ function delete_class() {
     }
     var all = document.getElementById("delete_class").getElementsByTagName("input");
     var clno = all[0].value.toString();
-    var url = "/StudentManagement/AdminDao?action=delete_class&clno=" + clno;
+    var url = "/mis/delete?action=delete_class&clno=" + clno;
     xmlhttp.open("GET", url, true);
     xmlhttp.send();
 }
@@ -506,6 +601,50 @@ function delete_sc() {
     var sno = all[0].value.toString();
     var cno = all[1].value.toString();
     var url = "/StudentManagement/AdminDao?action=delete_sc&sno=" + sno + "&cno="+cno;
+    xmlhttp.open("GET", url, true);
+    xmlhttp.send();
+}
+function delete_teaching(){
+    var xmlhttp;
+    if (window.XMLHttpRequest) {
+        //  IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码
+        xmlhttp = new XMLHttpRequest();
+    }
+    else {
+        // IE6, IE5 浏览器执行代码
+        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+
+            document.getElementById("result").innerHTML = xmlhttp.responseText;
+        }
+    }
+    var all = document.getElementById("delete_teaching").getElementsByTagName("input");
+    var cid = all[0].value.toString();
+    var url = "/mis/delete?action=delete_teaching&cid=" + cid ;
+    xmlhttp.open("GET", url, true);
+    xmlhttp.send();
+}
+function delete_teacher(){
+    var xmlhttp;
+    if (window.XMLHttpRequest) {
+        //  IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码
+        xmlhttp = new XMLHttpRequest();
+    }
+    else {
+        // IE6, IE5 浏览器执行代码
+        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+
+            document.getElementById("result").innerHTML = xmlhttp.responseText;
+        }
+    }
+    var all = document.getElementById("delete_teacher").getElementsByTagName("input");
+    var tno = all[0].value.toString();
+    var url = "/mis/delete?action=delete_teacher&tno=" + tno ;
     xmlhttp.open("GET", url, true);
     xmlhttp.send();
 }
@@ -649,6 +788,63 @@ function alter_sc() {
     var cno = all[1].value.toString();
     var after_grade = all[2].value;
     var url = "/mis/alter?action=alter_sc&sno=" + sno + "&cno=" + cno + "&after_grade=" + after_grade;
+    xmlhttp.open("GET", url, true);
+    xmlhttp.send();
+}
+//修改任课信息
+function alter_teaching(){
+    var xmlhttp;
+    if (window.XMLHttpRequest) {
+        //  IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码
+        xmlhttp = new XMLHttpRequest();
+    }
+    else {
+        // IE6, IE5 浏览器执行代码
+        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+
+            document.getElementById("result").innerHTML = xmlhttp.responseText;
+        }
+    }
+    var all = document.getElementById("alter_teaching").getElementsByTagName("input");
+    var cid = all[0].value.toString();
+    var courseNo = all[1].value.toString();
+    var teacherNo = all[2].value.toString();
+    var language = all[3].value.toString();
+    var url = "/mis/alter?action=alter_teaching&cid=" + cid + "&courseNo=" + courseNo + "&teacherNo=" + teacherNo + "&language=" + language;
+    xmlhttp.open("GET", url, true);
+    xmlhttp.send();
+}
+
+function alter_teacher(){
+    var xmlhttp;
+    if (window.XMLHttpRequest) {
+        //  IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码
+        xmlhttp = new XMLHttpRequest();
+    }
+    else {
+        // IE6, IE5 浏览器执行代码
+        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+
+            document.getElementById("result").innerHTML = xmlhttp.responseText;
+        }
+    }
+    var all = document.getElementById("alter_teacher").getElementsByTagName("input");
+    var tno = all[0].value.toString();
+    var after_tname = all[1].value.toString();
+    var after_tsex = null;
+    if (all[2].checked == true)
+        after_tsex = all[2].value.toString();
+    else
+        after_tsex = all[3].value.toString();
+    var after_tage = all[4].value;
+    var after_ttitle = all[5].value.toString();
+    var url = "/mis/alter?action=alter_teacher&tno=" + tno + "&after_tname=" + after_tname + "&after_tsex=" + after_tsex + "&after_tage=" + after_tage+ "&after_ttitle="+after_ttitle;
     xmlhttp.open("GET", url, true);
     xmlhttp.send();
 }

@@ -138,7 +138,7 @@ public class ClassDataAccessObjects implements ClassService {
 //        System.out.println(new ClassDataAccessObjects().insertClass("RJ2204","软件2204","软件工程","前端界面","30"));
 //        System.out.println(new ClassDataAccessObjects().insertClass("RJ2205","软件2205","软件工程","后端开发","25"));
 //        System.out.println(new ClassDataAccessObjects().insertClass("RJ2206","软件2206","软件工程","网页开发","25"));
-//
+        System.out.println(new ClassDataAccessObjects().deleteClass("RJ2207"));
 //      ArrayList<Class> a = new ArrayList<>();
 //       a = new ClassDataAccessObjects().selectFromClass();
 //       a = new ClassDataAccessObjects().selectFromClassWithClassDept("AI");

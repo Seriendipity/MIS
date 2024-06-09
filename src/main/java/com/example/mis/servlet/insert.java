@@ -1,7 +1,7 @@
 package com.example.mis.servlet;
 
-import com.example.mis.bean.Student;
-import com.example.mis.bean.teaching;
+import com.example.mis.bean.*;
+import com.example.mis.bean.Class;
 import com.example.mis.dao.*;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -65,7 +65,7 @@ public class insert extends HttpServlet {
                     TeacherDataAccessObjects teacherDao = new TeacherDataAccessObjects();
                     try {
                         userDao.insertUser(userName,password);
-                        teacherDao.insertTeacher(userName,"null","null","null","null","null",password);
+                        teacherDao.insertTeacher(userName,"null","男","null","null",userName+"@bjtu.edu.cn",password);
                         StringBuilder html = new StringBuilder();
                         html.append("<div style='display: flex; justify-content: center; align-items: center; height: 100%;'>");
                         html.append("<div>");
@@ -78,7 +78,32 @@ public class insert extends HttpServlet {
                     }
                 }
             }
-        }else if(action.equals("insert_student")){
+        } else if (action.equals("insert_class")) {
+            /**
+             * 管理员插入班级信息模块
+             */
+            String classNo = request.getParameter("clno");
+            String className = request.getParameter("clname");
+            String classMajor = request.getParameter("cmajor");
+            String classDept = request.getParameter("dno");
+
+            System.out.println(classMajor);
+            ClassDataAccessObjects classDao = new ClassDataAccessObjects();
+
+            try {
+                classDao.insertClass(classNo,className,classMajor,classDept,"0");
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+            StringBuilder html = new StringBuilder();
+            html.append("<div style='display: flex; justify-content: center; align-items: center; height: 100%;'>");
+            html.append("<div>");
+            html.append("<label>信息已保存</label>");
+            html.append("</div>");
+            html.append("</div>");
+            response.getWriter().write(html.toString());
+
+        } else if(action.equals("insert_student")){
             /**
              * 管理员插入学生信息模块
              */
@@ -96,14 +121,24 @@ public class insert extends HttpServlet {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             String studentBirthday = dateFormat.format(birthDate);
 
-            System.out.println(studentBirthday);
+            ClassDataAccessObjects classDao = new ClassDataAccessObjects();
+
             String password;
             try {
                 password = "Bjtu@123456";
                 if(studentDao.selectFromStudentBySno(studentNo) != null){
                     studentDao.deleteStudent(studentNo);
                 }
-                studentDao.insertStudent(studentNo,classNo,studentName,studentBirthday,studentSex,"null","null","null",password);
+
+                Class c = classDao.selectFromClassByCno(classNo);
+                String className = c.getClassName();
+                String classMajor = c.getClassMajor();
+                String classDept = c.getClassDept();
+                int studentNumber =Integer.parseInt(c.getStudentNumber());
+                studentNumber++;
+                String newStudentNumber = String.valueOf(studentNumber);
+                studentDao.insertStudent(studentNo,classNo,studentName,studentBirthday,studentSex,"0","null",studentNo+"@bjtu.edu.cn",password);
+                classDao.updateClassInfo(classNo,className,classMajor,classDept,newStudentNumber);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -114,7 +149,41 @@ public class insert extends HttpServlet {
             html.append("</div>");
             html.append("</div>");
             response.getWriter().write(html.toString());
-        }else if(action.equals("insert_course")){
+        } else if (action.equals("insert_teacher")) {
+            String teacherNo = request.getParameter("tno");
+            String teacherName = request.getParameter("tname");
+            String teacherSex = request.getParameter("tsex");
+            String teacherAge = request.getParameter("tage");
+            String teacherTitle = request.getParameter("title");
+
+            Calendar calendar = Calendar.getInstance();
+            int age = Integer.parseInt(teacherAge);
+            calendar.add(Calendar.YEAR,-age);
+            Date birthDate = calendar.getTime();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            String teacherBirthday = dateFormat.format(birthDate);
+
+            TeacherDataAccessObjects teacherDao = new TeacherDataAccessObjects();
+            Teacher t = new Teacher();
+
+            try {
+                t = teacherDao.selectFromTeacherByTno(teacherNo);
+                if(t != null){
+                    teacherDao.updateTeacher(teacherNo,teacherName,teacherSex,teacherBirthday,teacherTitle,t.getTeacherEmail(),t.getPassword());
+                }else{
+                    teacherDao.insertTeacher(teacherNo,teacherName,teacherSex,teacherBirthday,teacherTitle,teacherNo+"@bjtu.edu.cn","Bjtu@teacher");
+                }
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+            StringBuilder html = new StringBuilder();
+            html.append("<div style='display: flex; justify-content: center; align-items: center; height: 100%;'>");
+            html.append("<div>");
+            html.append("<label>信息已保存</label>");
+            html.append("</div>");
+            html.append("</div>");
+            response.getWriter().write(html.toString());
+        } else if(action.equals("insert_course")){
             /**
              * 管理员插入课程信息模块
              */
@@ -126,6 +195,29 @@ public class insert extends HttpServlet {
 
             try {
                 courseDao.insertCourse(courseNo,courseName,courseCredit);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+            StringBuilder html = new StringBuilder();
+            html.append("<div style='display: flex; justify-content: center; align-items: center; height: 100%;'>");
+            html.append("<div>");
+            html.append("<label>信息已保存</label>");
+            html.append("</div>");
+            html.append("</div>");
+            response.getWriter().write(html.toString());
+        } else if (action.equals("insert_teaching")) {
+            /**
+             * 管理员插入任课信息模块
+             */
+            String courseNo = request.getParameter("courseNo");
+            String teacherNo = request.getParameter("teacherNo");
+            String language = request.getParameter("language");
+            String cid = request.getParameter("cid");
+
+            teachingDataAccessObjects teachingDao = new teachingDataAccessObjects();
+
+            try {
+                teachingDao.insertTeaching(courseNo,teacherNo,language,cid);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -163,6 +255,9 @@ public class insert extends HttpServlet {
             html.append("</div>");
             response.getWriter().write(html.toString());
         } else if (action.equals("insert_sc")) {
+            /**
+             * 用于教师插入学生成绩信息
+             */
             String sno = request.getParameter("sno");
             String cid = request.getParameter("cno");
             String grade = request.getParameter("grade");
@@ -175,6 +270,22 @@ public class insert extends HttpServlet {
                 teaching = teachingDao.selectFromTeachingByCid(cid);
                 courseNo = teaching.getCourseNo();
                 scDao.insertSC(sno,courseNo,grade,cid);
+
+                int s_grade = Integer.parseInt(grade);
+                if(s_grade >= 60){
+                    StudentDataAccessObjects studentDao = new StudentDataAccessObjects();
+                    Student s = new Student();
+                    s = studentDao.selectFromStudentBySno(sno);
+
+                    CourseDataAccessObjects courseDao = new CourseDataAccessObjects();
+                    Course c = new Course();
+                    c = courseDao.selectFromCourseByCno(teaching.getCourseNo());
+
+                    int beforeCredit = Integer.parseInt(s.getTotalCredit());
+                    beforeCredit += Integer.parseInt(c.getCourseCredit());
+                    String afterCredit = String.valueOf(beforeCredit);
+                    studentDao.updateStudentInfo(sno,s.getClassNo(),s.getStudentName(),s.getStudentBirthday(),s.getStudentSex(),afterCredit,s.getPhoneNumber(),s.getStudentEmail(),s.getPassword());
+                }
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }

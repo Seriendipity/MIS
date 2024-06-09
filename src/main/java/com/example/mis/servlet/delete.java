@@ -1,5 +1,8 @@
 package com.example.mis.servlet;
 
+import com.example.mis.bean.Class;
+import com.example.mis.bean.Teacher;
+import com.example.mis.bean.teaching;
 import com.example.mis.dao.*;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -70,23 +73,65 @@ public class delete extends HttpServlet {
                     throw new RuntimeException(e);
                 }
             }
-        }else if(action.equals("delete_student")){
+        } else if (action.equals("delete_class")) {
+            /**
+             * 用于管理员删除班级模块
+             */
+            String classNo = request.getParameter("clno");
+
+            ClassDataAccessObjects classDao = new ClassDataAccessObjects();
+            try {
+                classDao.deleteClass(classNo);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+
+            StringBuilder html = new StringBuilder();
+            html.append("<div style='display: flex; justify-content: center; align-items: center; height: 100%;'>");
+            html.append("<div>");
+            html.append("<label>信息已保存</label>");
+            html.append("</div>");
+            html.append("</div>");
+            response.getWriter().write(html.toString());
+        } else if(action.equals("delete_student")){
             /**
              * 用于管理员删除学生信息模块
              */
             String studentNo = request.getParameter("sno");//从url获取学号信息
+            String classNo;
             StudentDataAccessObjects studentDao = new StudentDataAccessObjects();
+            ClassDataAccessObjects classDao = new ClassDataAccessObjects();
+
             StringBuilder html = new StringBuilder();
             html.append("<div style='display: flex; justify-content: center; align-items: center; height: 100%;'>");
             html.append("<div>");
             try {
+                classNo = studentDao.selectFromStudentBySno(studentNo).getClassNo();
                 studentDao.deleteStudent(studentNo);//从student表删除指定学号的同学
                 UserDataAccessObjects userDao = new UserDataAccessObjects();
                 userDao.deleteUser(studentNo);//从user表删除该用户
-                html.append("<label>信息已保存</label>");
-                html.append("</div>");
-                html.append("</div>");
-                response.getWriter().write(html.toString());
+
+                Class c = classDao.selectFromClassByCno(classNo);
+                String className = c.getClassName();
+                String classMajor = c.getClassMajor();
+                String classDept = c.getClassDept();
+                int studentNumber =Integer.parseInt(c.getStudentNumber());
+                studentNumber--;
+                if(studentNumber >= 0){
+                    String newStudentNumber = String.valueOf(studentNumber);
+                    classDao.updateClassInfo(classNo,className,classMajor,classDept,newStudentNumber);//对应班级人数减一
+
+                    html.append("<label>信息已保存</label>");
+                    html.append("</div>");
+                    html.append("</div>");
+                    response.getWriter().write(html.toString());
+                }else{
+                    html.append("<label>删除失败</label>");
+                    html.append("</div>");
+                    html.append("</div>");
+                    response.getWriter().write(html.toString());
+                }
+
             } catch (Exception e) {
                 html.append("<label>删除失败</label>");
                 html.append("</div>");
@@ -106,6 +151,43 @@ public class delete extends HttpServlet {
                 throw new RuntimeException(e);
             }
 
+            StringBuilder html = new StringBuilder();
+            html.append("<div style='display: flex; justify-content: center; align-items: center; height: 100%;'>");
+            html.append("<div>");
+            html.append("<label>信息已保存</label>");
+            html.append("</div>");
+            html.append("</div>");
+            response.getWriter().write(html.toString());
+        } else if (action.equals("delete_teaching")) {
+            String cid = request.getParameter("cid");
+            com.example.mis.bean.teaching teaching = new teaching();
+            teachingDataAccessObjects teachingDao = new teachingDataAccessObjects();
+            try {
+                teaching = teachingDao.selectFromTeachingByCid(cid);
+                teachingDao.deleteTeaching(teaching.getCourseNo(),teaching.getTeacherNo(),cid);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+            StringBuilder html = new StringBuilder();
+            html.append("<div style='display: flex; justify-content: center; align-items: center; height: 100%;'>");
+            html.append("<div>");
+            html.append("<label>信息已保存</label>");
+            html.append("</div>");
+            html.append("</div>");
+            response.getWriter().write(html.toString());
+
+        } else if (action.equals("delete_teacher")) {
+            /**
+             * 用于管理员删除指定教师
+             */
+            String teacherNo = request.getParameter("tno");
+            TeacherDataAccessObjects teacherDao = new TeacherDataAccessObjects();
+
+            try {
+                teacherDao.deleteTeacher(teacherNo);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
             StringBuilder html = new StringBuilder();
             html.append("<div style='display: flex; justify-content: center; align-items: center; height: 100%;'>");
             html.append("<div>");

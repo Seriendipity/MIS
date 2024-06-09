@@ -41,25 +41,27 @@ function query_all_information(studentNo){
             document.getElementById("result").innerHTML = xmlhttp.responseText;
         }
     }
-    var url = "/mis/query_all_user?action=student&studentNo="+encodeURIComponent(studentNo);
+    var url = "/mis/query_all_user?action=astudent&studentNo="+encodeURIComponent(studentNo);
     xmlhttp.open("GET",url,true);
     xmlhttp.send();
 }
 function show_alter_information(){
     var result = document.getElementById("result");
     var show = null;
-        show = "<div id='alter_student' class='d_form'>"
+        show = "<div id='alter_students' class='d_form'>"
             +"<h3>请输入需要修改的成绩信息</h3>"
             +"<p>修改前</p>"
             +"<input type='text' autofocus='autofocus' name='sname' value placeholder='姓名' required>"
             +"<input type='text' autofocus='autofocus' name='sno' value placeholder='学号' required>"
             +"<p>修改后</p>"
+            +"<input type='text' autofocus='autofocus' name='ssex' value placeholder='性别'>"
+            +"<input type='text' autofocus='autofocus' name='pNumber' value placeholder='电话号码'>"
             +"<input type='text' name='after_password' value placeholder='密码'>"
-            +"<input type='number' name='after_age' value placeholder='年龄'>"
-            +"<input id='submit' onclick='alter_sc()' type='button' name='submit' value='修改'>"
+            +"<input type='number' name='after_sage' value placeholder='年龄'>"
+            +"<input id='submit' onclick='alter_students()' type='button' name='submit' value='修改'>"
     result.innerHTML = show;
 }
-function alter_student(){
+function alter_students(){
     var xmlhttp;
     if(window.XMLHttpRequest){
         //  IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码
@@ -74,12 +76,15 @@ function alter_student(){
             document.getElementById("result").innerHTML = xmlhttp.responseText;
         }
     }
-    var all = document.getElementById("alter_student").getElementsByTagName("input");
+    var all = document.getElementById("alter_students").getElementsByTagName("input");
     var sname = all[0].value.toString();
     var sno = all[1].value.toString();
-    var after_password = all[2].value.toString();
-    var after_sage = all[3].value;
-    var url="/mis/alter?action=alter_student&sname="+sname+"&sno="+sno+"&after_password="+after_password+"&after_sage"+after_sage;
+    var ssex = all[2].value.toString();
+    var pNumber = all[3].value.toString();
+    var after_password = all[4].value.toString();
+    var after_sage = all[5].value.toString();
+    console.log(after_sage);
+    var url="/mis/alter?action=alter_students&sname="+sname+"&sno="+sno+"&ssex="+ssex+"&pNumber="+pNumber+"&after_password="+after_password+"&after_sage="+after_sage;
     xmlhttp.open("GET",url,true);
     xmlhttp.send();
 }

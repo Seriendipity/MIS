@@ -114,8 +114,9 @@ public class teachingDataAccessObjects implements teachingService{
             t.setLanguage(rs.getString("language"));
             t.setTeacherNo(rs.getString("teacherNo"));
             t.setCourseNo(rs.getString("courseNo"));
+            return t;
         }
-        return t;
+        return null;
     }
     //辅助方法
     private void getMoreTeaching(ArrayList<teaching> t, ResultSet rs) throws Exception{
@@ -162,5 +163,6 @@ public class teachingDataAccessObjects implements teachingService{
 //            System.out.print(t.getCid());
 //            System.out.println();
 //        }
+
     }
 }

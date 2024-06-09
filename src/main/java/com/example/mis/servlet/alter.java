@@ -1,6 +1,8 @@
 package com.example.mis.servlet;
 
+import com.example.mis.bean.Class;
 import com.example.mis.bean.Student;
+import com.example.mis.bean.Teacher;
 import com.example.mis.bean.teaching;
 import com.example.mis.dao.*;
 import jakarta.servlet.ServletException;
@@ -99,6 +101,29 @@ public class alter extends HttpServlet {
                 html.append("</div>");
                 response.getWriter().write(html.toString());
             }
+        } else if (action.equals("alter_class")) {
+            String classNo = request.getParameter("clno");
+            String afterClassName = request.getParameter("after_clname");
+            String afterClassDept = request.getParameter("after_dno");
+
+            ClassDataAccessObjects classDao = new ClassDataAccessObjects();
+            Class c = new Class();
+
+            try {
+                c = classDao.selectFromClassByCno(classNo);
+                System.out.println(c.getClassName());
+                System.out.println(c.getClassMajor());
+                classDao.updateClassInfo(classNo,afterClassName,c.getClassMajor(),afterClassDept,c.getStudentNumber());
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+            StringBuilder html = new StringBuilder();
+            html.append("<div style='display: flex; justify-content: center; align-items: center; height: 100%;'>");
+            html.append("<div>");
+            html.append("<label>信息已保存</label>");
+            html.append("</div>");
+            html.append("</div>");
+            response.getWriter().write(html.toString());
         } else if (action.equals("alter_student")) {//管理员界面修改学生信息
             String studentNo = request.getParameter("sno");//修改前的学号
             String afterStudentNo = request.getParameter("after_sno");//修改后的学号我认为不变，这里没进行修改
@@ -106,7 +131,7 @@ public class alter extends HttpServlet {
             String afterStudentSex = request.getParameter("after_ssex");//修改之后的学生性别
             String afterAge = request.getParameter("after_sage");//修改之后的学生年龄
             String afterClno = request.getParameter("after_clno");//修改之后的班级信息
-            String afterPassword = request.getParameter("after_password");//修改之后的密码
+
             //由于表中存放的是学生的生日是Date类型，这里进行一个转换
             Calendar calendar = Calendar.getInstance();
             int age = Integer.parseInt(afterAge);
@@ -127,7 +152,33 @@ public class alter extends HttpServlet {
                     response.getWriter().write(html.toString());
                 }else{
                     Student s = studentDao.selectFromStudentBySno(studentNo);
-                    studentDao.updateStudentInfo(studentNo,afterClno,afterStudentName,studentBirthday,afterStudentSex,"null","null","null",s.getPassword());
+                    String beforeClassNo = s.getClassNo();
+
+                    studentDao.updateStudentInfo(studentNo, afterClno, afterStudentName, studentBirthday, afterStudentSex, s.getTotalCredit(), "null", s.getStudentEmail(), s.getPassword());
+
+                    if(!beforeClassNo.equals(afterClno)){
+                        ClassDataAccessObjects classDao = new ClassDataAccessObjects();
+                        Class c = classDao.selectFromClassByCno(beforeClassNo);
+                        String className = c.getClassName();
+                        String classMajor = c.getClassMajor();
+                        String classDept = c.getClassDept();
+                        int studentNumber =Integer.parseInt(c.getStudentNumber());
+                        studentNumber--;
+                        String newStudentNumber = String.valueOf(studentNumber);
+
+                        classDao.updateClassInfo(beforeClassNo,className,classMajor,classDept,newStudentNumber);
+
+                        c = classDao.selectFromClassByCno(afterClno);
+                        className = c.getClassName();
+                        classMajor = c.getClassMajor();
+                        classDept = c.getClassDept();
+                        studentNumber = Integer.parseInt(c.getStudentNumber());
+                        studentNumber++;
+                        newStudentNumber = String.valueOf(studentNumber);
+                        classDao.updateClassInfo(afterClno,className,classMajor,classDept,newStudentNumber);
+                    }
+
+
                     StringBuilder html = new StringBuilder();
                     html.append("<div style='display: flex; justify-content: center; align-items: center; height: 100%;'>");
                     html.append("<div>");
@@ -139,6 +190,37 @@ public class alter extends HttpServlet {
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
+        } else if (action.equals("alter_students")) {
+            String studentName = request.getParameter("sname");
+            String studentNo = request.getParameter("sno");
+            String studentSex = request.getParameter("ssex");
+            String studentPhoneNumber = request.getParameter("pNumber");
+            String after_password = request.getParameter("after_password");
+            String after_age = request.getParameter("after_sage");
+
+            Calendar calendar = Calendar.getInstance();
+            int age = Integer.parseInt(after_age);
+            calendar.add(Calendar.YEAR,-age);
+            Date birthDate = calendar.getTime();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            String studentBirthday = dateFormat.format(birthDate);
+
+            StudentDataAccessObjects studentDao = new StudentDataAccessObjects();
+            try {
+                Student s = studentDao.selectFromStudentBySno(studentNo);
+                studentDao.updateStudentInfo(studentNo,s.getClassNo(),studentName,studentBirthday,studentSex,s.getTotalCredit(),studentPhoneNumber,s.getStudentEmail(),after_password);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+
+            StringBuilder html = new StringBuilder();
+            html.append("<div style='display: flex; justify-content: center; align-items: center; height: 100%;'>");
+            html.append("<div>");
+            html.append("<label>更改信息成功</label>");
+            html.append("</div>");
+            html.append("</div>");
+            response.getWriter().write(html.toString());
+
         } else if (action.equals("alter_course")) {
             //用于管理员修改课程信息
             String courseNo = request.getParameter("cno");
@@ -163,8 +245,11 @@ public class alter extends HttpServlet {
         }else if (action.equals("alter_teacher")) {
             String tno = request.getParameter("tno");
             String after_tname = request.getParameter("after_tname");
-            String after_age = request.getParameter("after_age");
+            String after_age = request.getParameter("after_tage");
+            String after_sex = request.getParameter("after_tsex");
+            String after_title = request.getParameter("after_ttitle");
 
+            String email,password;
             //由于表中存放的是教师的生日是Date类型，这里进行一个转换
             Calendar calendar = Calendar.getInstance();
             int age = Integer.parseInt(after_age);
@@ -176,7 +261,11 @@ public class alter extends HttpServlet {
             TeacherDataAccessObjects teacherDao = new TeacherDataAccessObjects();
 
             try {
-                teacherDao.updateTeacher(tno,after_tname,"男",teacherBirthday,"教授","Bjtu@1234.com","Bjtu@teacher");
+                Teacher t = new Teacher();
+                t = teacherDao.selectFromTeacherByTno(tno);
+                email = t.getTeacherEmail();
+                password = t.getPassword();
+                teacherDao.updateTeacher(tno,after_tname,after_sex,teacherBirthday,after_title,email,password);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -189,6 +278,117 @@ public class alter extends HttpServlet {
             html.append("</div>");
             response.getWriter().write(html.toString());
 
+        } else if (action.equals("alter_teachers")) {
+            String tno = request.getParameter("tno");
+            String after_tname = request.getParameter("after_tname");
+            String after_age = request.getParameter("after_age");
+
+            String email,password;
+            //由于表中存放的是教师的生日是Date类型，这里进行一个转换
+            Calendar calendar = Calendar.getInstance();
+            int age = Integer.parseInt(after_age);
+            calendar.add(Calendar.YEAR,-age);
+            Date birthDate = calendar.getTime();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            String teacherBirthday = dateFormat.format(birthDate);
+
+            TeacherDataAccessObjects teacherDao = new TeacherDataAccessObjects();
+
+            try {
+                Teacher t = new Teacher();
+                t = teacherDao.selectFromTeacherByTno(tno);
+                String sex = t.getTeacherSex();
+                String title = t.getTeacherTitle();
+                email = t.getTeacherEmail();
+                password = t.getPassword();
+                teacherDao.updateTeacher(tno,after_tname,sex,teacherBirthday,title,tno+"@bjtu.edu.cn",password);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+
+            StringBuilder html = new StringBuilder();
+            html.append("<div style='display: flex; justify-content: center; align-items: center; height: 100%;'>");
+            html.append("<div>");
+            html.append("<label>更改信息成功</label>");
+            html.append("</div>");
+            html.append("</div>");
+            response.getWriter().write(html.toString());
+
+        } else if (action.equals("alter_teaching")) {
+            /**
+             * 用于管理员修改任课信息
+             */
+            String cid = request.getParameter("cid");
+            String courseNo = request.getParameter("courseNo");
+            String teacherNo = request.getParameter("teacherNo");
+            String language = request.getParameter("language");
+
+            teachingDataAccessObjects teachingDao = new teachingDataAccessObjects();
+
+            teaching t = new teaching();
+            try {
+                t = teachingDao.selectFromTeachingByCid(cid);
+                if(t == null){
+                    StringBuilder html = new StringBuilder();
+                    html.append("<div style='display: flex; justify-content: center; align-items: center; height: 100%;'>");
+                    html.append("<div>");
+                    html.append("<label>没有该cid的课程，修改失败</label>");
+                    html.append("</div>");
+                    html.append("</div>");
+                    response.getWriter().write(html.toString());
+                }else{
+                    teachingDao.updateTeaching(courseNo,teacherNo,language,cid);
+                    StringBuilder html = new StringBuilder();
+                    html.append("<div style='display: flex; justify-content: center; align-items: center; height: 100%;'>");
+                    html.append("<div>");
+                    html.append("<label>更改信息成功</label>");
+                    html.append("</div>");
+                    html.append("</div>");
+                    response.getWriter().write(html.toString());
+                }
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        } else if (action.equals("alter_teacher")) {
+            String teacherNo = request.getParameter("tno");
+            String teacherName = request.getParameter("after_tname");
+            String teacherSex = request.getParameter("after_tsex");
+            String teacherAge = request.getParameter("after_tage");
+            String teacherTitle = request.getParameter("after_ttitle");
+
+            Calendar calendar = Calendar.getInstance();
+            int age = Integer.parseInt(teacherAge);
+            calendar.add(Calendar.YEAR,-age);
+            Date birthDate = calendar.getTime();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            String teacherBirthday = dateFormat.format(birthDate);
+
+            Teacher t = new Teacher();
+            TeacherDataAccessObjects teacherDao = new TeacherDataAccessObjects();
+
+            try {
+                t = teacherDao.selectFromTeacherByTno(teacherNo);
+                if(t != null){
+                    teacherDao.updateTeacher(teacherNo,teacherName,teacherSex,teacherBirthday,teacherTitle,teacherNo+"@bjtu.edu.cn",t.getPassword());
+                    StringBuilder html = new StringBuilder();
+                    html.append("<div style='display: flex; justify-content: center; align-items: center; height: 100%;'>");
+                    html.append("<div>");
+                    html.append("<label>更改信息成功</label>");
+                    html.append("</div>");
+                    html.append("</div>");
+                    response.getWriter().write(html.toString());
+                }else{
+                    StringBuilder html = new StringBuilder();
+                    html.append("<div style='display: flex; justify-content: center; align-items: center; height: 100%;'>");
+                    html.append("<div>");
+                    html.append("<label>更改信息失败，请检查输入的教师号</label>");
+                    html.append("</div>");
+                    html.append("</div>");
+                    response.getWriter().write(html.toString());
+                }
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         } else if (action.equals("alter_sc")) {
             String sno = request.getParameter("sno");
             String cid = request.getParameter("cno");
@@ -196,13 +396,27 @@ public class alter extends HttpServlet {
             String newGrade = request.getParameter("after_grade");
 
             com.example.mis.dao.scDataAccessObjects scDao = new scDataAccessObjects();
-           teachingDataAccessObjects teachingDao = new teachingDataAccessObjects();
+            teachingDataAccessObjects teachingDao = new teachingDataAccessObjects();
             com.example.mis.bean.teaching t = new teaching();
 
             try {
                 t = teachingDao.selectFromTeachingByCid(cid);
                 courseNo = t.getCourseNo();
                 scDao.updateSc(sno,courseNo,newGrade,cid);
+
+                if(Integer.parseInt(newGrade) < 60){
+                    StudentDataAccessObjects studentDao = new StudentDataAccessObjects();
+                    CourseDataAccessObjects courseDao = new CourseDataAccessObjects();
+
+                    Student s = studentDao.selectFromStudentBySno(sno);
+
+                    String credit = courseDao.selectFromCourseByCno(teachingDao.selectFromTeachingByCid(cid).getCourseNo()).getCourseCredit();
+                    int beforeCredit = Integer.parseInt(studentDao.selectFromStudentBySno(sno).getTotalCredit());
+                    beforeCredit -= Integer.parseInt(credit);
+                    String afterCredit = String.valueOf(beforeCredit);
+
+                    studentDao.updateStudentInfo(sno,s.getClassNo(),s.getStudentName(),s.getStudentBirthday(),s.getStudentSex(),afterCredit,s.getPhoneNumber(),s.getStudentEmail(),s.getPassword());
+                }
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }

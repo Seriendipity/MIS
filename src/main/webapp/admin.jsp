@@ -78,9 +78,18 @@
                     </ul>
                 </li>
                 <li>
+                    <div class="link">教师信息管理</div>
+                    <ul class="submenu">
+                        <li><a  onclick="query_all('teacher')">查看所有教师</a></li>
+                        <li><a onclick="show_insert_teacher()">新增教师信息</a></li>
+                        <li><a onclick="show_delete('teacher')">删除指定学生</a></li>
+                        <li><a onclick="show_alter('teacher')">修改教师信息</a></li>
+                    </ul>
+                </li>
+                <li>
                     <div class="link">课程信息管理</div>
                     <ul class="submenu">
-                        <li><a onclick="query_all('course')">查看所有课程</a></li>
+                        <li><a onclick="query_all('courses')">查看所有课程信息</a></li>
                         <li><a onclick="show_insert_course()">新增课程信息</a></li>
                         <li><a onclick="show_delete('course')">删除课程信息</a></li>
                         <li><a onclick="show_alter('course')">修改课程信息</a></li>
@@ -90,12 +99,21 @@
                     </ul>
                 </li>
                 <li>
+                    <div class="link">任课信息管理</div>
+                    <ul class="submenu">
+                        <li><a onclick="query_all('course')">查看所有任课信息</a></li>
+                        <li><a onclick="show_insert_teaching()">新增任课信息</a></li>
+                        <li><a onclick="show_delete('teaching')">删除任课信息</a></li>
+                        <li><a onclick="show_alter('teaching')">修改任课信息</a></li>
+                    </ul>
+                </li>
+                <li>
                     <div class="link">学生成绩管理</div>
                     <ul class="submenu">
                         <li><a  onclick="query_all('sc')">查看全部学生成绩</a></li>
-                        <li><a onclick="show_insert_sc()">新增学生成绩记录</a></li>
-                        <li><a onclick="show_delete('sc')">删除学生成绩记录</a></li>
-                        <li><a onclick="show_alter('sc')">修改学生成绩记录</a></li>
+<%--                        <li><a onclick="show_insert_sc()">新增学生成绩记录</a></li>--%>
+<%--                        <li><a onclick="show_delete('sc')">删除学生成绩记录</a></li>--%>
+<%--                        <li><a onclick="show_alter('sc')">修改学生成绩记录</a></li>--%>
                     </ul>
                 </li>
             </ul>

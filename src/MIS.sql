@@ -158,3 +158,12 @@ create table Admin(
   name varchar(10) primary key default 'admin@root',
   password varchar(20) default 'admin@password'
 )
+
+/*==============================================================*/
+/* Table: User                                                  */
+/*==============================================================*/
+create table User(
+    UserName varchar(8) primary key ,
+    password varchar(20)
+)
+
