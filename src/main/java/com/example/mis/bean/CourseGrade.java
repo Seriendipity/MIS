@@ -1,5 +1,8 @@
 package com.example.mis.bean;
 
+/**
+ * 辅助类，存放课程名和课程平均成绩
+ */
 public class CourseGrade {
     private String courseName;
 

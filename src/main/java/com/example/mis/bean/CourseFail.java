@@ -1,5 +1,8 @@
 package com.example.mis.bean;
 
+/**
+ * 辅助类，存放课程名称和不及格率
+ */
 public class CourseFail {
     private String courseName;
     private String failRate;

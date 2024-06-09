@@ -125,8 +125,9 @@ public class TeacherDataAccessObjects implements TeacherService {
             t.setTeacherEmail(rs.getString("TeacherEmail"));
             t.setTeacherTitle(rs.getString("TeacherTitle"));
             t.setPassword(rs.getString("password"));
+            return t;
         }
-        return t;
+        return null;
     }
     //辅助方法
     private void getMoreTeacher(ArrayList<Teacher> teachers , ResultSet rs) throws Exception{

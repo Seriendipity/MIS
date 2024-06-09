@@ -1,5 +1,8 @@
 package com.example.mis.bean;
 
+/**
+ * 管理员表，存放管理员账号和密码
+ */
 public class Admin {
     private String name;
 

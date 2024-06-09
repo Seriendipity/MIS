@@ -147,8 +147,9 @@ public class StudentDataAccessObjects implements StudentService {
             s.setTotalCredit(rs.getString("TotalCredit"));
             s.setStudentEmail(rs.getString("StudentEmail"));
             s.setPassword(rs.getString("password"));
+            return s;
         }
-        return s;
+        return null;
     }
     private void getMoreStudents(ArrayList<Student> students, ResultSet rs) throws SQLException {
         while(rs.next()){
@@ -190,15 +191,14 @@ public class StudentDataAccessObjects implements StudentService {
 //        System.out.println();
 //    }
 
-//        Student s = new Student();
-//        s = new StudentDataAccessObjects().selectFromStudentBySno("1111");
+        Student s = new Student();
+        s = new StudentDataAccessObjects().selectFromStudentBySno("11453411");
 //        System.out.print(s.getStudentNO()+" ");
 //        System.out.print(s.getStudentName()+" ");
 //        System.out.print(s.getPassword());
-
         //System.out.println( new StudentDataAccessObjects().selectStudentNumberByClassNoFromStudent("RJ2203"));
         //System.out.println(new StudentDataAccessObjects().selectStudentNumberFromStudent());
-
+        System.out.println(s == null);
         //new StudentDataAccessObjects().updateStudentInfo("22901111","RJ2204","王五","2004-09-09","女","25","14988882222","11@124.com");
 
 

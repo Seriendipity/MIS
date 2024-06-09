@@ -1,7 +1,7 @@
 package com.example.mis.bean;
 
 /**
- *  辅助类，查看待选课列表。教师姓名、课程名称、课程号、课程CID、课程学分
+ *  辅助类，查看待选课列表。教师姓名、课程名称、课程号、课程CID、课程学分、授课语言
  */
 public class T_C_Info {
     private String teacherName;

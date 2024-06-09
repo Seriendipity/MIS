@@ -155,5 +155,12 @@ public class teachingDataAccessObjects implements teachingService{
         //new teachingDataAccessObjects().updateTeaching("00000001","1003","aa","9");
 //        System.out.println(new teachingDataAccessObjects().selectFromTeachingByCid("2").getTeacherNo());
 //        System.out.println(new teachingDataAccessObjects().selectFromTeachingByCid("2").getCourseNo());
+//        teachingDataAccessObjects teachingDao = new teachingDataAccessObjects();
+//        ArrayList<teaching> teachings = teachingDao.selectFromTeachingByTno("1001");
+//        for(teaching t : teachings){
+//            System.out.print(t.getCourseNo()+" ");
+//            System.out.print(t.getCid());
+//            System.out.println();
+//        }
     }
 }
