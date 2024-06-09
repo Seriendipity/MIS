@@ -139,6 +139,7 @@ public class insert extends HttpServlet {
                 String newStudentNumber = String.valueOf(studentNumber);
                 studentDao.insertStudent(studentNo,classNo,studentName,studentBirthday,studentSex,"0","null",studentNo+"@bjtu.edu.cn",password);
                 classDao.updateClassInfo(classNo,className,classMajor,classDept,newStudentNumber);
+                new UserDataAccessObjects().insertUser(studentNo,password);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -172,6 +173,7 @@ public class insert extends HttpServlet {
                     teacherDao.updateTeacher(teacherNo,teacherName,teacherSex,teacherBirthday,teacherTitle,t.getTeacherEmail(),t.getPassword());
                 }else{
                     teacherDao.insertTeacher(teacherNo,teacherName,teacherSex,teacherBirthday,teacherTitle,teacherNo+"@bjtu.edu.cn","Bjtu@teacher");
+                    new UserDataAccessObjects().insertUser(teacherNo,"Bjtu@teacher");
                 }
             } catch (Exception e) {
                 throw new RuntimeException(e);
@@ -269,6 +271,8 @@ public class insert extends HttpServlet {
             try {
                 teaching = teachingDao.selectFromTeachingByCid(cid);
                 courseNo = teaching.getCourseNo();
+
+                if(scDao.selectFromScBySnoCnoCid(sno,courseNo,cid) != null) scDao.deleteSC(sno,courseNo,cid);
                 scDao.insertSC(sno,courseNo,grade,cid);
 
                 int s_grade = Integer.parseInt(grade);
