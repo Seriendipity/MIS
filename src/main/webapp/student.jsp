@@ -48,6 +48,13 @@
     <div class="select">
       <h3>请选择操作</h3>
       <ul id="accordion"  class="accordion">
+        <li>
+          <div id="student_info" class="link">学生信息</div>
+          <ul class="submenu">
+            <li><a onclick ="query_all_information(<%= studentNo%>)">查看信息</a></li>
+            <li><a onclick ="show_alter_information()"></a>修改信息</li>
+          </ul>
+        </li>
       <li>
         <div id="apply_course" class="link"></i>选课信息</div>
         <ul class="submenu">

@@ -24,7 +24,65 @@ $(function () {
 
     var accordion = new Accordion($('#accordion'), false);
 });
+/*------学生信息--------*/
+function query_all_information(studentNo){
+    var xmlhttp;
+    if (window.XMLHttpRequest) {
+        //  IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码
+        xmlhttp = new XMLHttpRequest();
+    }
+    else {
+        // IE6, IE5 浏览器执行代码
+        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
 
+            document.getElementById("result").innerHTML = xmlhttp.responseText;
+        }
+    }
+    var url = "/mis/query_all_user?action=student&studentNo="+encodeURIComponent(studentNo);
+    xmlhttp.open("GET",url,true);
+    xmlhttp.send();
+}
+function show_alter_information(){
+    var result = document.getElementById("result");
+    var show = null;
+        show = "<div id='alter_student' class='d_form'>"
+            +"<h3>请输入需要修改的成绩信息</h3>"
+            +"<p>修改前</p>"
+            +"<input type='text' autofocus='autofocus' name='sname' value placeholder='姓名' required>"
+            +"<input type='text' autofocus='autofocus' name='sno' value placeholder='学号' required>"
+            +"<p>修改后</p>"
+            +"<input type='text' name='after_password' value placeholder='密码'>"
+            +"<input type='number' name='after_age' value placeholder='年龄'>"
+            +"<input id='submit' onclick='alter_sc()' type='button' name='submit' value='修改'>"
+    result.innerHTML = show;
+}
+function alter_student(){
+    var xmlhttp;
+    if(window.XMLHttpRequest){
+        //  IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码
+        xmlhttp = new XMLHttpRequest();
+    }else {
+        // IE6, IE5 浏览器执行代码
+        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+
+            document.getElementById("result").innerHTML = xmlhttp.responseText;
+        }
+    }
+    var all = document.getElementById("alter_student").getElementsByTagName("input");
+    var sname = all[0].value.toString();
+    var sno = all[1].value.toString();
+    var after_password = all[2].value.toString();
+    var after_sage = all[3].value;
+    var url="/mis/alter?action=alter_student&sname="+sname+"&sno="+sno+"&after_password="+after_password+"&after_sage"+after_sage;
+    xmlhttp.open("GET",url,true);
+    xmlhttp.send();
+}
 /*------第一部分--------*/
 //TODO：查看已选的课程
 function query_all(studentNo){

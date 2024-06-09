@@ -106,6 +106,7 @@ public class alter extends HttpServlet {
             String afterStudentSex = request.getParameter("after_ssex");//修改之后的学生性别
             String afterAge = request.getParameter("after_sage");//修改之后的学生年龄
             String afterClno = request.getParameter("after_clno");//修改之后的班级信息
+            String afterPassword = request.getParameter("after_password");//修改之后的密码
             //由于表中存放的是学生的生日是Date类型，这里进行一个转换
             Calendar calendar = Calendar.getInstance();
             int age = Integer.parseInt(afterAge);

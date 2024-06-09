@@ -47,7 +47,15 @@ public class display extends HttpServlet {
             }
 
             StringBuilder html = new StringBuilder();
-            html.append("<div style='display: flex; justify-content: center; align-items: center; height: 100%;'>");
+            html.append("<div style='display: block;" +
+                        "justify-content: center;" +
+                        "align-items: center; " +
+                        "height: 195px;" +
+                        "border:0;"+
+                        "border-spacing:0;"+
+                        "border-collapse:collapse;"+
+                        "cursor:default"+
+                        "'>");
             html.append("<div>");
             html.append("<h1 style='text-align: center;'>用户列表</h1>");
             html.append("<table border='1' style='margin: 0 auto;'>");
@@ -78,7 +86,15 @@ public class display extends HttpServlet {
                 throw new RuntimeException(e);
             }
             StringBuilder html = new StringBuilder();
-            html.append("<div style='display: flex; justify-content: center; align-items: center; height: 100%;'>");
+            html.append("<div style='display: block;" +
+                    "justify-content: center;" +
+                    "align-items: center; " +
+                    "height: 195px;" +
+                    "border:0;"+
+                    "border-spacing:0;"+
+                    "border-collapse:collapse;"+
+                    "cursor:default"+
+                    "'>");
             html.append("<div>");
             html.append("<h1 style='text-align: center;'>学生列表</h1>");
             html.append("<table border='1' style='margin: 0 auto;'>");
@@ -126,7 +142,15 @@ public class display extends HttpServlet {
             //教师姓名、课程名称、课程号、课程CID、课程学分
 
             StringBuilder html = new StringBuilder();
-            html.append("<div style='display: flex; justify-content: center; align-items: center; height: 100%;'>");
+            html.append("<div style='display: block;" +
+                    "justify-content: center;" +
+                    "align-items: center; " +
+                    "height: 195px;" +
+                    "border:0;"+
+                    "border-spacing:0;"+
+                    "border-collapse:collapse;"+
+                    "cursor:default"+
+                    "'>");
             html.append("<div>");
             html.append("<h1 style='text-align: center;'>课程列表</h1>");
             html.append("<table border='1' style='margin: 0 auto;'>");
@@ -169,7 +193,15 @@ public class display extends HttpServlet {
             }
 
             StringBuilder html = new StringBuilder();
-            html.append("<div style='display: flex; justify-content: center; align-items: center; height: 100%;'>");
+            html.append("<div style='display: block;" +
+                    "justify-content: center;" +
+                    "align-items: center; " +
+                    "height: 195px;" +
+                    "border:0;"+
+                    "border-spacing:0;"+
+                    "border-collapse:collapse;"+
+                    "cursor:default"+
+                    "'>");
             html.append("<div>");
             html.append("<h1 style='text-align: center;'>课程平均分列表</h1>");
             html.append("<table border='1' style='margin: 0 auto;'>");
@@ -204,7 +236,15 @@ public class display extends HttpServlet {
             }
 
             StringBuilder html = new StringBuilder();
-            html.append("<div style='display: flex; justify-content: center; align-items: center; height: 100%;'>");
+            html.append("<div style='display: block;" +
+                    "justify-content: center;" +
+                    "align-items: center; " +
+                    "height: 195px;" +
+                    "border:0;"+
+                    "border-spacing:0;"+
+                    "border-collapse:collapse;"+
+                    "cursor:default"+
+                    "'>");
             html.append("<div>");
             html.append("<h1 style='text-align: center;'>课程不及格率</h1>");
             html.append("<table border='1' style='margin: 0 auto;'>");
@@ -257,7 +297,15 @@ public class display extends HttpServlet {
                 }
 
                 StringBuilder html = new StringBuilder();
-                html.append("<div style='display: flex; justify-content: center; align-items: center; height: 100%;'>");
+                html.append("<div style='display: block;" +
+                        "justify-content: center;" +
+                        "align-items: center; " +
+                        "height: 195px;" +
+                        "border:0;"+
+                        "border-spacing:0;"+
+                        "border-collapse:collapse;"+
+                        "cursor:default"+
+                        "'>");
                 html.append("<div>");
                 html.append("<h1 style='text-align: center;'>课程排名</h1>");
                 html.append("<table border='1' style='margin: 0 auto;'>");
@@ -303,7 +351,15 @@ public class display extends HttpServlet {
 
 
             StringBuilder html = new StringBuilder();
-            html.append("<div style='display: flex; justify-content: center; align-items: center; height: 100%;'>");
+            html.append("<div style='display: block;" +
+                    "justify-content: center;" +
+                    "align-items: center; " +
+                    "height: 195px;" +
+                    "border:0;"+
+                    "border-spacing:0;"+
+                    "border-collapse:collapse;"+
+                    "cursor:default"+
+                    "'>");
             html.append("<div>");
             html.append("<h1 style='text-align: center;'>选课信息</h1>");
             html.append("<table border='1' style='margin: 0 auto;'>");
@@ -340,7 +396,15 @@ public class display extends HttpServlet {
             }
 
             StringBuilder html = new StringBuilder();
-            html.append("<div style='display: flex; justify-content: center; align-items: center; height: 100%;'>");
+            html.append("<div style='display: block;" +
+                    "justify-content: center;" +
+                    "align-items: center; " +
+                    "height: 195px;" +
+                    "border:0;"+
+                    "border-spacing:0;"+
+                    "border-collapse:collapse;"+
+                    "cursor:default"+
+                    "'>");
             html.append("<div>");
             html.append("<h1 style='text-align: center;'>课程成绩</h1>");
             html.append("<table border='1' style='margin: 0 auto;'>");
@@ -388,7 +452,15 @@ public class display extends HttpServlet {
                     response.getWriter().write(html.toString());
                 }else{
                     StringBuilder html = new StringBuilder();
-                    html.append("<div style='display: flex; justify-content: center; align-items: center; height: 100%;'>");
+                    html.append("<div style='display: block;" +
+                            "justify-content: center;" +
+                            "align-items: center; " +
+                            "height: 195px;" +
+                            "border:0;"+
+                            "border-spacing:0;"+
+                            "border-collapse:collapse;"+
+                            "cursor:default"+
+                            "'>");
                     html.append("<div>");
                     html.append("<h1 style='text-align: center;'>课程成绩</h1>");
                     html.append("<table border='1' style='margin: 0 auto;'>");
@@ -424,7 +496,15 @@ public class display extends HttpServlet {
                 t = teacherDao.selectFromTeacherByTno(teacherNo);
                 if(t != null){
                     StringBuilder html = new StringBuilder();
-                    html.append("<div style='display: flex; justify-content: center; align-items: center; height: 100%;'>");
+                    html.append("<div style='display: block;" +
+                            "justify-content: center;" +
+                            "align-items: center; " +
+                            "height: 195px;" +
+                            "border:0;"+
+                            "border-spacing:0;"+
+                            "border-collapse:collapse;"+
+                            "cursor:default"+
+                            "'>");
                     html.append("<div>");
                     html.append("<h1 style='text-align: center;'>教师信息</h1>");
                     html.append("<table border='1' style='margin: 0 auto;'>");
@@ -467,7 +547,15 @@ public class display extends HttpServlet {
             }
 
             StringBuilder html = new StringBuilder();
-            html.append("<div style='display: flex; justify-content: center; align-items: center; height: 100%;'>");
+            html.append("<div style='display: block;" +
+                    "justify-content: center;" +
+                    "align-items: center; " +
+                    "height: 195px;" +
+                    "border:0;"+
+                    "border-spacing:0;"+
+                    "border-collapse:collapse;"+
+                    "cursor:default"+
+                    "'>");
             html.append("<div>");
             html.append("<h1 style='text-align: center;'>教授课程</h1>");
             html.append("<table border='1' style='margin: 0 auto;'>");
@@ -509,7 +597,15 @@ public class display extends HttpServlet {
             }
 
             StringBuilder html = new StringBuilder();
-            html.append("<div style='display: flex; justify-content: center; align-items: center; height: 100%;'>");
+            html.append("<div style='display: block;" +
+                    "justify-content: center;" +
+                    "align-items: center; " +
+                    "height: 195px;" +
+                    "border:0;"+
+                    "border-spacing:0;"+
+                    "border-collapse:collapse;"+
+                    "cursor:default"+
+                    "'>");
             html.append("<div>");
             html.append("<h1 style='text-align: center;'>选修本门课程的学生</h1>");
             html.append("<table border='1' style='margin: 0 auto;'>");
@@ -546,7 +642,15 @@ public class display extends HttpServlet {
                 throw new RuntimeException(e);
             }
             StringBuilder html = new StringBuilder();
-            html.append("<div style='display: flex; justify-content: center; align-items: center; height: 100%;'>");
+            html.append("<div style='display: block;" +
+                    "justify-content: center;" +
+                    "align-items: center; " +
+                    "height: 195px;" +
+                    "border:0;"+
+                    "border-spacing:0;"+
+                    "border-collapse:collapse;"+
+                    "cursor:default"+
+                    "'>");
             html.append("<div>");
             html.append("<h1 style='text-align: center;'>本门课程成绩</h1>");
             html.append("<table border='1' style='margin: 0 auto;'>");

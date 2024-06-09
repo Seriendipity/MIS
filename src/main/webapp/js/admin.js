@@ -159,18 +159,13 @@ function insert(object) {
             level = user[3].value.toString();
         url = "/mis/insert?action=insert_user&username=" + username + "&password=" + password + "&level=" + level;
     }
-    else if (object == "department") {
-        var department = document.getElementById("show_insert_department").getElementsByTagName("input");
-        var dno = department[0].value.toString();
-        var dname = department[1].value.toString();
-        url = "/StudentManagement/AdminDao?action=insert_department&dno=" + dno + "&dname=" + dname;
-    }
+    //TODO:改url
     else if (object == "class") {
         var classes = document.getElementById("show_insert_class").getElementsByTagName("input");
         var clno = classes[0].value.toString();
         var clname = classes[1].value.toString();
         var dno = classes[2].value.toString();
-        url = "/StudentManagement/AdminDao?action=insert_class&clno=" + clno + "&clname=" + clname + "&dno=" + dno;
+        url = "/mis/insert?action=insert_class&clno=" + clno + "&clname=" + clname + "&dno=" + dno;
     }
     else if (object == "student") {
         var student = document.getElementById("show_insert_student").getElementsByTagName("input");
@@ -200,8 +195,9 @@ function insert(object) {
         var grade = sc[2].value;
         url = "/mis/insert?action=insert_sc&sno=" + sno + "&cno=" + cno + "&grade=" + grade;
     }
+    //TODO:跳转一个404页面
     else {
-        url = "/StudentManagement/message.jsp";
+        url = "src/main/webapp/message.jsp";
     }
     xmlhttp.open("GET", url, true);
     xmlhttp.send();
@@ -215,13 +211,6 @@ function show_delete(object) {
             + "<h3>请输入删除用户信息</h3>"
             + "<input type='text' autofocus='autofocus' name='username' value placeholder='用户名'  required>"
             + "<input id='submit' onclick='delete_user()' type='button' name='submit' value='删除'>"
-            + "</div>";
-    }
-    else if (object == "department") {
-        show = "<div id='delete_" + object + "'  class='d_form'>"
-            + "<h3>请输入删除院系信息</h3>"
-            + "<input type='text' autofocus='autofocus' name='username' value placeholder='院系编号' required>"
-            + "<input id='submit' onclick='delete_department()' type='button' name='submit' value='删除'>"
             + "</div>";
     }
     else if (object == "class") {
@@ -255,7 +244,7 @@ function show_delete(object) {
     }
     result.innerHTML = show;
 }
-
+//TODO：加入修改院系信息？
 function show_alter(object) {
     var result = document.getElementById("result");
     var show = null;
@@ -273,17 +262,6 @@ function show_alter(object) {
             + "<input type='radio' name='after_level' value='管理员''><span>管理员</span>"
             + "</div>"
             + "<input id='submit' onclick='alter_user()' type='button' name='submit' value='修改'>"
-            + "</div>";
-    }
-    else if (object == "department") {
-        show = "<div id='alter_department'  class='d_form'>"
-            + "<h3>请输入需要修改的院系信息</h3>"
-            + "<p>修改前</p>"
-            + "<input type='text' autofocus='autofocus' name='dno' value placeholder='院系编号' required>"
-            + "<p>修改后</p>"
-            + "<input type='text' name='after_dno' value placeholder='院系编号' required>"
-            + "<input type='text' name='after_dname' value placeholder='院系名称'>"
-            + "<input id='submit' onclick='alter_deprtment()' type='button' name='submit' value='修改'>"
             + "</div>";
     }
     else if (object == "class") {
@@ -356,17 +334,6 @@ function show_insert_user() {
         + "<input type='radio' name='level' value='管理员'><span>管理员</span>"
         + "</div>"
         + "<input id='submit' onclick=insert('user') type='button' name='submit' value='插入'>"
-        + "</div>";
-    result.innerHTML = show;
-}
-//显示插入院系
-function show_insert_department() {
-    var result = document.getElementById("result");
-    var show = "<div id='show_insert_department'  class='d_form'>"
-        + "<h3>请输入新增院系信息</h3>"
-        + "<input type='text' autofocus='autofocus' name='dno' value placeholder='院系编号' required>"
-        + "<input type='text' name='dname' value placeholder='院系名称'>"
-        + "<input id='submit' onclick=insert('department') type='button' name='submit' value='插入'>"
         + "</div>";
     result.innerHTML = show;
 }
@@ -446,29 +413,6 @@ function delete_user() {
     var user = document.getElementById("delete_user").getElementsByTagName("input");
     var username = user[0].value.toString();
     var url = "/mis/delete?action=delete_user&username=" + username;
-    xmlhttp.open("GET", url, true);
-    xmlhttp.send();
-}
-//删除院系
-function delete_department() {
-    var xmlhttp;
-    if (window.XMLHttpRequest) {
-        //  IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码
-        xmlhttp = new XMLHttpRequest();
-    }
-    else {
-        // IE6, IE5 浏览器执行代码
-        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-    }
-    xmlhttp.onreadystatechange = function () {
-        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-
-            document.getElementById("result").innerHTML = xmlhttp.responseText;
-        }
-    }
-    var all = document.getElementById("delete_department").getElementsByTagName("input");
-    var dno = all[0].value.toString();
-    var url = "/StudentManagement/AdminDao?action=delete_department&dno=" + dno;
     xmlhttp.open("GET", url, true);
     xmlhttp.send();
 }
@@ -598,31 +542,6 @@ function alter_user() {
     xmlhttp.open("GET", url, true);
     xmlhttp.send();
 }
-//修改院系
-function alter_department() {
-    var xmlhttp;
-    if (window.XMLHttpRequest) {
-        //  IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码
-        xmlhttp = new XMLHttpRequest();
-    }
-    else {
-        // IE6, IE5 浏览器执行代码
-        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-    }
-    xmlhttp.onreadystatechange = function () {
-        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-
-            document.getElementById("result").innerHTML = xmlhttp.responseText;
-        }
-    }
-    var all = document.getElementById("alter_department").getElementsByTagName("input");
-    var dno = all[0].value.toString();
-    var after_dno = all[1].value.toString();
-    var after_dname = all[2].value.toString();
-    var url = "/StudentManagement/AdminDao?action=alter_department&dno=" + dno + "&after_dno=" + after_dno + "&after_dname" + after_dname;
-    xmlhttp.open("GET", url, true);
-    xmlhttp.send();
-}
 //修改班级
 function alter_class() {
     var xmlhttp;
@@ -645,7 +564,7 @@ function alter_class() {
     var after_clno = all[1].value.toString();
     var after_clname = all[2].value.toString();
     var after_dno = all[3].value.toString();
-    var url = "/StudentManagement/AdminDao?action=alter_class&clno=" + clno + "&after_clno=" + after_clno + "&after_clname=" + after_clname + "&after_dno=" + after_dno;
+    var url = "/mis/alter?action=alter_class&clno=" + clno + "&after_clno=" + after_clno + "&after_clname=" + after_clname + "&after_dno=" + after_dno;
     xmlhttp.open("GET", url, true);
     xmlhttp.send();
 }
@@ -729,7 +648,7 @@ function alter_sc() {
     var sno = all[0].value.toString();
     var cno = all[1].value.toString();
     var after_grade = all[2].value;
-    var url = "/StudentManagement/AdminDao?action=alter_sc&sno=" + sno + "&cno=" + cno + "&after_grade=" + after_grade;
+    var url = "/mis/alter?action=alter_sc&sno=" + sno + "&cno=" + cno + "&after_grade=" + after_grade;
     xmlhttp.open("GET", url, true);
     xmlhttp.send();
 }

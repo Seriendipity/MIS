@@ -11,8 +11,8 @@ $(function(){
 
     Accordion.prototype.dropdown = function(e){
         var $el = e.data.el;
-        var $this = $(this);
-        var $next = $this.next();
+        $this = $(this),
+            $next = $this.nest();
 
         $next.slideToggle();
         $this.parent().toggleClass('open');
@@ -22,12 +22,12 @@ $(function(){
         }
         ;
     }
-    var accordion = new Accordion($('#accordion'),false);
+    var accordion = new Accordion($('#accordion'),flase);
 });
 
 /*----------老师信息----------*/
 //TODO：把老师的信息显示出来（或者算了）
-function query_teacher(teacherNo){
+function query_teacher(){
     var xmlhttp;
     if (window.XMLHttpRequest) {
         //  IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码
@@ -39,36 +39,33 @@ function query_teacher(teacherNo){
     }
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+
             document.getElementById("result").innerHTML = xmlhttp.responseText;
         }
     }
-    var url = "/mis/query_all_user?action=teacher_Info&teacherNo=" + teacherNo;
-    xmlhttp.open("GET",url,true);
-    xmlhttp.send();
 }
 /*----------课程操作----------*/
 //查询课程平均分信息
-function show_course_avg(teacherNo){
+function course_avg(){
     var xmlhttp;
-    if (window.XMLHttpRequest) {
+    if(window.XMLHttpRequest){
         //  IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码
         xmlhttp = new XMLHttpRequest();
-    }
-    else {
+    }else{
         // IE6, IE5 浏览器执行代码
         xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
     }
-    xmlhttp.onreadystatechange = function () {
-        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+    //TODO:只显示老师教授的课程的平均成绩。
+    xmlhttp.onreadystatechange = function(){
+        if(xmlhttp.readyState == 4 && xmlhttp.ststus == 200){
             document.getElementById("result").innerHTML = xmlhttp.responseText;
         }
     }
-    console.log("function");
-    var url = "/mis/query_all_user?action=course_avg&teacher_no=" + teacherNo;
+    var url = "mis/query_all_user?action=course_avg";
     xmlhttp.open("GET",url,true);
     xmlhttp.send();
 }
-function fail_rate(teacherNo){
+function fail_rate(){
     var xmlhttp;
     if (window.XMLHttpRequest) {
         //  IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码
@@ -85,22 +82,22 @@ function fail_rate(teacherNo){
         }
     }
     //TODO:只显示老师教授的课程的平均成绩。
-    var url = "/mis/query_all_user?action=fail_rate&teacher_no="+ teacherNo;
+    var url = "/mis/query_all_user?action=fail_rate";
     xmlhttp.open("GET", url, true);
     xmlhttp.send();
 }
 //显示查询成绩的板块
-function show_course_ranking(teacherNo){
+function show_course_ranking(){
     var result = document.getElementById("result");
     var show = "<div id='course_ranking' class='d_form'>"
         +"<h3>请输入课程编号</h3>"
-        +"<input id='course_ranking_value' type='text' autofocus='autofocus' name='cid' value placeholder='cid'>"
-        +"<input id='submit' onclick='course_ranking(\""+teacherNo+"\")' type='button' name='submit' value='查询'>"
+        +"<input id='course_ranking_value' type='text' autofocus='autofocus' name='cno' value placeholder='课程号'>"
+        +"<input id='submit' onclick='course_ranking()' type='button' name='submit' value='查询'>"
         +"</div>";
     result.innerHTML = show;
 }
 //显示查询成绩排名信息
-function course_ranking(teacherNo){
+function course_ranking(){
     var xmlhttp;
     if (window.XMLHttpRequest) {
         //  IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码
@@ -117,7 +114,7 @@ function course_ranking(teacherNo){
         }
     }
     var Cno = document.getElementById("course_ranking_value").value;
-    var url = "/mis/query_all_user?action=course_ranking&cid=" + Cno + "&teacher_no=" + teacherNo;
+    var url = "/mis/query_all_user?action=course_ranking&cno=" + Cno;
 
     xmlhttp.open("GET", url, true);
     xmlhttp.send();
@@ -128,7 +125,7 @@ function query_course_all(){
     var result = document.getElementById("result");
     var show = "<div id='query_course' class='d_form'>"
         +"<h3>请输入课程编号</h3>"
-        +"<input id='course_name' type='text' autofocus='autofocus' name='cno' value placeholder='cid'>"
+        +"<input id='course_name' type='text' autofocus='autofocus' name='cno' value placeholder='课程号'>"
         +"<input id='submit' onclick='query_course()' type='button' name='submit' value='查询'>"
         +"</div>";
     result.innerHTML = show;
@@ -150,7 +147,7 @@ function query_course(){
         }
     }
     var Cno = document.getElementById("course_name").value;
-    var url = "/mis/query_all_user?action=selected_course_grade&cno=" + Cno;
+    var url = "/mis/query_all_user?action=course_name&cno=" + Cno;
 
     xmlhttp.open("GET", url, true);
     xmlhttp.send();
@@ -187,17 +184,17 @@ function insert(object){
 
 function show_insert_grade(){
     var result = document.getElementById("result");
-    var show = "<div id='show_insert_grade' class='d_form'>"
+    var show = "<div id='show_insert_grade' class='d_form'>" +
         +"<h3>请输入要插入的成绩信息</h3>"
         +"<input type='text' autofocus='autofocus' name='sno' value placeholder='学号' required>"
-        +"<input type='text' name='cno' value placeholder='cid' required>"
+        +"<input type='text' name='cno' value placeholder='课程号' required>"
         +"<input type='number' name='grade' value placeholder='成绩'>"
         +"<input id='submit' onclick=insert('sc') type='button' name='submit' value='插入'>"
         +"</div>";
-    result.innerHTML = show;
+    result.innerHTML = showl;
 }
 
-function show_alter(object,teacherNo){
+function show_alter(object){
     var result = document.getElementById("result");
     var show = null;
     if(object=="sc"){
@@ -205,7 +202,7 @@ function show_alter(object,teacherNo){
         +"<h3>请输入需要修改的成绩信息</h3>"
         +"<p>修改前</p>"
         +"<input type='text' autofocus='autofocus' name='sno' value placeholder='学号' required>"
-        +"<input type='text' name='cno' value placeholder='cid' required>"
+        +"<input type='text' name='cno' value placeholder='课程号' required>"
         +"<p>修改后</p>"
         +"<input type='number' name='after_grade' value placeholder='成绩'>"
         +"<input id='submit' onclick='alter_sc()' type='button' name='submit' value='修改'>"
@@ -273,32 +270,15 @@ function alter_teacher(){
     xmlhttp.send();
 }
 //TODO:查询某个老师的教授的课程
-function query_all(teacherNo){
-    var xmlhttp;
-    if (window.XMLHttpRequest) {
-        //  IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码
-        xmlhttp = new XMLHttpRequest();
-    }
-    else {
-        // IE6, IE5 浏览器执行代码
-        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-    }
-    xmlhttp.onreadystatechange = function () {
-        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+function query_all({Teacher},teacher){
 
-            document.getElementById("result").innerHTML = xmlhttp.responseText;
-        }
-    }
-    var url = "/mis/query_all_user?action=select_teaching_course&teacherNo="+encodeURIComponent(teacherNo);
-    xmlhttp.open("GET",url,true);
-    xmlhttp.send();
 }
 //TODO:查询某个老师教的课程的同学名单
 function show_student(){
     var result = document.getElementById("result");
     var show = "<div id='query_student_name' class='d_form'>"
         +"<h3>请输入课程编号</h3>"
-        +"<input id='course_name' type='text' autofocus='autofocus' name='cno' value placeholder='课程cid'>"
+        +"<input id='course_name' type='text' autofocus='autofocus' name='cno' value placeholder='课程号'>"
         +"<input id='submit' onclick='query_student_name()' type='button' name='submit' value='查询'>"
         +"</div>";
     result.innerHTML = show;
@@ -318,10 +298,9 @@ function query_student_name(){
             document.getElementById("result").innerHTML = xmlhttp.responseText;
         }
     }
-    var all = document.getElementById("query_student_name").getElementsByTagName("input");
+    var all = document.getElementById("quert_student_name").getElementsByTagName("input");
     var cno = all[0].value.toString();
-    console.log(cno);
-    var url="/mis/query_all_user?action=query_student_name&cno="+cno;
+    var url="/mis/query_all?action=query_student_name&cno="+cno;
     xmlhttp.open("GET",url,true);
     xmlhttp.send();
 }

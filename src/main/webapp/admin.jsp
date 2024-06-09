@@ -60,15 +60,6 @@
                     </ul>
                 </li>
                 <li>
-                    <div class="link"></i>院系信息管理</div>
-                    <ul class="submenu">
-                        <li><a onclick="query_all('department')">查看所有院系</a></li>
-                        <li><a onclick="show_insert_department()">新增院系信息</a></li>
-                        <li><a onclick="show_delete('department')">删除指定院系</a></li>
-                        <li><a onclick="show_alter('department')">修改院系信息</a></li>
-                    </ul>
-                </li>
-                <li>
                     <div class="link">班级信息管理</div>
                     <ul class="submenu">
                         <li><a onclick="query_all('class')">查看所有班级</a></li>
