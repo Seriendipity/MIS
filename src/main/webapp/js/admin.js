@@ -164,8 +164,10 @@ function insert(object) {
         var classes = document.getElementById("show_insert_class").getElementsByTagName("input");
         var clno = classes[0].value.toString();
         var clname = classes[1].value.toString();
-        var dno = classes[2].value.toString();
-        url = "/mis/insert?action=insert_class&clno=" + clno + "&clname=" + clname + "&dno=" + dno;
+        var cmajor = classes[2].value.toString();
+        var dno = classes[3].value.toString();
+        var snumber = classes[4].value;
+        url = "/mis/insert?action=insert_class&clno=" + clno + "&clname=" + clname +"&cmajor"+cmajor+ "&dno=" + dno + "&snumber" + snumber;
     }
     else if (object == "student") {
         var student = document.getElementById("show_insert_student").getElementsByTagName("input");
@@ -344,7 +346,9 @@ function show_insert_class() {
         + "<h3>请输入新增班级信息</h3>"
         + "<input type='text' autofocus='autofocus' name='clno' value placeholder='班级编号' required>"
         + "<input type='text' name='clname' value placeholder='班级名称'>"
+        +"<input type='text' name='cmajor' value placeholder='班级专业'>"
         + "<input type='text' name='dno' value placeholder='所属院系编号'>"
+        + "<input type='number' name='snumber' value placeholder='学生数量'>"
         + "<input id='submit' onclick=insert('class') type='button' name='submit' value='插入'>"
         + "</div>";
     result.innerHTML = show;
