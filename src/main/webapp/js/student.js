@@ -54,9 +54,11 @@ function show_alter_information(){
             +"<input type='text' autofocus='autofocus' name='sname' value placeholder='姓名' required>"
             +"<input type='text' autofocus='autofocus' name='sno' value placeholder='学号' required>"
             +"<p>修改后</p>"
+            +"<input type='text' autofocus='autofocus' name='ssex' value placeholder='性别'>"
+            +"<input type='text' autofocus='autofocus' name='pNumber' value placeholder='电话号码'>"
             +"<input type='text' name='after_password' value placeholder='密码'>"
-            +"<input type='number' name='after_age' value placeholder='年龄'>"
-            +"<input id='submit' onclick='alter_sc()' type='button' name='submit' value='修改'>"
+            +"<input type='number' name='after_sage' value placeholder='年龄'>"
+            +"<input id='submit' onclick='alter_student()' type='button' name='submit' value='修改'>"
     result.innerHTML = show;
 }
 function alter_student(){
@@ -77,9 +79,11 @@ function alter_student(){
     var all = document.getElementById("alter_student").getElementsByTagName("input");
     var sname = all[0].value.toString();
     var sno = all[1].value.toString();
-    var after_password = all[2].value.toString();
-    var after_sage = all[3].value;
-    var url="/mis/alter?action=alter_student&sname="+sname+"&sno="+sno+"&after_password="+after_password+"&after_sage"+after_sage;
+    var ssex = all[2].value.toString();
+    var pNumber = all[3].value.toString();
+    var after_password = all[4].value.toString();
+    var after_sage = all[5].value;
+    var url="/mis/alter?action=alter_student&sname="+sname+"&sno="+sno+"&ssex"+ssex+"&pNumber"+pNumber+"&after_password="+after_password+"&after_sage"+after_sage;
     xmlhttp.open("GET",url,true);
     xmlhttp.send();
 }
