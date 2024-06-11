@@ -176,7 +176,7 @@ public class alter extends HttpServlet {
                         studentNumber++;
                         newStudentNumber = String.valueOf(studentNumber);
                         classDao.updateClassInfo(afterClno,className,classMajor,classDept,newStudentNumber);
-                        studentDao.updateStudentInfo(studentNo, afterClno, afterStudentName, studentBirthday, afterStudentSex, s.getTotalCredit(), s.getPhoneNumber(), studentNo+"@bjtu.edu.cn", s.getPassword());
+                        studentDao.updateStudentInfo(studentNo, afterClno, afterStudentName, studentBirthday, afterStudentSex, s.getTotalCredit(),"null", studentNo+"@bjtu.edu.cn", s.getPassword());
                     }else{
                         ClassDataAccessObjects classDao = new ClassDataAccessObjects();
                         Class c = classDao.selectFromClassByCno(afterClno);
