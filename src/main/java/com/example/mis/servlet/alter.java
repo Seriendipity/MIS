@@ -154,9 +154,9 @@ public class alter extends HttpServlet {
                     Student s = studentDao.selectFromStudentBySno(studentNo);
                     String beforeClassNo = s.getClassNo();
 
-                    studentDao.updateStudentInfo(studentNo, afterClno, afterStudentName, studentBirthday, afterStudentSex, s.getTotalCredit(), "null", s.getStudentEmail(), s.getPassword());
+                    System.out.println(beforeClassNo);
 
-                    if(!beforeClassNo.equals(afterClno)){
+                    if(beforeClassNo != null){
                         ClassDataAccessObjects classDao = new ClassDataAccessObjects();
                         Class c = classDao.selectFromClassByCno(beforeClassNo);
                         String className = c.getClassName();
@@ -176,6 +176,19 @@ public class alter extends HttpServlet {
                         studentNumber++;
                         newStudentNumber = String.valueOf(studentNumber);
                         classDao.updateClassInfo(afterClno,className,classMajor,classDept,newStudentNumber);
+                        studentDao.updateStudentInfo(studentNo, afterClno, afterStudentName, studentBirthday, afterStudentSex, s.getTotalCredit(), s.getPhoneNumber(), studentNo+"@bjtu.edu.cn", s.getPassword());
+                    }else{
+                        ClassDataAccessObjects classDao = new ClassDataAccessObjects();
+                        Class c = classDao.selectFromClassByCno(afterClno);
+                        int studentNumber =Integer.parseInt(c.getStudentNumber());
+                        studentNumber++;
+                        System.out.println(afterClno);
+                        System.out.println(c.getClassName());
+                        System.out.println(c.getClassMajor());
+                        System.out.println(c.getStudentNumber());
+                        System.out.println(c.getClassDept());
+                        classDao.updateClassInfo(afterClno,c.getClassName(),c.getClassMajor(),c.getClassDept(),String.valueOf(studentNumber));
+                        studentDao.updateStudentInfo(studentNo,afterClno,afterStudentName,studentBirthday,afterStudentSex,"0","null",studentNo+"@bjtu.edu.cn","Bjtu@123456");
                     }
 
 
@@ -413,6 +426,18 @@ public class alter extends HttpServlet {
                     String credit = courseDao.selectFromCourseByCno(teachingDao.selectFromTeachingByCid(cid).getCourseNo()).getCourseCredit();
                     int beforeCredit = Integer.parseInt(studentDao.selectFromStudentBySno(sno).getTotalCredit());
                     beforeCredit -= Integer.parseInt(credit);
+                    String afterCredit = String.valueOf(beforeCredit);
+
+                    studentDao.updateStudentInfo(sno,s.getClassNo(),s.getStudentName(),s.getStudentBirthday(),s.getStudentSex(),afterCredit,s.getPhoneNumber(),s.getStudentEmail(),s.getPassword());
+                }else{
+                    StudentDataAccessObjects studentDao = new StudentDataAccessObjects();
+                    CourseDataAccessObjects courseDao = new CourseDataAccessObjects();
+
+                    Student s = studentDao.selectFromStudentBySno(sno);
+
+                    String credit = courseDao.selectFromCourseByCno(teachingDao.selectFromTeachingByCid(cid).getCourseNo()).getCourseCredit();
+                    int beforeCredit = Integer.parseInt(studentDao.selectFromStudentBySno(sno).getTotalCredit());
+                    beforeCredit += Integer.parseInt(credit);
                     String afterCredit = String.valueOf(beforeCredit);
 
                     studentDao.updateStudentInfo(sno,s.getClassNo(),s.getStudentName(),s.getStudentBirthday(),s.getStudentSex(),afterCredit,s.getPhoneNumber(),s.getStudentEmail(),s.getPassword());

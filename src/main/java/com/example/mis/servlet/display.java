@@ -48,22 +48,36 @@ public class display extends HttpServlet {
             }
 
             StringBuilder html = new StringBuilder();
-            html.append("<div style='display: block;" +
-                        "justify-content: center;" +
-                        "align-items: center; " +
-                        "height: 195px;" +
-                        "border:0;"+
-                        "border-spacing:0;"+
-                        "border-collapse:collapse;"+
-                        "cursor:default"+
-                        "'>");
-            html.append("<div>");
-            html.append("<h1 style='text-align: center;'>用户列表</h1>");
-            html.append("<table border='1' style='margin: 0 auto;'>");
+            html.append("<!DOCTYPE html>");
+            html.append("<html lang='zh-CN'>");
+            html.append("<head>");
+            html.append("<meta charset='UTF-8'>");
+            html.append("<title>用户列表</title>");
+            html.append("<style>");
+            html.append("body { font-family: Arial, sans-serif; margin: 0; padding: 0; display: flex; height: 100vh; }");
+            html.append(".content { flex-grow: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; }"); // 右侧内容区域的样式
+            html.append("h1 { text-align: center; margin-bottom: 20px; }");
+            html.append(".table-container { width: 90%; max-height: 50vh; overflow-y: auto; }"); // 让表格容器填满剩余空间并启用垂直滚动条
+            html.append("table { border-collapse: collapse; width: 100%; }"); // 表格填满容器
+            html.append("th, td { border: 1px solid black; text-align: center; padding: 8px; }");
+            html.append("th { background-color: #f2f2f2; position: sticky; top: 0; }"); // Sticky header
+            html.append("</style>");
+            html.append("</head>");
+            html.append("<body>");
+            html.append("<div class='sidebar'>");
+            html.append("<!-- 在这里添加左侧菜单栏的内容 -->");
+            html.append("</div>");
+            html.append("<div class='content'>");
+            html.append("<h1>用户列表</h1>");
+            html.append("<div class='table-container'>"); // 开始滚动容器
+            html.append("<table>");
+            html.append("<thead>");
             html.append("<tr>");
             html.append("<th>用户名</th>");
             html.append("<th>密码</th>");
             html.append("</tr>");
+            html.append("</thead>");
+            html.append("<tbody>");
 
             for (User u : users) {
                 html.append("<tr>");
@@ -71,10 +85,17 @@ public class display extends HttpServlet {
                 html.append("<td>").append(u.getPassword()).append("</td>");
                 html.append("</tr>");
             }
+
+            html.append("</tbody>");
             html.append("</table>");
+            html.append("</div>"); // 结束滚动容器
             html.append("</div>");
-            html.append("</div>");
+            html.append("</body>");
+            html.append("</html>");
+
             response.getWriter().write(html.toString());
+
+
         } else if (action.equals("class")) {
             ClassDataAccessObjects classDao = new ClassDataAccessObjects();
             ArrayList<Class> classes = new ArrayList<>();
@@ -84,18 +105,30 @@ public class display extends HttpServlet {
                 throw new RuntimeException(e);
             }
             StringBuilder html = new StringBuilder();
-            html.append("<div style='display: block;" +
-                    "justify-content: center;" +
-                    "align-items: center; " +
-                    "height: 195px;" +
-                    "border:0;"+
-                    "border-spacing:0;"+
-                    "border-collapse:collapse;"+
-                    "cursor:default"+
-                    "'>");
-            html.append("<div>");
-            html.append("<h1 style='text-align: center;'>班级信息</h1>");
-            html.append("<table border='1' style='margin: 0 auto;'>");
+            html.append("<!DOCTYPE html>");
+            html.append("<html lang='zh-CN'>");
+            html.append("<head>");
+            html.append("<meta charset='UTF-8'>");
+            html.append("<title>班级列表</title>");
+            html.append("<style>");
+            html.append("body { font-family: Arial, sans-serif; margin: 0; padding: 0; display: flex; height: 100vh; }");
+            html.append(".content { flex-grow: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; }"); // 右侧内容区域的样式
+            html.append("h1 { text-align: center; margin-bottom: 20px; }");
+            html.append(".table-container { width: 90%; max-height: 50vh; overflow-y: auto; }"); // 让表格容器填满剩余空间并启用垂直滚动条
+            html.append("table { border-collapse: collapse; width: 100%; }"); // 表格填满容器
+            html.append("th, td { border: 1px solid black; text-align: center; padding: 8px; }");
+            html.append("th { background-color: #f2f2f2; position: sticky; top: 0; }"); // Sticky header
+            html.append("</style>");
+            html.append("</head>");
+            html.append("<body>");
+            html.append("<div class='sidebar'>");
+            html.append("<!-- 在这里添加左侧菜单栏的内容 -->");
+            html.append("</div>");
+            html.append("<div class='content'>");
+            html.append("<h1>班级列表</h1>");
+            html.append("<div class='table-container'>"); // 开始滚动容器
+            html.append("<table>");
+            html.append("<thead>");
             html.append("<tr>");
             html.append("<th>班级号</th>");
             html.append("<th>班级名</th>");
@@ -113,9 +146,13 @@ public class display extends HttpServlet {
                 html.append("<td>").append(c.getStudentNumber()).append("</td>");
                 html.append("</tr>");
             }
+            html.append("</tbody>");
             html.append("</table>");
+            html.append("</div>"); // 结束滚动容器
             html.append("</div>");
-            html.append("</div>");
+            html.append("</body>");
+            html.append("</html>");
+
             response.getWriter().write(html.toString());
         } else if(action.equals("student")){
             /**
@@ -128,19 +165,32 @@ public class display extends HttpServlet {
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
+
             StringBuilder html = new StringBuilder();
-            html.append("<div style='display: block;" +
-                    "justify-content: center;" +
-                    "align-items: center; " +
-                    "height: 195px;" +
-                    "border:0;"+
-                    "border-spacing:0;"+
-                    "border-collapse:collapse;"+
-                    "cursor:default"+
-                    "'>");
-            html.append("<div>");
-            html.append("<h1 style='text-align: center;'>学生列表</h1>");
-            html.append("<table border='1' style='margin: 0 auto;'>");
+            html.append("<!DOCTYPE html>");
+            html.append("<html lang='zh-CN'>");
+            html.append("<head>");
+            html.append("<meta charset='UTF-8'>");
+            html.append("<title>学生列表</title>");
+            html.append("<style>");
+            html.append("body { font-family: Arial, sans-serif; margin: 0; padding: 0; display: flex; height: 100vh; }");
+            html.append(".content { flex-grow: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; }"); // 右侧内容区域的样式
+            html.append("h1 { text-align: center; margin-bottom: 20px; }");
+            html.append(".table-container { width: 90%; max-height: 50vh; overflow-y: auto; }"); // 让表格容器填满剩余空间并启用垂直滚动条
+            html.append("table { border-collapse: collapse; width: 100%; }"); // 表格填满容器
+            html.append("th, td { border: 1px solid black; text-align: center; padding: 8px; }");
+            html.append("th { background-color: #f2f2f2; position: sticky; top: 0; }"); // Sticky header
+            html.append("</style>");
+            html.append("</head>");
+            html.append("<body>");
+            html.append("<div class='sidebar'>");
+            html.append("<!-- 在这里添加左侧菜单栏的内容 -->");
+            html.append("</div>");
+            html.append("<div class='content'>");
+            html.append("<h1>学生列表</h1>");
+            html.append("<div class='table-container'>"); // 开始滚动容器
+            html.append("<table>");
+            html.append("<thead>");
             html.append("<tr>");
             html.append("<th>学号</th>");
             html.append("<th>班级号</th>");
@@ -165,9 +215,12 @@ public class display extends HttpServlet {
                 html.append("<td>").append(s.getPassword()).append("</td>");
                 html.append("</tr>");
             }
+            html.append("</tbody>");
             html.append("</table>");
+            html.append("</div>"); // 结束滚动容器
             html.append("</div>");
-            html.append("</div>");
+            html.append("</body>");
+            html.append("</html>");
             response.getWriter().write(html.toString());
         } else if (action.equals("teacher")) {
             ArrayList<Teacher> teachers = new ArrayList<>();
@@ -180,18 +233,30 @@ public class display extends HttpServlet {
             }
 
             StringBuilder html = new StringBuilder();
-            html.append("<div style='display: block;" +
-                    "justify-content: center;" +
-                    "align-items: center; " +
-                    "height: 195px;" +
-                    "border:0;"+
-                    "border-spacing:0;"+
-                    "border-collapse:collapse;"+
-                    "cursor:default"+
-                    "'>");
-            html.append("<div>");
-            html.append("<h1 style='text-align: center;'>教师列表</h1>");
-            html.append("<table border='1' style='margin: 0 auto;'>");
+            html.append("<!DOCTYPE html>");
+            html.append("<html lang='zh-CN'>");
+            html.append("<head>");
+            html.append("<meta charset='UTF-8'>");
+            html.append("<title>教师列表</title>");
+            html.append("<style>");
+            html.append("body { font-family: Arial, sans-serif; margin: 0; padding: 0; display: flex; height: 100vh; }");
+            html.append(".content { flex-grow: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; }"); // 右侧内容区域的样式
+            html.append("h1 { text-align: center; margin-bottom: 20px; }");
+            html.append(".table-container { width: 90%; max-height: 50vh; overflow-y: auto; }"); // 让表格容器填满剩余空间并启用垂直滚动条
+            html.append("table { border-collapse: collapse; width: 100%; }"); // 表格填满容器
+            html.append("th, td { border: 1px solid black; text-align: center; padding: 8px; }");
+            html.append("th { background-color: #f2f2f2; position: sticky; top: 0; }"); // Sticky header
+            html.append("</style>");
+            html.append("</head>");
+            html.append("<body>");
+            html.append("<div class='sidebar'>");
+            html.append("<!-- 在这里添加左侧菜单栏的内容 -->");
+            html.append("</div>");
+            html.append("<div class='content'>");
+            html.append("<h1>教师列表</h1>");
+            html.append("<div class='table-container'>"); // 开始滚动容器
+            html.append("<table>");
+            html.append("<thead>");
             html.append("<tr>");
             html.append("<th>教师号</th>");
             html.append("<th>姓名</th>");
@@ -214,9 +279,12 @@ public class display extends HttpServlet {
                 html.append("</tr>");
             }
 
+            html.append("</tbody>");
             html.append("</table>");
+            html.append("</div>"); // 结束滚动容器
             html.append("</div>");
-            html.append("</div>");
+            html.append("</body>");
+            html.append("</html>");
             response.getWriter().write(html.toString());
         } else if (action.equals("course")) {
             /**
@@ -234,18 +302,30 @@ public class display extends HttpServlet {
             //教师姓名、课程名称、课程号、课程CID、课程学分
 
             StringBuilder html = new StringBuilder();
-            html.append("<div style='display: block;" +
-                    "justify-content: center;" +
-                    "align-items: center; " +
-                    "height: 195px;" +
-                    "border:0;"+
-                    "border-spacing:0;"+
-                    "border-collapse:collapse;"+
-                    "cursor:default"+
-                    "'>");
-            html.append("<div>");
-            html.append("<h1 style='text-align: center;'>课程列表</h1>");
-            html.append("<table border='1' style='margin: 0 auto;'>");
+            html.append("<!DOCTYPE html>");
+            html.append("<html lang='zh-CN'>");
+            html.append("<head>");
+            html.append("<meta charset='UTF-8'>");
+            html.append("<title>选课列表</title>");
+            html.append("<style>");
+            html.append("body { font-family: Arial, sans-serif; margin: 0; padding: 0; display: flex; height: 100vh; }");
+            html.append(".content { flex-grow: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; }"); // 右侧内容区域的样式
+            html.append("h1 { text-align: center; margin-bottom: 20px; }");
+            html.append(".table-container { width: 90%; max-height: 50vh; overflow-y: auto; }"); // 让表格容器填满剩余空间并启用垂直滚动条
+            html.append("table { border-collapse: collapse; width: 100%; }"); // 表格填满容器
+            html.append("th, td { border: 1px solid black; text-align: center; padding: 8px; }");
+            html.append("th { background-color: #f2f2f2; position: sticky; top: 0; }"); // Sticky header
+            html.append("</style>");
+            html.append("</head>");
+            html.append("<body>");
+            html.append("<div class='sidebar'>");
+            html.append("<!-- 在这里添加左侧菜单栏的内容 -->");
+            html.append("</div>");
+            html.append("<div class='content'>");
+            html.append("<h1>选课列表</h1>");
+            html.append("<div class='table-container'>"); // 开始滚动容器
+            html.append("<table>");
+            html.append("<thead>");
             html.append("<tr>");
             html.append("<th>课程号</th>");
             html.append("<th>课程名</th>");
@@ -265,9 +345,12 @@ public class display extends HttpServlet {
                 html.append("<td>").append(tc.getLanguage()).append("</td>");
                 html.append("</tr>");
             }
+            html.append("</tbody>");
             html.append("</table>");
+            html.append("</div>"); // 结束滚动容器
             html.append("</div>");
-            html.append("</div>");
+            html.append("</body>");
+            html.append("</html>");
             response.getWriter().write(html.toString());
         } else if (action.equals("courses")) {
             /**
@@ -280,18 +363,30 @@ public class display extends HttpServlet {
                 courses = courseDao.selectFromCourse();
 
                 StringBuilder html = new StringBuilder();
-                html.append("<div style='display: block;" +
-                        "justify-content: center;" +
-                        "align-items: center; " +
-                        "height: 195px;" +
-                        "border:0;"+
-                        "border-spacing:0;"+
-                        "border-collapse:collapse;"+
-                        "cursor:default"+
-                        "'>");
-                html.append("<div>");
-                html.append("<h1 style='text-align: center;'>课程列表</h1>");
-                html.append("<table border='1' style='margin: 0 auto;'>");
+                html.append("<!DOCTYPE html>");
+                html.append("<html lang='zh-CN'>");
+                html.append("<head>");
+                html.append("<meta charset='UTF-8'>");
+                html.append("<title>课程列表</title>");
+                html.append("<style>");
+                html.append("body { font-family: Arial, sans-serif; margin: 0; padding: 0; display: flex; height: 100vh; }");
+                html.append(".content { flex-grow: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; }"); // 右侧内容区域的样式
+                html.append("h1 { text-align: center; margin-bottom: 20px; }");
+                html.append(".table-container { width: 90%; max-height: 50vh; overflow-y: auto; }"); // 让表格容器填满剩余空间并启用垂直滚动条
+                html.append("table { border-collapse: collapse; width: 100%; }"); // 表格填满容器
+                html.append("th, td { border: 1px solid black; text-align: center; padding: 8px; }");
+                html.append("th { background-color: #f2f2f2; position: sticky; top: 0; }"); // Sticky header
+                html.append("</style>");
+                html.append("</head>");
+                html.append("<body>");
+                html.append("<div class='sidebar'>");
+                html.append("<!-- 在这里添加左侧菜单栏的内容 -->");
+                html.append("</div>");
+                html.append("<div class='content'>");
+                html.append("<h1>课程列表</h1>");
+                html.append("<div class='table-container'>"); // 开始滚动容器
+                html.append("<table>");
+                html.append("<thead>");
                 html.append("<tr>");
                 html.append("<th>课程号</th>");
                 html.append("<th>课程名</th>");
@@ -305,9 +400,12 @@ public class display extends HttpServlet {
                     html.append("<td>").append(c.getCourseCredit()).append("</td>");
                     html.append("</tr>");
                 }
+                html.append("</tbody>");
                 html.append("</table>");
+                html.append("</div>"); // 结束滚动容器
                 html.append("</div>");
-                html.append("</div>");
+                html.append("</body>");
+                html.append("</html>");
                 response.getWriter().write(html.toString());
             } catch (Exception e) {
                 throw new RuntimeException(e);
@@ -328,18 +426,30 @@ public class display extends HttpServlet {
             }
 
             StringBuilder html = new StringBuilder();
-            html.append("<div style='display: block;" +
-                    "justify-content: center;" +
-                    "align-items: center; " +
-                    "height: 195px;" +
-                    "border:0;"+
-                    "border-spacing:0;"+
-                    "border-collapse:collapse;"+
-                    "cursor:default"+
-                    "'>");
-            html.append("<div>");
-            html.append("<h1 style='text-align: center;'>课程平均分列表</h1>");
-            html.append("<table border='1' style='margin: 0 auto;'>");
+            html.append("<!DOCTYPE html>");
+            html.append("<html lang='zh-CN'>");
+            html.append("<head>");
+            html.append("<meta charset='UTF-8'>");
+            html.append("<title>均分列表</title>");
+            html.append("<style>");
+            html.append("body { font-family: Arial, sans-serif; margin: 0; padding: 0; display: flex; height: 100vh; }");
+            html.append(".content { flex-grow: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; }"); // 右侧内容区域的样式
+            html.append("h1 { text-align: center; margin-bottom: 20px; }");
+            html.append(".table-container { width: 90%; max-height: 50vh; overflow-y: auto; }"); // 让表格容器填满剩余空间并启用垂直滚动条
+            html.append("table { border-collapse: collapse; width: 100%; }"); // 表格填满容器
+            html.append("th, td { border: 1px solid black; text-align: center; padding: 8px; }");
+            html.append("th { background-color: #f2f2f2; position: sticky; top: 0; }"); // Sticky header
+            html.append("</style>");
+            html.append("</head>");
+            html.append("<body>");
+            html.append("<div class='sidebar'>");
+            html.append("<!-- 在这里添加左侧菜单栏的内容 -->");
+            html.append("</div>");
+            html.append("<div class='content'>");
+            html.append("<h1>均分列表</h1>");
+            html.append("<div class='table-container'>"); // 开始滚动容器
+            html.append("<table>");
+            html.append("<thead>");
             html.append("<tr>");
             html.append("<th>课程名</th>");
             html.append("<th>平均分</th>");
@@ -351,9 +461,12 @@ public class display extends HttpServlet {
                 html.append("<td>").append(cg.getAvgGrade()).append("</td>");
                 html.append("</tr>");
             }
+            html.append("</tbody>");
             html.append("</table>");
+            html.append("</div>"); // 结束滚动容器
             html.append("</div>");
-            html.append("</div>");
+            html.append("</body>");
+            html.append("</html>");
             response.getWriter().write(html.toString());
         } else if (action.equals("fail_rate")) {
             /**
@@ -371,18 +484,30 @@ public class display extends HttpServlet {
             }
 
             StringBuilder html = new StringBuilder();
-            html.append("<div style='display: block;" +
-                    "justify-content: center;" +
-                    "align-items: center; " +
-                    "height: 195px;" +
-                    "border:0;"+
-                    "border-spacing:0;"+
-                    "border-collapse:collapse;"+
-                    "cursor:default"+
-                    "'>");
-            html.append("<div>");
-            html.append("<h1 style='text-align: center;'>课程不及格率</h1>");
-            html.append("<table border='1' style='margin: 0 auto;'>");
+            html.append("<!DOCTYPE html>");
+            html.append("<html lang='zh-CN'>");
+            html.append("<head>");
+            html.append("<meta charset='UTF-8'>");
+            html.append("<title>不及格列表</title>");
+            html.append("<style>");
+            html.append("body { font-family: Arial, sans-serif; margin: 0; padding: 0; display: flex; height: 100vh; }");
+            html.append(".content { flex-grow: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; }"); // 右侧内容区域的样式
+            html.append("h1 { text-align: center; margin-bottom: 20px; }");
+            html.append(".table-container { width: 90%; max-height: 50vh; overflow-y: auto; }"); // 让表格容器填满剩余空间并启用垂直滚动条
+            html.append("table { border-collapse: collapse; width: 100%; }"); // 表格填满容器
+            html.append("th, td { border: 1px solid black; text-align: center; padding: 8px; }");
+            html.append("th { background-color: #f2f2f2; position: sticky; top: 0; }"); // Sticky header
+            html.append("</style>");
+            html.append("</head>");
+            html.append("<body>");
+            html.append("<div class='sidebar'>");
+            html.append("<!-- 在这里添加左侧菜单栏的内容 -->");
+            html.append("</div>");
+            html.append("<div class='content'>");
+            html.append("<h1>不及格列表</h1>");
+            html.append("<div class='table-container'>"); // 开始滚动容器
+            html.append("<table>");
+            html.append("<thead>");
             html.append("<tr>");
             html.append("<th>课程名</th>");
             html.append("<th>不及格率</th>");
@@ -394,9 +519,12 @@ public class display extends HttpServlet {
                 html.append("<td>").append(cf.getFailRate()).append("</td>");
                 html.append("</tr>");
             }
+            html.append("</tbody>");
             html.append("</table>");
+            html.append("</div>"); // 结束滚动容器
             html.append("</div>");
-            html.append("</div>");
+            html.append("</body>");
+            html.append("</html>");
             response.getWriter().write(html.toString());
         } else if (action.equals("course_ranking")) {
             /**
@@ -432,18 +560,30 @@ public class display extends HttpServlet {
                 }
 
                 StringBuilder html = new StringBuilder();
-                html.append("<div style='display: block;" +
-                        "justify-content: center;" +
-                        "align-items: center; " +
-                        "height: 195px;" +
-                        "border:0;"+
-                        "border-spacing:0;"+
-                        "border-collapse:collapse;"+
-                        "cursor:default"+
-                        "'>");
-                html.append("<div>");
-                html.append("<h1 style='text-align: center;'>课程排名</h1>");
-                html.append("<table border='1' style='margin: 0 auto;'>");
+                html.append("<!DOCTYPE html>");
+                html.append("<html lang='zh-CN'>");
+                html.append("<head>");
+                html.append("<meta charset='UTF-8'>");
+                html.append("<title>排名列表</title>");
+                html.append("<style>");
+                html.append("body { font-family: Arial, sans-serif; margin: 0; padding: 0; display: flex; height: 100vh; }");
+                html.append(".content { flex-grow: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; }"); // 右侧内容区域的样式
+                html.append("h1 { text-align: center; margin-bottom: 20px; }");
+                html.append(".table-container { width: 90%; max-height: 50vh; overflow-y: auto; }"); // 让表格容器填满剩余空间并启用垂直滚动条
+                html.append("table { border-collapse: collapse; width: 100%; }"); // 表格填满容器
+                html.append("th, td { border: 1px solid black; text-align: center; padding: 8px; }");
+                html.append("th { background-color: #f2f2f2; position: sticky; top: 0; }"); // Sticky header
+                html.append("</style>");
+                html.append("</head>");
+                html.append("<body>");
+                html.append("<div class='sidebar'>");
+                html.append("<!-- 在这里添加左侧菜单栏的内容 -->");
+                html.append("</div>");
+                html.append("<div class='content'>");
+                html.append("<h1>排名列表</h1>");
+                html.append("<div class='table-container'>"); // 开始滚动容器
+                html.append("<table>");
+                html.append("<thead>");
                 html.append("<tr>");
                 html.append("<th>学号</th>");
                 html.append("<th>成绩</th>");
@@ -457,9 +597,12 @@ public class display extends HttpServlet {
                     html.append("<td>").append(s.getCid()).append("</td>");
                     html.append("</tr>");
                 }
+                html.append("</tbody>");
                 html.append("</table>");
+                html.append("</div>"); // 结束滚动容器
                 html.append("</div>");
-                html.append("</div>");
+                html.append("</body>");
+                html.append("</html>");
                 response.getWriter().write(html.toString());
             } catch (Exception e) {
                 throw new RuntimeException(e);
@@ -480,18 +623,30 @@ public class display extends HttpServlet {
             }
 
             StringBuilder html = new StringBuilder();
-            html.append("<div style='display: block;" +
-                    "justify-content: center;" +
-                    "align-items: center; " +
-                    "height: 195px;" +
-                    "border:0;"+
-                    "border-spacing:0;"+
-                    "border-collapse:collapse;"+
-                    "cursor:default"+
-                    "'>");
-            html.append("<div>");
-            html.append("<h1 style='text-align: center;'>学生成绩信息</h1>");
-            html.append("<table border='1' style='margin: 0 auto;'>");
+            html.append("<!DOCTYPE html>");
+            html.append("<html lang='zh-CN'>");
+            html.append("<head>");
+            html.append("<meta charset='UTF-8'>");
+            html.append("<title>学生列表</title>");
+            html.append("<style>");
+            html.append("body { font-family: Arial, sans-serif; margin: 0; padding: 0; display: flex; height: 100vh; }");
+            html.append(".content { flex-grow: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; }"); // 右侧内容区域的样式
+            html.append("h1 { text-align: center; margin-bottom: 20px; }");
+            html.append(".table-container { width: 90%; max-height: 50vh; overflow-y: auto; }"); // 让表格容器填满剩余空间并启用垂直滚动条
+            html.append("table { border-collapse: collapse; width: 100%; }"); // 表格填满容器
+            html.append("th, td { border: 1px solid black; text-align: center; padding: 8px; }");
+            html.append("th { background-color: #f2f2f2; position: sticky; top: 0; }"); // Sticky header
+            html.append("</style>");
+            html.append("</head>");
+            html.append("<body>");
+            html.append("<div class='sidebar'>");
+            html.append("<!-- 在这里添加左侧菜单栏的内容 -->");
+            html.append("</div>");
+            html.append("<div class='content'>");
+            html.append("<h1>学生列表</h1>");
+            html.append("<div class='table-container'>"); // 开始滚动容器
+            html.append("<table>");
+            html.append("<thead>");
             html.append("<tr>");
             html.append("<th>学号</th>");
             html.append("<th>课程号</th>");
@@ -508,9 +663,12 @@ public class display extends HttpServlet {
                 html.append("</tr>");
             }
 
+            html.append("</tbody>");
             html.append("</table>");
+            html.append("</div>"); // 结束滚动容器
             html.append("</div>");
-            html.append("</div>");
+            html.append("</body>");
+            html.append("</html>");
             response.getWriter().write(html.toString());
 
         } else if (action.equals("S_select_course")) {
@@ -533,18 +691,30 @@ public class display extends HttpServlet {
 
 
             StringBuilder html = new StringBuilder();
-            html.append("<div style='display: block;" +
-                    "justify-content: center;" +
-                    "align-items: center; " +
-                    "height: 195px;" +
-                    "border:0;"+
-                    "border-spacing:0;"+
-                    "border-collapse:collapse;"+
-                    "cursor:default"+
-                    "'>");
-            html.append("<div>");
-            html.append("<h1 style='text-align: center;'>选课信息</h1>");
-            html.append("<table border='1' style='margin: 0 auto;'>");
+            html.append("<!DOCTYPE html>");
+            html.append("<html lang='zh-CN'>");
+            html.append("<head>");
+            html.append("<meta charset='UTF-8'>");
+            html.append("<title>选课列表</title>");
+            html.append("<style>");
+            html.append("body { font-family: Arial, sans-serif; margin: 0; padding: 0; display: flex; height: 100vh; }");
+            html.append(".content { flex-grow: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; }"); // 右侧内容区域的样式
+            html.append("h1 { text-align: center; margin-bottom: 20px; }");
+            html.append(".table-container { width: 90%; max-height: 50vh; overflow-y: auto; }"); // 让表格容器填满剩余空间并启用垂直滚动条
+            html.append("table { border-collapse: collapse; width: 100%; }"); // 表格填满容器
+            html.append("th, td { border: 1px solid black; text-align: center; padding: 8px; }");
+            html.append("th { background-color: #f2f2f2; position: sticky; top: 0; }"); // Sticky header
+            html.append("</style>");
+            html.append("</head>");
+            html.append("<body>");
+            html.append("<div class='sidebar'>");
+            html.append("<!-- 在这里添加左侧菜单栏的内容 -->");
+            html.append("</div>");
+            html.append("<div class='content'>");
+            html.append("<h1>选课列表</h1>");
+            html.append("<div class='table-container'>"); // 开始滚动容器
+            html.append("<table>");
+            html.append("<thead>");
             html.append("<tr>");
             html.append("<th>课程名</th>");
             html.append("<th>CID</th>");
@@ -560,9 +730,12 @@ public class display extends HttpServlet {
                 html.append("<td>").append(sct.getLanguage()).append("</td>");
                 html.append("</tr>");
             }
+            html.append("</tbody>");
             html.append("</table>");
+            html.append("</div>"); // 结束滚动容器
             html.append("</div>");
-            html.append("</div>");
+            html.append("</body>");
+            html.append("</html>");
             response.getWriter().write(html.toString());
         } else if (action.equals("query_self_grade")) {
             /**
@@ -578,18 +751,30 @@ public class display extends HttpServlet {
             }
 
             StringBuilder html = new StringBuilder();
-            html.append("<div style='display: block;" +
-                    "justify-content: center;" +
-                    "align-items: center; " +
-                    "height: 195px;" +
-                    "border:0;"+
-                    "border-spacing:0;"+
-                    "border-collapse:collapse;"+
-                    "cursor:default"+
-                    "'>");
-            html.append("<div>");
-            html.append("<h1 style='text-align: center;'>课程成绩</h1>");
-            html.append("<table border='1' style='margin: 0 auto;'>");
+            html.append("<!DOCTYPE html>");
+            html.append("<html lang='zh-CN'>");
+            html.append("<head>");
+            html.append("<meta charset='UTF-8'>");
+            html.append("<title>成绩列表</title>");
+            html.append("<style>");
+            html.append("body { font-family: Arial, sans-serif; margin: 0; padding: 0; display: flex; height: 100vh; }");
+            html.append(".content { flex-grow: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; }"); // 右侧内容区域的样式
+            html.append("h1 { text-align: center; margin-bottom: 20px; }");
+            html.append(".table-container { width: 90%; max-height: 50vh; overflow-y: auto; }"); // 让表格容器填满剩余空间并启用垂直滚动条
+            html.append("table { border-collapse: collapse; width: 100%; }"); // 表格填满容器
+            html.append("th, td { border: 1px solid black; text-align: center; padding: 8px; }");
+            html.append("th { background-color: #f2f2f2; position: sticky; top: 0; }"); // Sticky header
+            html.append("</style>");
+            html.append("</head>");
+            html.append("<body>");
+            html.append("<div class='sidebar'>");
+            html.append("<!-- 在这里添加左侧菜单栏的内容 -->");
+            html.append("</div>");
+            html.append("<div class='content'>");
+            html.append("<h1>成绩列表</h1>");
+            html.append("<div class='table-container'>"); // 开始滚动容器
+            html.append("<table>");
+            html.append("<thead>");
             html.append("<tr>");
             html.append("<th>课程名</th>");
             html.append("<th>成绩</th>");
@@ -607,9 +792,12 @@ public class display extends HttpServlet {
                 html.append("<td>").append(s.getGrade()).append("</td>");
                 html.append("</tr>");
             }
+            html.append("</tbody>");
             html.append("</table>");
+            html.append("</div>"); // 结束滚动容器
             html.append("</div>");
-            html.append("</div>");
+            html.append("</body>");
+            html.append("</html>");
             response.getWriter().write(html.toString());
         } else if (action.equals("query_One_grade")) {
             /**
@@ -634,18 +822,30 @@ public class display extends HttpServlet {
                     response.getWriter().write(html.toString());
                 }else{
                     StringBuilder html = new StringBuilder();
-                    html.append("<div style='display: block;" +
-                            "justify-content: center;" +
-                            "align-items: center; " +
-                            "height: 195px;" +
-                            "border:0;"+
-                            "border-spacing:0;"+
-                            "border-collapse:collapse;"+
-                            "cursor:default"+
-                            "'>");
-                    html.append("<div>");
-                    html.append("<h1 style='text-align: center;'>课程成绩</h1>");
-                    html.append("<table border='1' style='margin: 0 auto;'>");
+                    html.append("<!DOCTYPE html>");
+                    html.append("<html lang='zh-CN'>");
+                    html.append("<head>");
+                    html.append("<meta charset='UTF-8'>");
+                    html.append("<title>成绩列表</title>");
+                    html.append("<style>");
+                    html.append("body { font-family: Arial, sans-serif; margin: 0; padding: 0; display: flex; height: 100vh; }");
+                    html.append(".content { flex-grow: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; }"); // 右侧内容区域的样式
+                    html.append("h1 { text-align: center; margin-bottom: 20px; }");
+                    html.append(".table-container { width: 90%; max-height: 50vh; overflow-y: auto; }"); // 让表格容器填满剩余空间并启用垂直滚动条
+                    html.append("table { border-collapse: collapse; width: 100%; }"); // 表格填满容器
+                    html.append("th, td { border: 1px solid black; text-align: center; padding: 8px; }");
+                    html.append("th { background-color: #f2f2f2; position: sticky; top: 0; }"); // Sticky header
+                    html.append("</style>");
+                    html.append("</head>");
+                    html.append("<body>");
+                    html.append("<div class='sidebar'>");
+                    html.append("<!-- 在这里添加左侧菜单栏的内容 -->");
+                    html.append("</div>");
+                    html.append("<div class='content'>");
+                    html.append("<h1>成绩列表</h1>");
+                    html.append("<div class='table-container'>"); // 开始滚动容器
+                    html.append("<table>");
+                    html.append("<thead>");
                     html.append("<tr>");
                     html.append("<th>课程名</th>");
                     html.append("<th>成绩</th>");
@@ -662,9 +862,12 @@ public class display extends HttpServlet {
                     html.append("<td>").append(s.getGrade()).append("</td>");
                     html.append("</tr>");
 
+                    html.append("</tbody>");
                     html.append("</table>");
+                    html.append("</div>"); // 结束滚动容器
                     html.append("</div>");
-                    html.append("</div>");
+                    html.append("</body>");
+                    html.append("</html>");
                     response.getWriter().write(html.toString());
                 }
             } catch (Exception e) {
@@ -678,18 +881,30 @@ public class display extends HttpServlet {
                 t = teacherDao.selectFromTeacherByTno(teacherNo);
                 if(t != null){
                     StringBuilder html = new StringBuilder();
-                    html.append("<div style='display: block;" +
-                            "justify-content: center;" +
-                            "align-items: center; " +
-                            "height: 195px;" +
-                            "border:0;"+
-                            "border-spacing:0;"+
-                            "border-collapse:collapse;"+
-                            "cursor:default"+
-                            "'>");
-                    html.append("<div>");
-                    html.append("<h1 style='text-align: center;'>教师信息</h1>");
-                    html.append("<table border='1' style='margin: 0 auto;'>");
+                    html.append("<!DOCTYPE html>");
+                    html.append("<html lang='zh-CN'>");
+                    html.append("<head>");
+                    html.append("<meta charset='UTF-8'>");
+                    html.append("<title>教师信息列表</title>");
+                    html.append("<style>");
+                    html.append("body { font-family: Arial, sans-serif; margin: 0; padding: 0; display: flex; height: 100vh; }");
+                    html.append(".content { flex-grow: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; }"); // 右侧内容区域的样式
+                    html.append("h1 { text-align: center; margin-bottom: 20px; }");
+                    html.append(".table-container { width: 90%; max-height: 50vh; overflow-y: auto; }"); // 让表格容器填满剩余空间并启用垂直滚动条
+                    html.append("table { border-collapse: collapse; width: 100%; }"); // 表格填满容器
+                    html.append("th, td { border: 1px solid black; text-align: center; padding: 8px; }");
+                    html.append("th { background-color: #f2f2f2; position: sticky; top: 0; }"); // Sticky header
+                    html.append("</style>");
+                    html.append("</head>");
+                    html.append("<body>");
+                    html.append("<div class='sidebar'>");
+                    html.append("<!-- 在这里添加左侧菜单栏的内容 -->");
+                    html.append("</div>");
+                    html.append("<div class='content'>");
+                    html.append("<h1>教师信息列表</h1>");
+                    html.append("<div class='table-container'>"); // 开始滚动容器
+                    html.append("<table>");
+                    html.append("<thead>");
                     html.append("<tr>");
                     html.append("<th>教师号</th>");
                     html.append("<th>教师姓名</th>");
@@ -708,9 +923,12 @@ public class display extends HttpServlet {
                     html.append("<td>").append(t.getTeacherEmail()).append("</td>");
                     html.append("</tr>");
 
+                    html.append("</tbody>");
                     html.append("</table>");
+                    html.append("</div>"); // 结束滚动容器
                     html.append("</div>");
-                    html.append("</div>");
+                    html.append("</body>");
+                    html.append("</html>");
                     response.getWriter().write(html.toString());
                 }
             } catch (Exception e) {
@@ -729,18 +947,30 @@ public class display extends HttpServlet {
             }
 
             StringBuilder html = new StringBuilder();
-            html.append("<div style='display: block;" +
-                    "justify-content: center;" +
-                    "align-items: center; " +
-                    "height: 195px;" +
-                    "border:0;"+
-                    "border-spacing:0;"+
-                    "border-collapse:collapse;"+
-                    "cursor:default"+
-                    "'>");
-            html.append("<div>");
-            html.append("<h1 style='text-align: center;'>教授课程</h1>");
-            html.append("<table border='1' style='margin: 0 auto;'>");
+            html.append("<!DOCTYPE html>");
+            html.append("<html lang='zh-CN'>");
+            html.append("<head>");
+            html.append("<meta charset='UTF-8'>");
+            html.append("<title>授课列表</title>");
+            html.append("<style>");
+            html.append("body { font-family: Arial, sans-serif; margin: 0; padding: 0; display: flex; height: 100vh; }");
+            html.append(".content { flex-grow: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; }"); // 右侧内容区域的样式
+            html.append("h1 { text-align: center; margin-bottom: 20px; }");
+            html.append(".table-container { width: 90%; max-height: 50vh; overflow-y: auto; }"); // 让表格容器填满剩余空间并启用垂直滚动条
+            html.append("table { border-collapse: collapse; width: 100%; }"); // 表格填满容器
+            html.append("th, td { border: 1px solid black; text-align: center; padding: 8px; }");
+            html.append("th { background-color: #f2f2f2; position: sticky; top: 0; }"); // Sticky header
+            html.append("</style>");
+            html.append("</head>");
+            html.append("<body>");
+            html.append("<div class='sidebar'>");
+            html.append("<!-- 在这里添加左侧菜单栏的内容 -->");
+            html.append("</div>");
+            html.append("<div class='content'>");
+            html.append("<h1>授课列表</h1>");
+            html.append("<div class='table-container'>"); // 开始滚动容器
+            html.append("<table>");
+            html.append("<thead>");
             html.append("<tr>");
             html.append("<th>课程名</th>");
             html.append("<th>课程号</th>");
@@ -762,9 +992,12 @@ public class display extends HttpServlet {
                 html.append("<td>").append(t.getCid()).append("</td>");
                 html.append("</tr>");
             }
+            html.append("</tbody>");
             html.append("</table>");
+            html.append("</div>"); // 结束滚动容器
             html.append("</div>");
-            html.append("</div>");
+            html.append("</body>");
+            html.append("</html>");
             response.getWriter().write(html.toString());
         }else if(action.equals("query_student_name")){
             String cid = request.getParameter("cid");
@@ -783,18 +1016,30 @@ public class display extends HttpServlet {
                     scs = scDao.selectFromSCByCid(cid);
 
                     StringBuilder html = new StringBuilder();
-                    html.append("<div style='display: block;" +
-                            "justify-content: center;" +
-                            "align-items: center; " +
-                            "height: 195px;" +
-                            "border:0;"+
-                            "border-spacing:0;"+
-                            "border-collapse:collapse;"+
-                            "cursor:default"+
-                            "'>");
-                    html.append("<div>");
-                    html.append("<h1 style='text-align: center;'>选修本门课程的学生</h1>");
-                    html.append("<table border='1' style='margin: 0 auto;'>");
+                    html.append("<!DOCTYPE html>");
+                    html.append("<html lang='zh-CN'>");
+                    html.append("<head>");
+                    html.append("<meta charset='UTF-8'>");
+                    html.append("<title>学生列表</title>");
+                    html.append("<style>");
+                    html.append("body { font-family: Arial, sans-serif; margin: 0; padding: 0; display: flex; height: 100vh; }");
+                    html.append(".content { flex-grow: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; }"); // 右侧内容区域的样式
+                    html.append("h1 { text-align: center; margin-bottom: 20px; }");
+                    html.append(".table-container { width: 90%; max-height: 50vh; overflow-y: auto; }"); // 让表格容器填满剩余空间并启用垂直滚动条
+                    html.append("table { border-collapse: collapse; width: 100%; }"); // 表格填满容器
+                    html.append("th, td { border: 1px solid black; text-align: center; padding: 8px; }");
+                    html.append("th { background-color: #f2f2f2; position: sticky; top: 0; }"); // Sticky header
+                    html.append("</style>");
+                    html.append("</head>");
+                    html.append("<body>");
+                    html.append("<div class='sidebar'>");
+                    html.append("<!-- 在这里添加左侧菜单栏的内容 -->");
+                    html.append("</div>");
+                    html.append("<div class='content'>");
+                    html.append("<h1>学生列表</h1>");
+                    html.append("<div class='table-container'>"); // 开始滚动容器
+                    html.append("<table>");
+                    html.append("<thead>");
                     html.append("<tr>");
                     html.append("<th>学号</th>");
                     html.append("<th>姓名</th>");
@@ -813,9 +1058,12 @@ public class display extends HttpServlet {
                         html.append("<td>").append(student.getStudentName()).append("</td>");
                         html.append("</tr>");
                     }
+                    html.append("</tbody>");
                     html.append("</table>");
+                    html.append("</div>"); // 结束滚动容器
                     html.append("</div>");
-                    html.append("</div>");
+                    html.append("</body>");
+                    html.append("</html>");
                     response.getWriter().write(html.toString());
                 }else{
                     StringBuilder html = new StringBuilder();
@@ -843,18 +1091,30 @@ public class display extends HttpServlet {
                 throw new RuntimeException(e);
             }
             StringBuilder html = new StringBuilder();
-            html.append("<div style='display: block;" +
-                    "justify-content: center;" +
-                    "align-items: center; " +
-                    "height: 195px;" +
-                    "border:0;"+
-                    "border-spacing:0;"+
-                    "border-collapse:collapse;"+
-                    "cursor:default"+
-                    "'>");
-            html.append("<div>");
-            html.append("<h1 style='text-align: center;'>本门课程成绩</h1>");
-            html.append("<table border='1' style='margin: 0 auto;'>");
+            html.append("<!DOCTYPE html>");
+            html.append("<html lang='zh-CN'>");
+            html.append("<head>");
+            html.append("<meta charset='UTF-8'>");
+            html.append("<title>成绩列表</title>");
+            html.append("<style>");
+            html.append("body { font-family: Arial, sans-serif; margin: 0; padding: 0; display: flex; height: 100vh; }");
+            html.append(".content { flex-grow: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; }"); // 右侧内容区域的样式
+            html.append("h1 { text-align: center; margin-bottom: 20px; }");
+            html.append(".table-container { width: 90%; max-height: 50vh; overflow-y: auto; }"); // 让表格容器填满剩余空间并启用垂直滚动条
+            html.append("table { border-collapse: collapse; width: 100%; }"); // 表格填满容器
+            html.append("th, td { border: 1px solid black; text-align: center; padding: 8px; }");
+            html.append("th { background-color: #f2f2f2; position: sticky; top: 0; }"); // Sticky header
+            html.append("</style>");
+            html.append("</head>");
+            html.append("<body>");
+            html.append("<div class='sidebar'>");
+            html.append("<!-- 在这里添加左侧菜单栏的内容 -->");
+            html.append("</div>");
+            html.append("<div class='content'>");
+            html.append("<h1>成绩列表</h1>");
+            html.append("<div class='table-container'>"); // 开始滚动容器
+            html.append("<table>");
+            html.append("<thead>");
             html.append("<tr>");
             html.append("<th>学号</th>");
             html.append("<th>姓名</th>");
@@ -874,9 +1134,12 @@ public class display extends HttpServlet {
                 html.append("<td>").append(s.getGrade()).append("</td>");
                 html.append("</tr>");
             }
+            html.append("</tbody>");
             html.append("</table>");
+            html.append("</div>"); // 结束滚动容器
             html.append("</div>");
-            html.append("</div>");
+            html.append("</body>");
+            html.append("</html>");
             response.getWriter().write(html.toString());
         } else if (action.equals("astudent")) {
             String sno = request.getParameter("studentNo");
@@ -890,18 +1153,30 @@ public class display extends HttpServlet {
             }
 
             StringBuilder html = new StringBuilder();
-            html.append("<div style='display: block;" +
-                    "justify-content: center;" +
-                    "align-items: center; " +
-                    "height: 195px;" +
-                    "border:0;"+
-                    "border-spacing:0;"+
-                    "border-collapse:collapse;"+
-                    "cursor:default"+
-                    "'>");
-            html.append("<div>");
-            html.append("<h1 style='text-align: center;'>学生信息</h1>");
-            html.append("<table border='1' style='margin: 0 auto;'>");
+            html.append("<!DOCTYPE html>");
+            html.append("<html lang='zh-CN'>");
+            html.append("<head>");
+            html.append("<meta charset='UTF-8'>");
+            html.append("<title>学生信息</title>");
+            html.append("<style>");
+            html.append("body { font-family: Arial, sans-serif; margin: 0; padding: 0; display: flex; height: 100vh; }");
+            html.append(".content { flex-grow: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; }"); // 右侧内容区域的样式
+            html.append("h1 { text-align: center; margin-bottom: 20px; }");
+            html.append(".table-container { width: 90%; max-height: 50vh; overflow-y: auto; }"); // 让表格容器填满剩余空间并启用垂直滚动条
+            html.append("table { border-collapse: collapse; width: 100%; }"); // 表格填满容器
+            html.append("th, td { border: 1px solid black; text-align: center; padding: 8px; }");
+            html.append("th { background-color: #f2f2f2; position: sticky; top: 0; }"); // Sticky header
+            html.append("</style>");
+            html.append("</head>");
+            html.append("<body>");
+            html.append("<div class='sidebar'>");
+            html.append("<!-- 在这里添加左侧菜单栏的内容 -->");
+            html.append("</div>");
+            html.append("<div class='content'>");
+            html.append("<h1>学生信息</h1>");
+            html.append("<div class='table-container'>"); // 开始滚动容器
+            html.append("<table>");
+            html.append("<thead>");
             html.append("<tr>");
             html.append("<th>学号</th>");
             html.append("<th>班级号</th>");
@@ -924,9 +1199,12 @@ public class display extends HttpServlet {
             html.append("<td>").append(s.getStudentEmail()).append("</td>");
             html.append("<td>").append(s.getPassword()).append("</td>");
 
+            html.append("</tbody>");
             html.append("</table>");
+            html.append("</div>"); // 结束滚动容器
             html.append("</div>");
-            html.append("</div>");
+            html.append("</body>");
+            html.append("</html>");
             response.getWriter().write(html.toString());
         }
 

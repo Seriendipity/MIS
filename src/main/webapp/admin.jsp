@@ -82,7 +82,7 @@
                     <ul class="submenu">
                         <li><a  onclick="query_all('teacher')">查看所有教师</a></li>
                         <li><a onclick="show_insert_teacher()">新增教师信息</a></li>
-                        <li><a onclick="show_delete('teacher')">删除指定学生</a></li>
+                        <li><a onclick="show_delete('teacher')">删除指定教师</a></li>
                         <li><a onclick="show_alter('teacher')">修改教师信息</a></li>
                     </ul>
                 </li>

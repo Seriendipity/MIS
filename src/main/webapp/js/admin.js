@@ -293,7 +293,7 @@ function show_alter(object) {
             + "<p>权限级别</p>"
             + "<div id='radio' class='radio'>"
             + "<input type='radio' name='after_level' value='用户' checked='checked'><span>用户</span>"
-            + "<input type='radio' name='after_level' value='管理员''><span>管理员</span>"
+            + "<input type='radio' name='after_level' value='教师''><span>教师</span>"
             + "</div>"
             + "<input id='submit' onclick='alter_user()' type='button' name='submit' value='修改'>"
             + "</div>";
@@ -394,7 +394,7 @@ function show_insert_user() {
         + "<p>权限级别</p>"
         + "<div class='radio'>"
         + "<input type='radio' name='level' value='用户' checked='checked'><span>用户</span>"
-        + "<input type='radio' name='level' value='管理员'><span>管理员</span>"
+        + "<input type='radio' name='level' value='教师'><span>教师</span>"
         + "</div>"
         + "<input id='submit' onclick=insert('user') type='button' name='submit' value='插入'>"
         + "</div>";
